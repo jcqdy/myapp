@@ -1,0 +1,3 @@
+[ 2013-08-22T00:19:17+08:00 ] 127.0.0.1 /myapp/index.php/Search/mysqlFind
+ERR: 参数错误或者未定义:n
+

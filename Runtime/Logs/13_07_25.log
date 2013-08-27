@@ -1,0 +1,6 @@
+[ 2013-07-25T20:09:42+08:00 ] 192.168.2.103 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-25T20:28:46+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+

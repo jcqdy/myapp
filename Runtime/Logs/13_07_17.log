@@ -1,0 +1,196 @@
+[ 2013-07-17T17:24:37+08:00 ] 0.0.0.0 /myapp/
+INFO: [ app_begin ] --START--
+INFO: ReadHtmlCache Behavior ::run [ RunTime:0.001094s ]
+INFO: [ app_begin ] --END-- [ RunTime:0.001234s ]
+INFO: [ view_parse ] --START--
+INFO: ParseTemplate Behavior ::run [ RunTime:0.008552s ]
+INFO: [ view_parse ] --END-- [ RunTime:0.008700s ]
+INFO: [ view_filter ] --START--
+NOTIC: [8] Use of undefined constant APP_TMPL_PATH - assumed 'APP_TMPL_PATH' E:\wamp\www\myapp\ThinkPHP\Lib\Behavior\ContentReplaceBehavior.class.php 第 40 行.
+NOTIC: [8] Use of undefined constant APP_TMPL_PATH - assumed 'APP_TMPL_PATH' E:\wamp\www\myapp\ThinkPHP\Lib\Behavior\ContentReplaceBehavior.class.php 第 47 行.
+INFO: ContentReplace Behavior ::run [ RunTime:0.000693s ]
+INFO: TokenBuild Behavior ::run [ RunTime:0.000556s ]
+INFO: WriteHtmlCache Behavior ::run [ RunTime:0.000456s ]
+INFO: ShowRuntime Behavior ::run [ RunTime:0.000672s ]
+INFO: [ view_filter ] --END-- [ RunTime:0.002610s ]
+INFO: [ view_end ] --START--
+INFO: ShowPageTrace Behavior ::run [ RunTime:0.000704s ]
+INFO: [ view_end ] --END-- [ RunTime:0.000824s ]
+
+[ 2013-07-17T21:53:15+08:00 ] 0.0.0.0 /myapp/index.php/Index/Login
+ERR: 非法操作:Login
+
+[ 2013-07-17T22:01:09+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Action/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:02:19+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Action/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:06:44+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Index/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:07:49+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:07:55+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Index/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:07:57+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:10:22+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Index/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:10:23+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:11:34+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:11:35+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:11:35+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:11:35+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:12:22+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:12:23+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:12:23+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:12:23+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:12:24+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:12:38+08:00 ] 0.0.0.0 /myapp/index.php/LoginAction.php
+ERR: 无法加载模块:LoginAction.php
+
+[ 2013-07-17T22:13:05+08:00 ] 0.0.0.0 /myapp/index.php/LoginAction.php
+ERR: 无法加载模块:LoginAction.php
+
+[ 2013-07-17T22:13:36+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:03+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:03+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:03+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:04+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:04+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:04+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:43+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:44+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:44+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:44+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:20:59+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:28+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:50+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:50+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:50+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:51+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:55+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:55+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:21:55+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:29:37+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:30:45+08:00 ] 0.0.0.0 /myapp/index.php/Login/LoginAction.php
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:30:48+08:00 ] 0.0.0.0 /myapp/index.php/Login/LoginAction.php
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:32:32+08:00 ] 0.0.0.0 /myapp/index.php/Login/LoginAction.php
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:32:43+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:32:44+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:32:46+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:32:46+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:32:46+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:33:23+08:00 ] 0.0.0.0 /myapp/index.php/Index/LoginAction.php
+ERR: 非法操作:LoginAction.php
+
+[ 2013-07-17T22:33:36+08:00 ] 0.0.0.0 /myapp/index.php/Login/LoginAction.php
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T22:34:30+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Login/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:34:38+08:00 ] 0.0.0.0 /myapp/index.php/Lib/Login/LoginAction.php
+ERR: 无法加载模块:Lib
+
+[ 2013-07-17T22:34:45+08:00 ] 0.0.0.0 /myapp/index.php/Login/LoginAction.php
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T23:00:23+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T23:00:24+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T23:00:24+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T23:12:41+08:00 ] 0.0.0.0 /myapp/index.php/Login/login_check
+ERR: 无法加载模块:Login
+
+[ 2013-07-17T23:35:57+08:00 ] 0.0.0.0 /myapp/index.php/Login/check_login
+ERR: 非法操作:check_login
+

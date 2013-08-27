@@ -1,0 +1,63 @@
+[ 2013-08-12T14:48:49+08:00 ] 127.0.0.1 /myapp/index.php/Redis/tt
+ERR: 无法加载模块:Redis
+
+[ 2013-08-12T14:49:10+08:00 ] 127.0.0.1 /myapp/index.php/Redis/tt
+ERR: 无法加载模块:Redis
+
+[ 2013-08-12T14:49:11+08:00 ] 127.0.0.1 /myapp/index.php/Redis/tt
+ERR: 无法加载模块:Redis
+
+[ 2013-08-12T17:20:11+08:00 ] 127.0.0.1 /myapp/index.php/Service/creatRegister
+ERR: 模板不存在[./Tpl/Service/creatRegister.html]
+
+[ 2013-08-12T17:20:56+08:00 ] 127.0.0.1 /myapp/index.php/Service/creatRegister
+ERR: 模板不存在[./Tpl/Service/creatRegister.html]
+
+[ 2013-08-12T17:20:57+08:00 ] 127.0.0.1 /myapp/index.php/Service/creatRegister
+ERR: 模板不存在[./Tpl/Service/creatRegister.html]
+
+[ 2013-08-12T17:26:47+08:00 ] 127.0.0.1 /myapp/index.php/Service/creatRegister
+ERR: 模板不存在[./Tpl/Service/creatRegister.html]
+
+[ 2013-08-12T21:38:10+08:00 ] 127.0.0.1 /myapp/index.php/ServiceAction.php
+ERR: 无法加载模块:ServiceAction.php
+
+[ 2013-08-12T21:38:24+08:00 ] 127.0.0.1 /myapp/index.php/RedisAction.php
+ERR: 无法加载模块:RedisAction.php
+
+[ 2013-08-12T21:38:48+08:00 ] 127.0.0.1 /myapp/index.php/RedisAction.class.php
+ERR: 无法加载模块:RedisAction.class.php
+
+[ 2013-08-12T21:39:51+08:00 ] 127.0.0.1 /myapp/index.php/Lib/Action/RedisAction.class.php
+ERR: 无法加载模块:Lib
+
+[ 2013-08-12T21:40:04+08:00 ] 127.0.0.1 /myapp/index.php/Redis/RedisAction.class.php
+ERR: 非法操作:RedisAction.class.php
+
+[ 2013-08-12T21:40:41+08:00 ] 127.0.0.1 /myapp/index.php/Redis/new
+ERR: 非法操作:new
+
+[ 2013-08-12T21:40:53+08:00 ] 127.0.0.1 /myapp/index.php/Redis/new.test
+ERR: 非法操作:new.test
+
+[ 2013-08-12T21:41:05+08:00 ] 127.0.0.1 /myapp/index.php/Redis
+ERR: 非法操作:index
+
+[ 2013-08-12T21:41:11+08:00 ] 127.0.0.1 /myapp/index.php/Redis/
+ERR: 非法操作:index
+
+[ 2013-08-12T22:06:43+08:00 ] 127.0.0.1 /myapp/index.php/Service/ServiceAction.class.php
+ERR: 模板不存在[./Tpl/Service/ServiceAction.class.php.html]
+
+[ 2013-08-12T22:07:05+08:00 ] 127.0.0.1 /myapp/index.php/Service/
+ERR: 模板不存在[./Tpl/Service/index.html]
+
+[ 2013-08-12T22:07:12+08:00 ] 127.0.0.1 /myapp/index.php/Service/ServiceAction.class.php
+ERR: 模板不存在[./Tpl/Service/ServiceAction.class.php.html]
+
+[ 2013-08-12T22:07:37+08:00 ] 127.0.0.1 /myapp/index.php/Service/ServiceAction.class.php
+ERR: 模板不存在[./Tpl/Service/ServiceAction.class.php.html]
+
+[ 2013-08-12T22:07:55+08:00 ] 127.0.0.1 /myapp/index.php/Service/
+ERR: 模板不存在[./Tpl/Service/index.html]
+

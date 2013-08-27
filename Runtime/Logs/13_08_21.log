@@ -1,0 +1,9 @@
+[ 2013-08-21T16:52:17+08:00 ] 127.0.0.1 /myapp/index.php/Search/mysqlFind
+ERR: 参数错误或者未定义:n
+
+[ 2013-08-21T17:36:59+08:00 ] 127.0.0.1 /myapp/index.php/Search/mysqlFind
+ERR: 表达式错误:%苏宁%
+
+[ 2013-08-21T22:56:05+08:00 ] 127.0.0.1 /myapp/index.php/Service/test
+NOTIC: 建议使用I方法替代_param
+

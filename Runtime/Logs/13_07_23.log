@@ -1,0 +1,73 @@
+[ 2013-07-23T17:29:19+08:00 ] 0.0.0.0 /myapp/index.php/Login/login.json
+ERR: 非法操作:login.json
+
+[ 2013-07-23T17:35:51+08:00 ] 0.0.0.0 /myapp/index.php/Login/login.json
+ERR: 非法操作:login.json
+
+[ 2013-07-23T21:17:35+08:00 ] 0.0.0.0 /myapp/index.php/Login/login?callback=?
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T21:47:06+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:03:58+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:05:51+08:00 ] 192.168.2.101 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:06:27+08:00 ] 192.168.2.101 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:09:15+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:09:27+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:13:13+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:15:54+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:15:55+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:17:31+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:24:28+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:24:57+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:25:36+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:30:12+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:30:25+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:31:34+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:31:48+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:31:57+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:34:33+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:35:36+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-07-23T22:50:06+08:00 ] 0.0.0.0 /myapp/index.php/Login/checkEmail.html
+NOTIC: 建议使用I方法替代_param
+

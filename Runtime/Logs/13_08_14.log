@@ -1,0 +1,6 @@
+[ 2013-08-14T17:28:16+08:00 ] 127.0.0.1 /myapp/index.php/Redis/hashSet
+ERR: 参数错误或者未定义:id
+
+[ 2013-08-14T23:04:59+08:00 ] 127.0.0.1 /myapp/index.php/Search/redisFind
+ERR: 参数错误或者未定义:str
+

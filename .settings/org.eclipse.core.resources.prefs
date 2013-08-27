@@ -1,0 +1,14 @@
+eclipse.preferences.version=1
+encoding//Conf/config.php=UTF-8
+encoding//framework/i18n/CNumberFormatter.php=UTF-8
+encoding//framework/i18n/data=UTF-8
+encoding//framework/messages/ja/yii.php=UTF-8
+encoding//framework/messages/ja/zii.php=UTF-8
+encoding//framework/messages/ta_in=UTF-8
+encoding//framework/messages/th=UTF-8
+encoding//framework/messages/vi=UTF-8
+encoding//framework/messages/zh_cn=UTF-8
+encoding//framework/messages/zh_tw=UTF-8
+encoding/<project>=UTF-8
+encoding/index.php=UTF-8
+separateDerivedEncodings=true

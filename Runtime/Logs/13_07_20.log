@@ -1,0 +1,12 @@
+[ 2013-07-20T00:14:07+08:00 ] 0.0.0.0 /myapp/index.php/Login/very
+ERR: Model:creat您所请求的方法不存在！
+
+[ 2013-07-20T01:34:38+08:00 ] 0.0.0.0 /myapp/index.php/Tpl/Login/very.html
+ERR: 无法加载模块:Tpl
+
+[ 2013-07-20T02:13:13+08:00 ] 0.0.0.0 /myapp/index.php/Login/very.html
+ERR: Model:display您所请求的方法不存在！
+
+[ 2013-07-20T02:18:03+08:00 ] 0.0.0.0 /myapp/index.php/Take/TakeModel.html
+ERR: 无法加载模块:Take
+
