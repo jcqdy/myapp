@@ -18,15 +18,15 @@ class RedisAction extends Action{
       $image->uploadRegister();
       
       $array=array(         
-          'email'=>'jcq@qd.com',
+          'email'=>'jcq@qaqerty.com',
           'pass'=>'sttf215',
           'shopname'=>'苏宁电器 南京市鼓楼区湖南路店',
           'address'=>'江苏省南京市白下区淮海路68号',
-          'phone_num'=>'+862584418888',
-          'sertype'=>'商场',
-          'intro'=>'苏宁是中国商业企业的领先者，经营商品涵盖传统家电、消费电子、百货、日用品、图书、虚拟产品等综合品类，线下实体门店1700多家，线上苏宁易购位居国内B2C前三，线上线下的融合发展引领零售发展新趋势。',
-//          'face'=>$image->$imgsrc,
           'face'=>'http://192.168.1.100/myapp/Public/image/6.jpg',
+          'sertype'=>'商场',
+          'phone_num'=>'+862584418888',          
+          'intro'=>'苏宁是中国商业企业的领先者，经营商品涵盖传统家电、消费电子、百货、日用品、图书、虚拟产品等综合品类，线下实体门店1700多家，线上苏宁易购位居国内B2C前三，线上线下的融合发展引领零售发展新趋势。',
+//          'face'=>$image->$imgsrc,          
           'location'=>'上海'
         );
 //    $this->list=$array['shopname'];
@@ -54,10 +54,12 @@ class RedisAction extends Action{
        $redis=new Redis();
        $redis->connect('localhost','6379');
        $hkey=$id.$this->array['2'].$this->array['3'].$this->array['5'].' '.time();
-       for ($i=2;$i<9;$i++) {       
+       var_dump($hkey);
+       for ($i=2;$i<6;$i++) {       
           $redis->hSet($hkey,$con[$i],$this->array[$i]);
         } 
-       $redis->hSet($hkey,'id',$id);    
+       $redis->hSet($hkey,'id',$id);
+  
    }
 
 

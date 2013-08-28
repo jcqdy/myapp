@@ -123,8 +123,8 @@ class ServiceAction extends Action{
         $cache->popRegister();
         $new=$cache->array;
         $arr=array(
-        '0'=>'email','1'=>'pass','2'=>'shopname','3'=>'address','4'=>'phone_num','5'=>'sertype','6'=>'intro',
-        '7'=>'face','8'=>'location');           
+        '0'=>'email','1'=>'pass','2'=>'shopname','3'=>'address','4'=>'face','5'=>'sertype','6'=>'phone_num',
+        '7'=>'intro','8'=>'location');           
         $n=0;
         foreach ($new as $value) {
             $key=$arr[$n];
@@ -139,6 +139,8 @@ class ServiceAction extends Action{
             $creat->add();
             $id=$creat->where($condition)->getField('id');              
         }
+
+        var_dump($id);
         $cache->hashSet($id,$arr);  
         session('shopname',$condition['shopname']);
         session('pass',$condition['pass']);

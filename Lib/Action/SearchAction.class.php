@@ -13,7 +13,10 @@ class SearchAction extends Action{
  */
     public function search(){
         $str=$this->_param('search');
+//        $str='南京';
+//        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
+
         $num_arr=count($arr);
         if ($num_arr=1) {
             $this->redisFind($this->search['0']);
@@ -28,9 +31,10 @@ class SearchAction extends Action{
  *一个关键词时redis缓存中搜索数据的方法
  */ 
     public function redisFind($n,$m,$p){
+//        var_dump($n);
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $key=$redis->keys('*苏宁*');
+//        $key=$redis->keys('*苏宁*');
         if($n && !$m && !$p){
             $key=$redis->keys('*'.$n.'*');
         }elseif ($n && $m && !$p) {
@@ -38,6 +42,7 @@ class SearchAction extends Action{
         }elseif ($n && $m && $p) {
             $key=$redis->keys('*'.$n.'*'.$m.'*'.$p.'*');
         }
+//        var_dump($key);
         if(!empty($key)){
              foreach ($key as $value) {
                  $this->zset($value,$redis);
@@ -52,7 +57,7 @@ class SearchAction extends Action{
  *第一次从数据库mysql获取数据的方法
  */ 
     public function mysqlFind($n,$m,$p){
-        $n='苏宁';
+//        $n='苏宁';
         $time=date('Y-m-d H:i:s');
         $oldtime=date('Y-m-d H:i:s',strtotime("-1 month"));
         $oldertime=date('Y-m-d H:i:s',strtotime("-6 month"));
@@ -135,23 +140,34 @@ class SearchAction extends Action{
 /**
  *将查询结果导入有序集合sort set的方法
  */
-    public function zset($value,$redis){
+    public function zset($value){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
         $zarr=explode(' ', $value);
+//        var_dump($zarr);
         $score=$zarr['2'];
         $redis->zAdd('consumer',$score,$value);
+//        echo $redis->zSize('consumer');
     }
 
 /**
  *在有序集合sort set中按照时间戳导出最新的数据的方法
  */
-    public function zget($redis){
+    public function zget(){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
         $start=time();
+//        var_dump($start);
+//        $end=date('Y-m-d H:i:s',strtotime("-1 month"));
         $end=$start-2592000;
-        $zarr=$redis->zRevRange('consumer',$start,$end,true);
+//        var_dump($end);
+        $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
+//        var_dump($zarr);
         $num=count($zarr);
         if($num>0 && $num<=15){
             $end=$start-5184000;
-            $zarr=$redis->zRevRange('consumer',$start,$end,true);
+            $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
+//            var_dump($zarr);
             $this->jsonMaker($zarr,$redis);
         }elseif ($num>15) {
             $znarr=array_slice($zarr,0,15);
@@ -167,12 +183,12 @@ class SearchAction extends Action{
         $page_load=($this->page_num-1)*$this->page_size;
         $start=time();
         $end=$start-2592000;
-        $zarr=$redis->zRevRange('consumer',$start,$end,true);
+        $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
         $znarr=array_slice($zarr,$page_load,$this->page_size);
         $num=count($zarr);
         if ($num<15) {
-            $end=$start-5184000;
-            $zarr=$redis->zRevRange('consumer',$start,$end,true);
+            $end=$end=$start-5184000;
+            $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
             $znarr=array_slice($zarr,$page_load,$this->page_size);
             $this->jsonMaker($znarr,$redis);
         }elseif ($num=15) {

@@ -1,0 +1,36 @@
+[ 2013-08-27T16:34:39+08:00 ] 192.168.1.102 /myapp/index.php/Service/test
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T17:23:07+08:00 ] 127.0.0.1 /myapp/index.php/Service/creatRegister
+ERR: Redis server went away
+
+[ 2013-08-27T17:27:41+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T17:28:28+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T17:29:39+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T17:34:07+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T17:40:09+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T20:37:55+08:00 ] 127.0.0.1 /myapp/index.php/Login/loginCheck?debug_host=&debug_fastfile=1&start_debug=1&debug_port=10137&use_remote=1&original_url=http%3A%2F%2Flocalhost%2Fmyapp%2Findex.php%2FLogin%2FLoginCheck&send_sess_end=1&debug_stop=1&debug_start_session=1&debug_no_cache=1374137728454&debug_session_id=1001
+ERR: 无法加载模块:Login
+
+[ 2013-08-27T23:22:05+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T23:23:15+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T23:24:46+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-27T23:26:39+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
