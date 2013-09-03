@@ -1,0 +1,12 @@
+[ 2013-08-29T00:09:29+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-08-29T16:05:46+08:00 ] 127.0.0.1 /myapp/index.php/Gearman/client
+ERR: 非法操作:client
+
+[ 2013-08-29T16:27:44+08:00 ] 127.0.0.1 /myapp/index.php/Gearman/client
+ERR: 非法操作:client
+
+[ 2013-08-29T21:01:46+08:00 ] 127.0.0.1 /myapp/index.php/Search/search
+ERR: Model:getfidle您所请求的方法不存在！
+

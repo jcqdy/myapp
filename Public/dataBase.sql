@@ -84,13 +84,9 @@ CREATE TABLE IF NOT EXISTS `service` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- 转存表中的数据 `service`
---
 
-INSERT INTO `service` (`shopname`, `pass`, `uptime`) VALUES
-('service', '123456', '2013-7-15 12:52:49'),
-('aa', '1234', '2013-7-16 12:52:49');
+
+
 
 -- --------------------------------------------------------
 
@@ -145,4 +141,28 @@ CREATE TABLE IF NOT EXISTS `notice` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
 
+--
+-- 表的结构 `image`
+--
+
+CREATE TABLE IF NOT EXISTS `image` (
+  `serviceid` int(11) NOT NULL DEFAULT '0',
+  `imgurl1` varchar(100) NOT NULL DEFAULT '0',
+  `imgurl2` varchar(100) NOT NULL DEFAULT '0',
+  `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+--
+-- 转存表中的数据 `image`
+--
+
+INSERT INTO `image` (`serviceid`, `imgurl1`) VALUES
+('1', '192.168.1.100/myapp/Uploads/image_mix/1.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/2.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/3.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/4.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/5.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/6.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/7.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image_mix/8.jpg');

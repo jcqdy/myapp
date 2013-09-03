@@ -141,7 +141,8 @@ class ServiceAction extends Action{
         }
 
         var_dump($id);
-        $cache->hashSet($id,$arr);  
+        $cache->hashSet($id,$arr); 
+
         session('shopname',$condition['shopname']);
         session('pass',$condition['pass']);
  //       $register=json_encode($condition);     
@@ -200,60 +201,9 @@ class ServiceAction extends Action{
         echo $json;
     }
 
-    public function test(){
-        $value=$this->_param('ID');
-        $image='http://192.168.1.100/myapp/Public/image/1.jpg';
-        $image1='http://192.168.1.100/myapp/Public/image/2.jpg';
-        $image2='http://192.168.1.100/myapp/Public/image/3.jpg';
-        $image3='http://192.168.1.100/myapp/Public/image/4.jpg';
-        $image4='http://192.168.1.100/myapp/Public/image/5.jpg';
-        $image5='http://192.168.1.100/myapp/Public/image/1.jpg';
-        $image6='http://192.168.1.100/myapp/Public/image/2.jpg';
-        $image7='http://192.168.1.100/myapp/Public/image/3.jpg';
-        $image8='http://192.168.1.100/myapp/Public/image/4.jpg';
-        $image9='http://192.168.1.100/myapp/Public/image/5.jpg';
-
-        $id='1';$id1='1';$id2='2';$id3='3';$id4='4';$id5='5';
-        $id6='1';$id7='1';$id8='2';$id9='3';$id10='4';$id11='5';
-
-        $name='a';$name1='b';$name2='c';$name3='d';$name4='e';$name5='d'; 
-        $name6='a';$name7='b';$name8='c';$name9='d';$name10='e';$name11='d';
-
-        $phone='12345';$phone1='12345';$phone2='12345';$phone3='12345';$phone4='12345';
-        $phone5='12345';$phone6='12345';$phone7='12345';$phone8='12345';$phone9='12345';
-
-        $address='gchiocjsoij';$address1='gchiocjsoij';$address2='gchiocjsoij';$address3='gchiocjsoij';$address4='gchiocjsoij';
-        $address5='gchiocjsoij';$address6='gchiocjsoij';$address7='gchiocjsoij';$address8='gchiocjsoij';$address9='gchiocjsoij'; 
-        $arr['face']=$image;$arr['id']=$id;$arr['name']=$name;$arr['phone']=$phone;$arr['address']=$address;
-        $arr1['face']=$image1;$arr1['id']=$id1;$arr1['name']=$name1;$arr1['phone']=$phone1;$arr1['address']=$address1;
-        $arr2['face']=$image2;$arr2['id']=$id2;$arr2['name']=$name2;$arr2['phone']=$phone2;$arr2['address']=$address2;
-        $arr3['face']=$image3;$arr3['id']=$id3;$arr3['name']=$name3;$arr3['phone']=$phone3;$arr3['address']=$address3;
-        $arr4['face']=$image4;$arr4['id']=$id4;$arr4['name']=$name4;$arr4['phone']=$phone4;$arr4['address']=$address4;
-        $arr5['face']=$image5;$arr5['id']=$id5;$arr5['name']=$name5;$arr5['phone']=$phone5;$arr5['address']=$address5;
-        $arr6['face']=$image6;$arr6['id']=$id6;$arr6['name']=$name6;$arr6['phone']=$phone6;$arr6['address']=$address6;
-        $arr7['face']=$image7;$arr7['id']=$id7;$arr7['name']=$name7;$arr7['phone']=$phone7;$arr7['address']=$address7;
-        $arr8['face']=$image8;$arr8['id']=$id8;$arr8['name']=$name8;$arr8['phone']=$phone8;$arr8['address']=$address8;
-        $arr9['face']=$image9;$arr9['id']=$id9;$arr9['name']=$name9;$arr9['phone']=$phone9;$arr9['address']=$address9;
-        $array=array();    
-        array_push($array, $arr,$arr1,$arr2,$arr3,$arr4,$arr5,$arr6,$arr7,$arr8,$arr9);        
-        $array5['consumer']=$array;
-        $json=json_encode($array5);
-         echo $json;
-/*        if($value){
-            echo $json;
-        }  */
-    } 
-
-    public function test2(){
-        $va=$this->_param('Email');
-        if($va){
-            echo '1';
-        }
-    } 
+    
 
 }
 
-/*$takelist=new ServiceAction();
-$takelist->creatRegister();*/
 
     

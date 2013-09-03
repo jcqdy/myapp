@@ -13,7 +13,7 @@ class SearchAction extends Action{
  */
     public function search(){
         $str=$this->_param('search');
-//        $str='南京';
+ //      $str='苏宁';
 //        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
 
@@ -29,7 +29,7 @@ class SearchAction extends Action{
 
 /**
  *一个关键词时redis缓存中搜索数据的方法
- */ 
+ */  
     public function redisFind($n,$m,$p){
 //        var_dump($n);
         $redis=new Redis();
@@ -37,13 +37,7 @@ class SearchAction extends Action{
 //        $key=$redis->keys('*苏宁*');
         if($n && !$m && !$p){
             $key=$redis->keys('*'.$n.'*');
-        }elseif ($n && $m && !$p) {
-            $key=$redis->keys('*'.$n.'*'.$m.'*');
-        }elseif ($n && $m && $p) {
-            $key=$redis->keys('*'.$n.'*'.$m.'*'.$p.'*');
-        }
-//        var_dump($key);
-        if(!empty($key)){
+            if(!empty($key)){
              foreach ($key as $value) {
                  $this->zset($value,$redis);
              }  
@@ -51,6 +45,29 @@ class SearchAction extends Action{
         }elseif (empty($key)) {
              $this->mysqlFind($n,$m,$p);
         }  
+        }elseif ($n && $m && !$p) {
+            $key=$redis->keys('*'.$n.'*'.$m.'*');
+            if(!empty($key)){
+             foreach ($key as $value) {
+                 $this->zset($value,$redis);
+             }  
+             $this->zget($redis);
+        }elseif (empty($key)) {
+             $this->mysqlFind($n,$m,$p);
+        }                 
+        }elseif ($n && $m && $p) {
+            $key=$redis->keys('*'.$n.'*'.$m.'*'.$p.'*');
+            if(!empty($key)){
+             foreach ($key as $value) {
+                 $this->zset($value,$redis);
+             }  
+             $this->zget($redis);
+        }elseif (empty($key)) {
+             $this->mysqlFind($n,$m,$p);
+        }  
+        }elseif (!$n && !$m && !$p) {
+            echo '请输入搜索条件';
+        }        
     }
 
 /**
@@ -70,8 +87,14 @@ class SearchAction extends Action{
             $condition['_logic']='or';
             $map['_complex'] = $condition;
             $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->select();
-            $lastarr=$this->sqlurlcode($result);
+            $result=$consumer->where($map)->order('uptime desc')->field('id,shopname,address,face,sertype')->select();
+            var_dump($result);
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            }
+            echo urldecode(json_encode($lastarr));  
         }elseif ($n && $m && !$p) {
             $consumer=M('Service');
             $condition['shopname']=array('like',array('%'.$n.'%','%'.$m.'%'),'OR');
@@ -81,7 +104,12 @@ class SearchAction extends Action{
             $map['_complex'] = $condition;
             $map['uptime']=array('between',array($oldtime,$time));
             $result=$consumer->where($map)->order('uptime desc')->select();
-            $lastarr=$this->sqlurlcode($result);
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            }
+            echo urldecode(json_encode($lastarr));  
         }elseif ($n && $m && $p) {
             $consumer=M('Service');
             $condition['shopname']=array('like',array('%'.$n.'%','%'.$m.'%','%'.$p.'%'),'OR');
@@ -91,9 +119,13 @@ class SearchAction extends Action{
             $map['_complex'] = $condition;
             $map['uptime']=array('between',array($oldtime,$time));
             $result=$consumer->where($map)->order('uptime desc')->select();
-            $lastarr=$this->sqlurlcode($result);
-        }               
-        echo urldecode(json_encode($lastarr));     
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            } 
+            echo urldecode(json_encode($lastarr));            
+        }                 
     }
 
 /**
@@ -123,16 +155,14 @@ class SearchAction extends Action{
 
 /**
  *将商家信息转为json格式的方法
- */
+ */         
     public function jsonMaker($arr,$redis){
         $array4=array();
         foreach ($arr as $zvalue) {
                 $array=$redis->hGetAll($zvalue);
                 $arrcode=$this->urlcode($array);
-/*              $array2=$arrcode['id'];
-                $array3[$array2]=$arrcode;    */
-                array_push($array4,$arrcode); 
-            }      
+                array_push($array4,$arrcode);               
+            } 
         $array5['consumer']=$array4;
         echo urldecode(json_encode($array5));
     }
@@ -143,10 +173,11 @@ class SearchAction extends Action{
     public function zset($value){
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $zarr=explode(' ', $value);
+        $zarr=explode('$', $value);
 //        var_dump($zarr);
-        $score=$zarr['2'];
-        $redis->zAdd('consumer',$score,$value);
+        $score=$zarr['1'];
+
+        $redis->zAdd('consumer'.session('id'),$score,$value);
 //        echo $redis->zSize('consumer');
     }
 
@@ -157,22 +188,9 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $start=time();
-//        var_dump($start);
-//        $end=date('Y-m-d H:i:s',strtotime("-1 month"));
-        $end=$start-2592000;
-//        var_dump($end);
-        $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
-//        var_dump($zarr);
-        $num=count($zarr);
-        if($num>0 && $num<=15){
-            $end=$start-5184000;
-            $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
-//            var_dump($zarr);
-            $this->jsonMaker($zarr,$redis);
-        }elseif ($num>15) {
-            $znarr=array_slice($zarr,0,15);
-            $this->jsonMaker($znarr,$redis);
-        }
+        $zarr=$redis->zRevRange('consumer'.session('id'),0,15);
+        $this->jsonMaker($zarr,$redis);
+
     }
 
 /**
@@ -181,19 +199,8 @@ class SearchAction extends Action{
     public function zgetMore($redis){
         $this->page_num=$this->_param('num');     
         $page_load=($this->page_num-1)*$this->page_size;
-        $start=time();
-        $end=$start-2592000;
-        $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
-        $znarr=array_slice($zarr,$page_load,$this->page_size);
-        $num=count($zarr);
-        if ($num<15) {
-            $end=$end=$start-5184000;
-            $zarr=$redis->zRevRangeByScore('consumer',$start,$end);
-            $znarr=array_slice($zarr,$page_load,$this->page_size);
-            $this->jsonMaker($znarr,$redis);
-        }elseif ($num=15) {
-            $this->jsonMaker($znarr,$redis);
-        }        
+        $zarr=$redis->zRevRange('consumer'.session('id'),$page_load,$this->page_size);
+        $this->jsonMaker($zarr,$redis);
     }
 
 /**
@@ -253,6 +260,72 @@ class SearchAction extends Action{
             $this->zgetMore($redis);
         }elseif ($pag=false) {
             $this->mysqlFinds();
-        }   
+        }
     }
+
+    public function watch(){
+        $photo=array();
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $id=$this->_param('id');
+//        $id='1';
+        $User=M('Serviceinfo');
+        $condition['id']=$id;
+        $result=$User->where($condition)->field('favorable,site,info')->find();
+//        var_dump($result);
+        $image=M('Image');
+        $img['serviceid']=$id;
+        $imgarr=$image->where($img)->field('imgurl1')->select();
+//        var_dump($imgarr);
+        $hkey=$redis->keys($id.'*');
+        $array=$redis->hGetAll($hkey['0']);
+//        var_dump($array);
+        foreach ($result as $key => $value) {
+            $up[$key]=$value;
+        }
+        foreach ($array as $key2 => $value2) {
+            $up[$key2]=$value2;                        
+        }
+        foreach ($imgarr as $key3 =>$value3) {
+            foreach ($value3 as $value4) {
+                $pho[$key3+1]=$value4;
+            }
+        }
+        unset($up['face']);
+        $photo['photo']=$pho;
+        var_dump($photo);        
+        $up=$this->urlcode($up);
+        $up['photo']=$photo['photo'];
+        $con['consumer']=$up;
+        echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
+    }
+
+
+    public function test(){
+        $up['info']='招杂工3名，待遇面议';
+        $up['favorable']='每日晚上6:00-8:00,打8折';
+        $up['face']='http://192.168.1.100/myapp/Public/image/7.jpg';
+        $up['shopname']='苏宁电器(南京市鼓楼区湖南路店)';
+        $up['address']='江苏省南京市白下区淮海路68号';
+        $up['phone']='862584418888';
+        $photo['photo']=array(
+                '1'=>'http://192.168.1.100/myapp/Uploads/image_mix/1.jpg',
+                '2'=>'http://192.168.1.100/myapp/Uploads/image_mix/2.jpg',
+                '3'=>'http://192.168.1.100/myapp/Uploads/image_mix/3.jpg',
+                '4'=>'http://192.168.1.100/myapp/Uploads/image_mix/4.jpg',
+                '5'=>'http://192.168.1.100/myapp/Uploads/image_mix/5.jpg',
+                '6'=>'http://192.168.1.100/myapp/Uploads/image_mix/6.jpg',
+                '7'=>'http://192.168.1.100/myapp/Uploads/image_mix/7.jpg',
+                '8'=>'http://192.168.1.100/myapp/Uploads/image_mix/8.jpg',
+            );
+//        var_dump($photo);
+        $arr=array();
+        $arr2=array();
+        $up=$this->urlcode($up);
+        $up['photo']=$photo['photo'];
+        $con['consumer']=$up;
+        echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
+    }
+
+    
 }
