@@ -46,10 +46,11 @@ INSERT INTO `admin` (`id`, `name`, `pass`, `uptime`) VALUES
 CREATE TABLE IF NOT EXISTS `consumer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `pass` varchar(100) NOT NULL DEFAULT '',
+  `pass` varchar(1000) NOT NULL DEFAULT '',
   `face` varchar(100) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `encrypt` varchar(1000) NOT NULL DEFAULT '',
+  `city` varchar(10) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
@@ -73,12 +74,13 @@ CREATE TABLE IF NOT EXISTS `service` (
   `phone_num` varchar(100) NOT NULL DEFAULT '0',
   `watch` int(11) NOT NULL DEFAULT '0',
   `shopname` varchar(100) NOT NULL DEFAULT '',
-  `pass` varchar(100) NOT NULL DEFAULT '',
+  `pass` varchar(1000) NOT NULL DEFAULT '',
   `address` varchar(100) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `sertype` varchar(100) NOT NULL DEFAULT '',
   `face` varchar(100) NOT NULL DEFAULT '',
-  `intro` varchar(500) NOT NULL DEFAULT '',  
+  `intro` varchar(500) NOT NULL DEFAULT '', 
+  `city` varchar(10) NOT NULL DEFAULT '', 
   `encrypt` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -99,8 +101,10 @@ CREATE TABLE IF NOT EXISTS `serviceinfo` (
   `serviceid` int(11) NOT NULL DEFAULT '0',
   `foodmenu` varchar(100) NOT NULL DEFAULT '',
   `favorable` varchar(100) NOT NULL DEFAULT '',
+  `favtime` int(11) NOT NULL DEFAULT '',
   `site` tinyint(1) NOT NULL DEFAULT '0',
   `photoinfo` varchar(100) NOT NULL DEFAULT '',
+  `infotime` int(11) NOT NULL DEFAULT '',
   `information` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -118,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `attention` (
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 --
--- 转存表中的数据 `service`
+-- 转存表中的数据 `attention`
 --
 
 INSERT INTO `attention` (`serviceid`, `consumerid`, `uptime`) VALUES
@@ -144,25 +148,44 @@ CREATE TABLE IF NOT EXISTS `notice` (
 -- --------------------------------------------------------
 
 --
+-- 表的结构 `album`
+--
+
+CREATE TABLE IF NOT EXISTS `album` (
+  `albumid` int(11) NOT NULL AUTO_INCREMENT,
+  `serviceid` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(100) NOT NULL DEFAULT '0',
+  `count` int(11) NOT NULL DEFAULT '0',
+  `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`albumid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- 表的结构 `image`
 --
 
 CREATE TABLE IF NOT EXISTS `image` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `albumid` int(11) NOT NULL DEFAULT '0',
   `serviceid` int(11) NOT NULL DEFAULT '0',
+  `explain` varchar(100) NOT NULL DEFAULT '0',
   `imgurl1` varchar(100) NOT NULL DEFAULT '0',
   `imgurl2` varchar(100) NOT NULL DEFAULT '0',
-  `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 --
 -- 转存表中的数据 `image`
 --
 
 INSERT INTO `image` (`serviceid`, `imgurl1`) VALUES
-('1', '192.168.1.100/myapp/Uploads/image_mix/1.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/2.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/3.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/4.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/5.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/6.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/7.jpg'),
-('1', '192.168.1.100/myapp/Uploads/image_mix/8.jpg');
+('1', '192.168.1.100/myapp/Uploads/image/1.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/2.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/3.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/4.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/5.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/6.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/7.jpg'),
+('1', '192.168.1.100/myapp/Uploads/image/8.jpg');

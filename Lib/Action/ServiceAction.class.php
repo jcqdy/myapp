@@ -8,31 +8,46 @@ class ServiceAction extends Action{
 /**
  *商家用户登录的方法
  */
-    public function loginCheck(){
-        $User    =M('Service');
-        $shopname=$this->_param('shopname');
-        $pass    =$this->_param('pass');
-        $pass    =md5($pass);
-        if($name && $pass) {
-            $condition['shopname']=$name; 
-            $condition['pass']=$pass;         
-            $User_login=$User->where($condition)->find();
-            $json=json_encode($User_login);            
-            if (!empty($User_login)) {
-                if($User_login['shopname']==$condition['shopname'] && $User_login['pass']==$condition['pass']){
-                    session('shopname',$condition['shopname']);
-                    session('pass',$condition['pass']);
-                    session('id',$User_login['id']);  
-                    $encrypt=md5($User_login['id'] . $condition['shopname']);
-                    $newcondition['encrypt']=$encrypt;
-                    $User->where($condition)->save($newcondition);
-                    echo $json; 
-                    echo $encrypt;                    
-                }   
-            }elseif (empty($User_login)) {
-                    echo "no user";
+    public function login(){        
+        $email=$this->_param('Email');
+        $pass =$this->_param('Password');
+        $User =M('Service');       
+        $pass =md5($pass);
+        if($email && $pass) {   
+            $condition['email']=$email;
+            $condition['pass']=$pass;
+            $newencrypt['encrypt']=md5($email.time());
+            $User->where($condition)->save($newencrypt);
+            $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt')->find();            
+            $info=M('Serviceinfo');
+            $condition['id']=$id;
+            $result=$info->where($condition)->field('favorable,site,info,favtime,infotime')->find();
+            $image=M('Image');
+            $img['serviceid']=$id;
+            $imgarr=$image->where($img)->field('imgurl1')->select();
+            foreach ($service as $key => $value) {
+                $array[$key]=$value;
             }
-        }
+            foreach ($result as $key1 => $value1) {
+                $array[$key1]=$value1;
+            }
+            foreach ($imgarr as $key2 => $value2) {
+                foreach ($value2 as $value3) {
+                    $pho[$key2+1]=$value3;
+                }
+            }
+            $redis=new Redis();
+            $watch=$redis->sCard($service['id']);
+            $take=new SearchAction();
+            $photo['photo']=$pho;
+            $array=$take->urlcode($array);
+            $array['photo']=$photo['photo'];
+            $array['watch']=$watch;
+            $arr['login']=$array;
+            echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
+        }else {
+            echo 'false';
+        }             
     }
 
 /**
@@ -65,10 +80,10 @@ class ServiceAction extends Action{
  *新用户注册时检测是否删除session方法
  */
     public function checkSession(){
-        if(session('?name')==true){
+        if(session('?id')==true){
             echo "wrong";
         }
-        else if(session('?name')==false){
+        else if(session('?id')==false){
             echo "right";
         }
     }
@@ -77,10 +92,10 @@ class ServiceAction extends Action{
  *检测用户是否处于登录状态方法
  */
     public function check(){
-        if(session('?name')==true){
+        if(session('?id')==true){
             echo "login";
         }
-        else if(session('?name')==false){
+        else if(session('?id')==false){
             echo "logout";
         }
     }
@@ -89,15 +104,19 @@ class ServiceAction extends Action{
  *新用户注册检测邮箱是否注册方法
  */  
     public function checkEmail(){
-        $email =$this->_param('email');
-        $ck_email=D('Service');
-        $condition['email'] =$email;
-        
-        if (!$ck_email->create($condition)) {
-            exit($ck_email->getError());
-        }else{
-            $ck_email->add();           
+        $email =$this->_param('Email');
+        if(!empty($email)){
+            $ck_email=D('Service');
+            $condition['email'] =$email;
+            if (!$ck_email->create($condition)) {
+                exit($ck_email->getError());
+            }else{
+                $ck_email->add();           
+            }
+        }else {
+            echo 'false';
         }
+        
     }
 
 /**
@@ -118,8 +137,8 @@ class ServiceAction extends Action{
 /**
  *新用户注册时存入用户信息到数据表方法
  */
-    public function creatRegister(){
-        $cache=new RedisAction();       
+    public function creatRegister(){    
+        $cache=new RedisAction();
         $cache->popRegister();
         $new=$cache->array;
         $arr=array(
@@ -149,7 +168,7 @@ class ServiceAction extends Action{
     }  
 
 /**
- *用户更新个人信息方法（密码）
+ *用户更新商家账号信息方法（密码）
  */
     public function updataPass(){
         $this->check();
@@ -162,21 +181,15 @@ class ServiceAction extends Action{
         $result=$updata->where($condition)->find();
         if (!empty($result)) {            
             $newpass=md5($newpass);
-            $newcondition['pass']=$newpass;
-            try {
-                $updata->where($condition)->save($newcondition);
-                echo "right";
-            } catch (Exception $e) {
-                echo "wrong";
-            }           
+            $newcondition['pass']=$newpass;    
+            $updata->where($condition)->save($newcondition);   
         }else if(empty($result)){
-            echo "not found";
-            
+            echo 'false';           
         }   
     }  
 
 /**
- *用户更新个人信息方法
+ *用户更新商家信息方法
  */
     public function updataInfo(){
         $this->check();
@@ -191,14 +204,25 @@ class ServiceAction extends Action{
     }
 
 /**
- *输出显示用户信息方法
+ *用户更新商家头像方法
  */
-    public function watchInfo(){
-        $info=M('Service');
+    public function updataFace(){
+        $redis=new Redis();
+        $redis->connect('localhost','6379'); 
+        $image=new ImageAction();
+        $image->faceUpload();
+        $data['imgurl']=$image->facemixurl;
+        $User=M('Service');
         $condition['id']=session('id');
-        $result=$info->where($condition)->find();
-        $json=json_encode($result);
-        echo $json;
+        $User->where($condition)->save($data);
+        $hkey=$redis->keys(session('id').'*');
+        $redis->hSet($hkey,'face',$image->facemixurl);
+    }
+
+    public function takeInfo(){
+        $json=file_get_contents('php://input');
+        $json=json_decode($json);
+
     }
 
     

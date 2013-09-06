@@ -7,34 +7,29 @@ class ConsumerAction extends Action{
 /**
  *用户登录方法
  */	
-	public function login(){		
+	public function login(){
 		$email=$this->_param('Email');
 		$pass =$this->_param('Password');
-		$User =M('Consumer');		
+		$User =M('Consumer');
 		$pass =md5($pass);
-		if($email && $pass) {   
-			$condition['email']=$email; 
-			$condition['pass']=$pass;       
-			
-			$User_login=$User->where($condition)->find();
-			$json=json_encode($User_login);
-			
-			if (!empty($User_login)) {
-				if($User_login['email']==$condition['email'] && $User_login['pass']==$condition['pass']){
-					session('email',$condition['email']);
-					session('pass',$condition['pass']);
-					session('id',$User_login['id']);
-					$encrypt=md5($User_login['id'] . $condition['email']);
-					$newcondition['encrypt']=$encrypt;
-					$User->where($condition)->save($newcondition);
-					echo "true"." ".$encrypt;
-//					echo $json;	
-//					echo $encrypt;								
-				}	
-			}elseif (empty($User_login)) {
-					echo "no user";
-			}
-		}	
+		if($email && $pass) {
+			$condition['email']=$email;
+			$condition['pass']=$pass;
+            $newencrypt['encrypt']=md5($email.time());
+            $User->where($condition)->save($newencrypt);
+			$User_login=$User->where($condition)->field('id,name,face,encrypt,city')->find();
+            if (!empty($User_login)) {
+                $search=new SearchAction();
+                $check=$search->urlcode($User_login);
+                $array['login']=$check;
+                session('id',$User_login['id']);
+                echo urldecode(json_encode($array));   
+            }else{
+                echo 'false';
+            }           		
+		}else {
+            echo 'false';
+        }	          
 	}
 
 /**
@@ -44,14 +39,15 @@ class ConsumerAction extends Action{
 		$encrypt=$this->_param('encrypt');
 		$User=M('Consumer');
 		$condition['encrypt']=$encrypt;
-		$result=$User->where($condition)->find();
+		$result=$User->where($condition)->field('id,name,face,encrypt,city')->find();
 		if(!empty($result)){
-			session('name',$result['name']);
-			session('pass',$result['pass']);
-			$json=json_encode($result);
-			echo $json;
+            $search=new SearchAction();
+            $check=$search->urlcode($result);
+            $array['login']=$check;
+            session('id',$result['id']);
+            echo urldecode(json_encode($array));  
 		}elseif (empty($result)) {
-			echo 'no user';
+			echo 'false';
 		}
 	}
 
@@ -59,18 +55,17 @@ class ConsumerAction extends Action{
  *用户登出方法
  */
 	public function logout(){		
-		session('name',null);
-		session('pass',null);  
+		session('id',null);
 	}
 
 /**
  *新用户注册时检测是否删除session方法
  */
 	public function checkSession(){
-        if(session('?name')==true){
+        if(session('?id')==true){
         	echo 'no logout';
-        }
-        else if(session('?name')==false){
+        }                
+        else if(session('?id')==false){
         	echo 'logout';
         }
     }
@@ -79,10 +74,10 @@ class ConsumerAction extends Action{
  *检测用户是否处于登录状态方法
  */
 	public function checkLogin(){
-        if(session('?name')==true){
+        if(session('?id')==true){
         	echo 'login';
         }
-        else if(session('?name')==false){
+        else if(session('?id')==false){
         	echo 'logout';
         }
     }
@@ -90,90 +85,119 @@ class ConsumerAction extends Action{
 /**
  *新用户注册检测邮箱是否注册方法
  */  
-    public function checkEmail(){
- 	//		$email='gubi@cbcom';   
-    		$email=$this->_param('Email');
-        	$ck_email=D('Consumer');
-        	$condition['email']=$email;
- 	      	if (!$ck_email->create($condition)) {
-        		exit($ck_email->getError());       	
-        	}else{       		
-  				echo "true";
-        	} 
+    public function checkEmail(){  
+    	$email=$this->_param('Email');
+        if(!empty($email)){
+            $ck_email=D('Consumer');
+            $condition['email']=$email;
+              if (!$ck_email->create($condition)) {
+                exit($ck_email->getError());        
+            }else{      
+                echo "true";
+            }
+        }else{
+            echo 'false';
+        }                   
     }
 
 /**
  *新用户注册时检测是否存在相同用户名方法
  */
 	public function checkName(){
-
-    		$name =$this->_param('name');
-        	$ck_name=D('Consumer');
-        	$condition['name'] =$name;
-        	
-        	if (!$ck_name->create($condition)) {
-        		exit($ck_name->getError());
-        	}else{
-        		$ck_name->add();     
-   				echo "right";    		
-        	}
+    	$name =$this->_param('name');
+        $ck_name=D('Consumer');
+        $condition['name'] =$name;
+        
+        if (!$ck_name->create($condition)) {
+        	exit($ck_name->getError());
+        }else{
+        	$ck_name->add();     
+   			echo "right";    		
+        }
     }
 
 /**
  *新用户注册时存入用户信息到数据表方法
  */
     public function createRegister(){ 
-  /*  		session_destroy();
-    		$uid   =$this->_param('Register');    		
-    		session_id('$uid');
-    		session_start();   */
-    		$name  =$this->_param('Name');
-    		$email =$this->_param('Email');			      	
-        	$pass  =$this->_param('Password');
-        	$pass  =md5($pass);
-        	$uptime=date('Y-m-d H:i:s');
-        	
-        	$condition['name']  =$name;
-        	$condition['email'] =$email;
-        	$condition['pass']  =$pass;
-        	$condition['uptime']=$uptime;
-        	$create =D('Consumer');
-        	if (!$create->create($condition)) {
-        		exit($create->getError());
-        	}else{
-        		$create->add();
-        		session('name',$condition['name']);
-				session('pass',$condition['pass']);
-				$register=json_encode($condition);
-   				echo "true";   		
-        	}  	
+    	$name  =$this->_param('Name');
+    	$email =$this->_param('Email');
+        $pass  =$this->_param('Password');
+        $city  =$this->_param('City');
+        if($name && $email && $pass){
+            $pass  =md5($pass);
+            $encrypt=md5($email.time());
+            $condition['name']  =$name;
+            $condition['email'] =$email;
+            $condition['pass']  =$pass;
+            $condition['encrypt']=$encrypt;
+            $condition['city']=$city;
+            $condition['face']='http://192.168.1.100/myapp/Public/image/moren.jpg';
+            $create =D('Consumer');
+            $create->add($condition);
+            $register=json_encode($condition);
+            echo 'true';   
+        }else{
+            echo 'false';
+        }        		
     }
-    
+
+/**
+ *用户更新个人信息方法（城市）
+ */    
+    public function updataCity(){
+        $city=$this->_param('City');
+        $User=M('Consumer');
+        $data['city']=$city;
+        $condition['id']=session('id');
+        $User->where($condition)->save($data);
+        echo 'true';
+    }
+
 /**
  *用户更新个人信息方法（密码）
  */
-    public function updataInfo(){
-    		$this->checkLogin();
-    		$pass=$this->_param('pass');
-   			$pass=md5($pass);
-    		$updata=M('Consumer');
-    		$condition['pass']=$pass;
-    		$condition['name']=session('name');
-    		
-    		$result=$updata->where($condition)->find();
-    		if (!empty($result)) {
-   				$newpass=$this->_param('newpass');
-     			$newpass=md5($newpass);
-    			$newcondition['pass']=$newpass;
-    			try {
-    				$updata->where($condition)->save($newcondition);
-    				echo 'right';
-    			} catch (Exception $e) {
-    				echo 'wrong';
-    			}  			
-    		}else if(empty($result)){
-    			echo 'not found';
-    		}	
+    public function updataPass(){
+    	$this->checkLogin();
+    	$pass=$this->_param('pass');
+        $newpass=$this->_param('newpass');
+   		$pass=md5($pass);
+    	$updata=M('Consumer');
+    	$condition['pass']=$pass;
+    	$condition['id']=session('id');
+    	$result=$updata->where($condition)->find();
+    	if (!empty($result)) {
+     		$newpass=md5($newpass);
+    		$newcondition['pass']=$newpass;
+    		$updata->where($condition)->save($newcondition);
+    		echo 'right';
+    	}else if(empty($result)){
+    		echo 'false';
+    	}
+     }   	
+    
+/**
+ *用户更新个人信息方法（用户名）
+ */
+    public function updataName(){
+        $name=$this->_param('name');
+        $save['name']=$name;
+        $condition['id']=session('id');
+        $User=M('Consumer');
+        $User->where($condition)->save($save);
+        echo $name;
+    }
+
+/**
+ *用户更新个人信息方法（头像）
+ */
+    public function updataFace(){
+        $image=new ImageAction();
+        $image->faceUpload();
+        $data['imgurl']=$image->facemixurl;
+        $User=M('Consumer');
+        $condition['id']=session('id');
+        $User->where($condition)->save($data);
     }
 
 }

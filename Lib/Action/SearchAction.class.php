@@ -173,11 +173,12 @@ class SearchAction extends Action{
     public function zset($value){
         $redis=new Redis();
         $redis->connect('localhost','6379');
+        $redis->delete('service'.session('id'));
         $zarr=explode('$', $value);
 //        var_dump($zarr);
         $score=$zarr['1'];
 
-        $redis->zAdd('consumer'.session('id'),$score,$value);
+        $redis->zAdd('service'.session('id'),$score,$value);
 //        echo $redis->zSize('consumer');
     }
 
@@ -188,7 +189,7 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $start=time();
-        $zarr=$redis->zRevRange('consumer'.session('id'),0,15);
+        $zarr=$redis->zRevRange('service'.session('id'),0,15);
         $this->jsonMaker($zarr,$redis);
 
     }
@@ -249,7 +250,7 @@ class SearchAction extends Action{
         echo urldecode(json_encode($lastarr));     
     }
 
- /**
+/**
  *分页请求接收处理主方法
  */   
     public function paging(){
@@ -263,6 +264,9 @@ class SearchAction extends Action{
         }
     }
 
+/**
+ *点击查看商家主页方法
+ */
     public function watch(){
         $photo=array();
         $redis=new Redis();
@@ -271,7 +275,7 @@ class SearchAction extends Action{
 //        $id='1';
         $User=M('Serviceinfo');
         $condition['id']=$id;
-        $result=$User->where($condition)->field('favorable,site,info')->find();
+        $result=$User->where($condition)->field('favorable,site,info,favtime,infotime')->find();
 //        var_dump($result);
         $image=M('Image');
         $img['serviceid']=$id;
@@ -309,18 +313,16 @@ class SearchAction extends Action{
         $up['address']='江苏省南京市白下区淮海路68号';
         $up['phone']='862584418888';
         $photo['photo']=array(
-                '1'=>'http://192.168.1.100/myapp/Uploads/image_mix/1.jpg',
-                '2'=>'http://192.168.1.100/myapp/Uploads/image_mix/2.jpg',
-                '3'=>'http://192.168.1.100/myapp/Uploads/image_mix/3.jpg',
-                '4'=>'http://192.168.1.100/myapp/Uploads/image_mix/4.jpg',
-                '5'=>'http://192.168.1.100/myapp/Uploads/image_mix/5.jpg',
-                '6'=>'http://192.168.1.100/myapp/Uploads/image_mix/6.jpg',
-                '7'=>'http://192.168.1.100/myapp/Uploads/image_mix/7.jpg',
-                '8'=>'http://192.168.1.100/myapp/Uploads/image_mix/8.jpg',
+                '1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154331$.jpg',
+                '2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156862$.jpg',
+                '3'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154973$.jpg',
+                '4'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155104$.jpg',
+                '5'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156655$.jpg',
+                '6'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156956$.jpg',
+                '7'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257$.jpg',
+                '8'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308$.jpg',
             );
 //        var_dump($photo);
-        $arr=array();
-        $arr2=array();
         $up=$this->urlcode($up);
         $up['photo']=$photo['photo'];
         $con['consumer']=$up;

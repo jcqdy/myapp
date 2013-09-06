@@ -52,7 +52,7 @@ class Model {
     // 查询表达式参数
     protected $options          =   array();   
     protected $_validate        =   array(
-        array('name','','帐号名称已经存在！',0,'unique',1),
+//        array('name','','帐号名称已经存在！',0,'unique',1),
         array('email','','该邮箱已注册！',0,'unique',1),
         array('email','email','邮箱格式不对！',0),
     );  // 自动验证定义
