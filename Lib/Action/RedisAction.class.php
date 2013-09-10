@@ -24,10 +24,10 @@ class RedisAction extends Action{
           'address'=>'江苏省南京市白下区淮海路68号',
           'face'=>'http://192.168.1.100/myapp/Public/image/13$.jpg',
           'sertype'=>'商场',
-          'phone_num'=>'862584418888',
-          'intro'=>'苏宁是中国商业企业的领先者，经营商品涵盖传统家电、消费电子、百货、日用品、图书、虚拟产品等综合品类，线下实体门店1700多家，线上苏宁易购位居国内B2C前三，线上线下的融合发展引领零售发展新趋势。',
-//          'face'=>$image->$imgsrc,          
-          'location'=>'上海',
+          'latitude'=>$latitude,  //经度
+          'longitude'=>$longitude,   //纬度        
+          'phone_num'=>'862584418888', 
+          'city'=>'上海',           
         );
 //    $this->list=$array['shopname'];
       foreach ($array as $value) {
@@ -41,7 +41,7 @@ class RedisAction extends Action{
     public function popRegister(){
       $redis=new Redis();
       $redis->connect('localhost', '6379'); 
-      for($i=0;$i<9;$i++){
+      for($i=0;$i<11;$i++){
         $result=$redis->rPop('key1');
         $this->array[$i]=$result;          
       }           
@@ -53,9 +53,9 @@ class RedisAction extends Action{
     public function hashSet($id,$con){
       $redis=new Redis();
       $redis->connect('localhost','6379');
-      $hkey=$id.$this->array['2'].$this->array['3'].$this->array['5'].'$'.time();
+      $hkey=$id.$this->array['2'].$this->array['3'].$this->array['5'].$this->array['9'].'$'.time().'$'.$this->array['6'].'$'.$this->array['7'];
       var_dump($hkey);
-      for ($i=2;$i<6;$i++) {       
+      for ($i=2;$i<9;$i++) {       
          $redis->hSet($hkey,$con[$i],$this->array[$i]);
        } 
       $redis->hSet($hkey,'id',$id);

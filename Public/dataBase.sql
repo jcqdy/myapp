@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS `consumer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL DEFAULT '',
   `pass` varchar(1000) NOT NULL DEFAULT '',
-  `face` varchar(100) NOT NULL DEFAULT '',
+  `face` varchar(1000) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `encrypt` varchar(1000) NOT NULL DEFAULT '',
   `city` varchar(10) NOT NULL DEFAULT '',
@@ -71,16 +71,18 @@ INSERT INTO `consumer` (`id`, `name`, `pass`, `uptime`) VALUES
 
 CREATE TABLE IF NOT EXISTS `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `phone_num` varchar(100) NOT NULL DEFAULT '0',
+  `phone_num` int(100) NOT NULL DEFAULT '0',
   `watch` int(11) NOT NULL DEFAULT '0',
   `shopname` varchar(100) NOT NULL DEFAULT '',
   `pass` varchar(1000) NOT NULL DEFAULT '',
   `address` varchar(100) NOT NULL DEFAULT '',
   `email` varchar(100) NOT NULL DEFAULT '',
   `sertype` varchar(100) NOT NULL DEFAULT '',
-  `face` varchar(100) NOT NULL DEFAULT '',
+  `face` varchar(1000) NOT NULL DEFAULT '',
   `intro` varchar(500) NOT NULL DEFAULT '', 
-  `city` varchar(10) NOT NULL DEFAULT '', 
+  `city` varchar(10) NOT NULL DEFAULT '',
+  `latitude` int(100) NOT NULL DEFAULT '0',
+  `longitude` int(100) NOT NULL DEFAULT '0', 
   `encrypt` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -99,12 +101,11 @@ CREATE TABLE IF NOT EXISTS `service` (
 CREATE TABLE IF NOT EXISTS `serviceinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `serviceid` int(11) NOT NULL DEFAULT '0',
-  `foodmenu` varchar(100) NOT NULL DEFAULT '',
   `favorable` varchar(100) NOT NULL DEFAULT '',
-  `favtime` int(11) NOT NULL DEFAULT '',
+  `favtime` int(20) NOT NULL DEFAULT '',
   `site` tinyint(1) NOT NULL DEFAULT '0',
   `photoinfo` varchar(100) NOT NULL DEFAULT '',
-  `infotime` int(11) NOT NULL DEFAULT '',
+  `infotime` int(20) NOT NULL DEFAULT '',
   `information` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -155,6 +156,7 @@ CREATE TABLE IF NOT EXISTS `album` (
   `albumid` int(11) NOT NULL AUTO_INCREMENT,
   `serviceid` int(11) NOT NULL DEFAULT '0',
   `title` varchar(100) NOT NULL DEFAULT '0',
+  `cover` varchar(1000) NOT NULL DEFAULT '0',
   `count` int(11) NOT NULL DEFAULT '0',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`albumid`)
@@ -171,8 +173,8 @@ CREATE TABLE IF NOT EXISTS `image` (
   `albumid` int(11) NOT NULL DEFAULT '0',
   `serviceid` int(11) NOT NULL DEFAULT '0',
   `explain` varchar(100) NOT NULL DEFAULT '0',
-  `imgurl1` varchar(100) NOT NULL DEFAULT '0',
-  `imgurl2` varchar(100) NOT NULL DEFAULT '0',
+  `imgurl1` varchar(1000) NOT NULL DEFAULT '0',
+  `imgurl2` varchar(1000) NOT NULL DEFAULT '0',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;

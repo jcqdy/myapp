@@ -1,0 +1,6 @@
+[ 2013-09-09T16:09:43+08:00 ] 127.0.0.1 /myapp/index.php/Searchloacal/mysqlFind
+ERR: 参数错误或者未定义:n
+
+[ 2013-09-09T18:44:10+08:00 ] 127.0.0.1 /myapp/index.php/Searchloacal/mysqlFind
+ERR: Action:sqlurlcode您所请求的方法不存在！
+

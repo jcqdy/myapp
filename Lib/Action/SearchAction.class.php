@@ -28,7 +28,7 @@ class SearchAction extends Action{
     }
 
 /**
- *一个关键词时redis缓存中搜索数据的方法
+ *从redis缓存中搜索数据的方法
  */  
     public function redisFind($n,$m,$p){
 //        var_dump($n);
@@ -87,7 +87,7 @@ class SearchAction extends Action{
             $condition['_logic']='or';
             $map['_complex'] = $condition;
             $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->field('id,shopname,address,face,sertype')->select();
+            $result=$consumer->where($map)->order('uptime desc')->field('id,shopname,address,face,sertype')->limit($this->page_size)->select();
             var_dump($result);
             if(empty($result)){
                 echo '搜索不到';
@@ -103,7 +103,7 @@ class SearchAction extends Action{
             $condition['_logic']='or';
             $map['_complex'] = $condition;
             $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->select();
+            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
             if(empty($result)){
                 echo '搜索不到';
             }elseif (!empty($result)) {
@@ -118,7 +118,7 @@ class SearchAction extends Action{
             $condition['_logic']='or';
             $map['_complex'] = $condition;
             $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->select();
+            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
             if(empty($result)){
                 echo '搜索不到';
             }elseif (!empty($result)) {
@@ -256,7 +256,7 @@ class SearchAction extends Action{
     public function paging(){
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $pag=$redis->exists('consumer');
+        $pag=$redis->exists('service'.session('id'));
         if($pag=true){
             $this->zgetMore($redis);
         }elseif ($pag=false) {
@@ -276,9 +276,11 @@ class SearchAction extends Action{
         $User=M('Serviceinfo');
         $condition['id']=$id;
         $result=$User->where($condition)->field('favorable,site,info,favtime,infotime')->find();
-//        var_dump($result);
-        $image=M('Image');
         $img['serviceid']=$id;
+        $album=M('Album');
+        $alb=$album->where($img)->order('uptime desc')->limit('1')->field('albumid,title')->find();
+        $img['albumid']=$alb['albumid'];
+        $image=M('Image');
         $imgarr=$image->where($img)->field('imgurl1')->select();
 //        var_dump($imgarr);
         $hkey=$redis->keys($id.'*');
@@ -287,13 +289,16 @@ class SearchAction extends Action{
         foreach ($result as $key => $value) {
             $up[$key]=$value;
         }
-        foreach ($array as $key2 => $value2) {
-            $up[$key2]=$value2;                        
+        foreach ($array as $key => $value) {
+            $up[$key]=$value;                        
         }
-        foreach ($imgarr as $key3 =>$value3) {
-            foreach ($value3 as $value4) {
-                $pho[$key3+1]=$value4;
+        foreach ($imgarr as $key =>$value) {
+            foreach ($value as $value2) {
+                $pho[$key+1]=$value2;
             }
+        }
+        foreach ($alb as $key => $value) {
+            $up[$key]=$value;
         }
         unset($up['face']);
         $photo['photo']=$pho;

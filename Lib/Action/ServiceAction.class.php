@@ -142,8 +142,8 @@ class ServiceAction extends Action{
         $cache->popRegister();
         $new=$cache->array;
         $arr=array(
-        '0'=>'email','1'=>'pass','2'=>'shopname','3'=>'address','4'=>'face','5'=>'sertype','6'=>'phone_num',
-        '7'=>'intro','8'=>'location');           
+        '0'=>'email','1'=>'pass','2'=>'shopname','3'=>'address','4'=>'face','5'=>'sertype','6'=>'latitude',
+        '7'=>'longitude','8'=>'phone_num','9'=>'city');                   
         $n=0;
         foreach ($new as $value) {
             $key=$arr[$n];
@@ -219,11 +219,7 @@ class ServiceAction extends Action{
         $redis->hSet($hkey,'face',$image->facemixurl);
     }
 
-    public function takeInfo(){
-        $json=file_get_contents('php://input');
-        $json=json_decode($json);
 
-    }
 
     
 
