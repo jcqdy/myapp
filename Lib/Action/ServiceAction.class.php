@@ -18,33 +18,32 @@ class ServiceAction extends Action{
             $condition['pass']=$pass;
             $newencrypt['encrypt']=md5($email.time());
             $User->where($condition)->save($newencrypt);
-            $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt')->find();            
-            $info=M('Serviceinfo');
-            $condition['id']=$id;
-            $result=$info->where($condition)->field('favorable,site,info,favtime,infotime')->find();
-            $image=M('Image');
-            $img['serviceid']=$id;
-            $imgarr=$image->where($img)->field('imgurl1')->select();
-            foreach ($service as $key => $value) {
-                $array[$key]=$value;
-            }
-            foreach ($result as $key1 => $value1) {
-                $array[$key1]=$value1;
-            }
-            foreach ($imgarr as $key2 => $value2) {
-                foreach ($value2 as $value3) {
-                    $pho[$key2+1]=$value3;
+            $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,latitude,longitude')->find();            
+            if(!empty($service)){  
+                $id=$service['id'];
+                $info=M('Serviceinfo');
+                $condition['id']=$id;
+                $result=$info->where($condition)->field('favorable,site,info,favtime,infotime')->find();
+                $image=M('Image');
+                $img['serviceid']=$id;
+                $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
+                foreach ($service as $key => $value) {
+                    $array[$key]=$value;
+                }       
+                foreach ($result as $key1 => $value1) {
+                    $array[$key1]=$value1;
                 }
-            }
-            $redis=new Redis();
-            $watch=$redis->sCard($service['id']);
-            $take=new SearchAction();
-            $photo['photo']=$pho;
-            $array=$take->urlcode($array);
-            $array['photo']=$photo['photo'];
-            $array['watch']=$watch;
-            $arr['login']=$array;
-            echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
+                $redis=new Redis();
+                $watch=$redis->sCard($service['id']);
+                $take=new SearchAction();
+                $array=$take->urlcode($array);
+                $array['photo']=$imgarr;
+                $array['watch']=$watch;
+                $arr['login']=$array;
+                echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
+            }elseif (empty($service)) {
+                echo 'false';
+            } 
         }else {
             echo 'false';
         }             
@@ -55,15 +54,32 @@ class ServiceAction extends Action{
  */
     public function autoLogin(){
         $encrypt=$this->_param('encrypt');
-        $User=M('Consumer');
+        $User=M('Service');
         $condition['encrypt']=$encrypt;
-        $result=$User->where($condition)->find();
-        if(!empty($result)){
-            session('name',$result['name']);
-            session('pass',$result['pass']);
-            $json=json_encode($result);
-            echo $json;
-        }elseif (empty($result)) {
+        $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,latitude,longitude')->find();
+        if(!empty($service)){     
+            $id=$service['id'];
+            $info=M('Serviceinfo');
+            $condition['id']=$id;
+            $result=$info->where($condition)->field('favorable,site,info,favtime,infotime')->find();
+            $image=M('Image');
+            $img['serviceid']=$id;
+            $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
+            foreach ($service as $key => $value) {
+                $array[$key]=$value;
+            }       
+            foreach ($result as $key1 => $value1) {
+                $array[$key1]=$value1;
+            }
+            $redis=new Redis();
+            $watch=$redis->sCard($id);
+            $take=new SearchAction();
+            $array=$take->urlcode($array);
+            $array['photo']=$imgarr;
+            $array['watch']=$watch;
+            $arr['login']=$array;
+            echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
+        }elseif (empty($service)) {
             echo "no user";
         }
     }
@@ -111,12 +127,11 @@ class ServiceAction extends Action{
             if (!$ck_email->create($condition)) {
                 exit($ck_email->getError());
             }else{
-                $ck_email->add();           
+                $ck_email->add();
             }
         }else {
             echo 'false';
-        }
-        
+        }    
     }
 
 /**
@@ -137,13 +152,13 @@ class ServiceAction extends Action{
 /**
  *新用户注册时存入用户信息到数据表方法
  */
-    public function creatRegister(){    
+    public function creatRegister(){
         $cache=new RedisAction();
         $cache->popRegister();
         $new=$cache->array;
         $arr=array(
         '0'=>'email','1'=>'pass','2'=>'shopname','3'=>'address','4'=>'face','5'=>'sertype','6'=>'latitude',
-        '7'=>'longitude','8'=>'phone_num','9'=>'city');                   
+        '7'=>'longitude','8'=>'phone_num','9'=>'city');
         $n=0;
         foreach ($new as $value) {
             $key=$arr[$n];
@@ -162,8 +177,6 @@ class ServiceAction extends Action{
         var_dump($id);
         $cache->hashSet($id,$arr); 
 
-        session('shopname',$condition['shopname']);
-        session('pass',$condition['pass']);
  //       $register=json_encode($condition);     
     }  
 
@@ -192,16 +205,26 @@ class ServiceAction extends Action{
  *用户更新商家信息方法
  */
     public function updataInfo(){
-        $this->check();
-        $json=file_get_contents('php://input');
-        $json=json_decode($json);
-        $updata=M('Service');
-        $condition['id']=session('id');
-        foreach ($json as $key => $value) {
-            $add[$key]=$value;
-            $updata->where($condition)->save($add);
+        $json=$this->_param('info');
+        $json=html_entity_decode($json);
+        $info=json_decode($json,true);
+        $image=new ImageAction();
+        $image->imageUpload();
+        $img=M('Image');
+        foreach ($image->imgurl as $value) {
+            
         }
     }
+
+    public function test(){
+        $img=M('Image');
+        $condition['imgurl1']='1';
+        $condition['serviceid']='1';
+        $img->add($condition);
+    }
+
+
+
 
 /**
  *用户更新商家头像方法
@@ -211,7 +234,7 @@ class ServiceAction extends Action{
         $redis->connect('localhost','6379'); 
         $image=new ImageAction();
         $image->faceUpload();
-        $data['imgurl']=$image->facemixurl;
+        $data['face']=$image->facemixurl;
         $User=M('Service');
         $condition['id']=session('id');
         $User->where($condition)->save($data);
@@ -219,11 +242,64 @@ class ServiceAction extends Action{
         $redis->hSet($hkey,'face',$image->facemixurl);
     }
 
+/**
+ *点击查看更多图片方法
+ */
+    public function watchList(){
+        $serviceid=$this->_param('serviceid');
+        $list=M('Image');
+        $search=new SearchAction();
+        $array=array();
+        $condition['serviceid']=$serviceid;
+        $imgarr=$list->where($condition)->order('uptime desc')->field('imgurl1,photoid')->select();
+        $array['photo']=$imgarr;
+        echo json_encode($array,JSON_UNESCAPED_SLASHES);
+    }
 
+/**
+ *图片列表中横向滑动查看大图片方法
+ */
+    public function listLarge(){
+        $serviceid=$this->_param('serviceid');
+        $img['serviceid']=$serviceid;
+        $image=M('Image');
+        $imgarr=$image->where($img)->order('uptime desc')->field('imgurl2,id,state')->select();
+        foreach ($imgarr as $value) {
+            foreach ($value as $key => $value2) {
+                if($key!='state'){
+                    $con[$key]=urlencode($value2);
+                }else{
+                    $con[$key]=$value2;
+                }
+            }
+            array_push($array,$con);
+        }
+        $up['photo']=$array;
+        echo urldecode(json_encode($up,JSON_UNESCAPED_SLASHES));
+    }
 
-    
+/**
+ *商家主页中横向滑动查看大图片方法
+ */
+    public function watchLarge(){
+        $serviceid=$this->_param('serviceid');
+        $array=array();
+        $search=new SearchAction();
+        $img['serviceid']=$serviceid;
+        $image=M('Image');
+        $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl2,id,state')->select();
+        foreach ($imgarr as $value) {
+            foreach ($value as $key => $value2) {
+                if($key!='state'){
+                    $con[$key]=urlencode($value2);
+                }else{
+                    $con[$key]=$value2;
+                }
+            }
+            array_push($array,$con);
+        }
+        $up['photo']=$array;
+        echo urldecode(json_encode($up,JSON_UNESCAPED_SLASHES));
+    }
 
-}
-
-
-    
+}   

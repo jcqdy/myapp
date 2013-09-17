@@ -33,7 +33,7 @@ class ConsumerAction extends Action{
 	}
 
 /**
- *用户自动登录方法	
+ *用户自动登录方法
  */
 	public function autoLogin(){
 		$encrypt=$this->_param('encrypt');
@@ -54,8 +54,10 @@ class ConsumerAction extends Action{
 /**
  *用户登出方法
  */
-	public function logout(){		
-		session('id',null);
+	public function logout(){
+        if($this->_param('out')){
+            session('id',null);
+        }		
 	}
 
 /**
@@ -194,12 +196,15 @@ class ConsumerAction extends Action{
     public function updataFace(){
         $image=new ImageAction();
         $image->faceUpload();
-        $data['imgurl']=$image->facemixurl;
+        $data['face']=$image->facemixurl;
         $User=M('Consumer');
-        $condition['id']=session('id');
+        $condition['id']=$image->cookieid;
         $User->where($condition)->save($data);
     }
 
+    public function a(){
+        session(null);
+    }
 }
 
 

@@ -25,7 +25,7 @@ class RedisAction extends Action{
           'face'=>'http://192.168.1.100/myapp/Public/image/13$.jpg',
           'sertype'=>'商场',
           'latitude'=>$latitude,  //经度
-          'longitude'=>$longitude,   //纬度        
+          'longitude'=>$longitude,   //纬度
           'phone_num'=>'862584418888', 
           'city'=>'上海',           
         );

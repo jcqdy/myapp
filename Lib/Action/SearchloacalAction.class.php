@@ -115,7 +115,7 @@ class SearchloacalAction extends Action{
 
 /**
  *将商家信息转为json格式的方法
- */         
+ */
     public function jsonMaker($arr,$redis){
         $array4=array();
         foreach ($arr as $zvalue) {

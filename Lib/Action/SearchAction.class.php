@@ -155,13 +155,13 @@ class SearchAction extends Action{
 
 /**
  *将商家信息转为json格式的方法
- */         
+ */
     public function jsonMaker($arr,$redis){
         $array4=array();
         foreach ($arr as $zvalue) {
                 $array=$redis->hGetAll($zvalue);
                 $arrcode=$this->urlcode($array);
-                array_push($array4,$arrcode);               
+                array_push($array4,$arrcode);
             } 
         $array5['consumer']=$array4;
         echo urldecode(json_encode($array5));
@@ -277,12 +277,9 @@ class SearchAction extends Action{
         $condition['id']=$id;
         $result=$User->where($condition)->field('favorable,site,info,favtime,infotime')->find();
         $img['serviceid']=$id;
-        $album=M('Album');
-        $alb=$album->where($img)->order('uptime desc')->limit('1')->field('albumid,title')->find();
-        $img['albumid']=$alb['albumid'];
         $image=M('Image');
-        $imgarr=$image->where($img)->field('imgurl1')->select();
-//        var_dump($imgarr);
+        $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
+        var_dump($imgarr);
         $hkey=$redis->keys($id.'*');
         $array=$redis->hGetAll($hkey['0']);
 //        var_dump($array);
@@ -292,19 +289,20 @@ class SearchAction extends Action{
         foreach ($array as $key => $value) {
             $up[$key]=$value;                        
         }
-        foreach ($imgarr as $key =>$value) {
-            foreach ($value as $value2) {
-                $pho[$key+1]=$value2;
+/*        foreach ($imgarr as $value) {
+            foreach ($value as $key => $value2) {
+                    $pho[$key]=$value2;                
             }
-        }
+            array_push($photo,$pho);
+        }   */
+
         foreach ($alb as $key => $value) {
             $up[$key]=$value;
         }
         unset($up['face']);
-        $photo['photo']=$pho;
-        var_dump($photo);        
+//        $photo['photo']=$pho;
         $up=$this->urlcode($up);
-        $up['photo']=$photo['photo'];
+        $up['photo']=$imgarr;
         $con['consumer']=$up;
         echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
     }
@@ -313,25 +311,64 @@ class SearchAction extends Action{
     public function test(){
         $up['info']='招杂工3名，待遇面议';
         $up['favorable']='每日晚上6:00-8:00,打8折';
-        $up['face']='http://192.168.1.100/myapp/Public/image/7.jpg';
+        $up['face']='http://192.168.1.100/myapp/Public/image/7$.jpg';
         $up['shopname']='苏宁电器(南京市鼓楼区湖南路店)';
         $up['address']='江苏省南京市白下区淮海路68号';
         $up['phone']='862584418888';
-        $photo['photo']=array(
-                '1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154331$.jpg',
-                '2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156862$.jpg',
-                '3'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154973$.jpg',
-                '4'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155104$.jpg',
-                '5'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156655$.jpg',
-                '6'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156956$.jpg',
-                '7'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257$.jpg',
-                '8'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308$.jpg',
-            );
+        $photo['0']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154331s.jpg','photoid'=>'1');
+        $photo['1']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156862s.jpg','photoid'=>'2');
+        $photo['2']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154973s.jpg','photoid'=>'3');
+        $photo['3']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155104s.jpg','photoid'=>'4');
+        $photo['4']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156655s.jpg','photoid'=>'5');
+        $photo['5']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156956s.jpg','photoid'=>'6');
+        $photo['6']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257s.jpg','photoid'=>'7');
+        $photo['7']=array(
+                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308s.jpg','photoid'=>'8');        
+        
 //        var_dump($photo);
         $up=$this->urlcode($up);
-        $up['photo']=$photo['photo'];
+        $up['photo']=$photo;
         $con['consumer']=$up;
         echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
+    }
+
+    public function test2(){
+        $array=array();
+        $photo['0']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154331.jpg','photoid'=>'1','state'=>'12345');
+        $photo['1']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156862.jpg','photoid'=>'2','state'=>'12345');
+        $photo['2']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154973.jpg','photoid'=>'3','state'=>'12345');
+        $photo['3']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155104.jpg','photoid'=>'4','state'=>'12345');
+        $photo['4']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156655.jpg','photoid'=>'5','state'=>'12345');
+        $photo['5']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156956.jpg','photoid'=>'6','state'=>'12345');
+        $photo['6']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257.jpg','photoid'=>'7','state'=>'12345');
+        $photo['7']=array(
+                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308.jpg','photoid'=>'8','state'=>'12345');
+        foreach ($photo as $value) {
+            foreach ($value as $key => $value2) {
+                if($key!='state'){
+                    $con[$key]=$value2;
+                }else{
+                    $con[$key]=urlencode($value2);
+                }
+            }
+            array_push($array,$con);
+        }
+        $up['photo']=$array;
+        echo json_encode($up,JSON_UNESCAPED_SLASHES);
     }
 
     

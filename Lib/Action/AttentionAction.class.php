@@ -13,7 +13,7 @@ class AttentionAction extends Action{
         $serviceid=$this->_param('serviceid');
         $att=M('Attention');
         $condition['serviceid']=$serviceid;
-        $condition['consumerid']=session('id');   
+        $condition['consumerid']=session('id');
         $result=$att->where($condition)->find();
         if(empty($result)){
             $att->where($condition)->add();
@@ -34,9 +34,9 @@ class AttentionAction extends Action{
         var_dump($result);
         $array=array();
         foreach ($result as $value) {
-            $key=$redis->keys($value.'*');           
+            $key=$redis->keys($value.'*');      
             foreach ($key as $value2) {
-                $hash=$redis->hGetAll($value2);               
+                $hash=$redis->hGetAll($value2);
                 $hash=$search->urlcode($hash);
                 array_push($array,$hash);
             }
