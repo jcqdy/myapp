@@ -102,10 +102,10 @@ CREATE TABLE IF NOT EXISTS `serviceinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `serviceid` int(11) NOT NULL DEFAULT '0',
   `favorable` varchar(100) NOT NULL DEFAULT '',
-  `favtime` int(20) NOT NULL DEFAULT '',
+  `favtime` int(20) NOT NULL DEFAULT '0',
   `site` tinyint(1) NOT NULL DEFAULT '0',
   `photoinfo` varchar(100) NOT NULL DEFAULT '',
-  `infotime` int(20) NOT NULL DEFAULT '',
+  `infotime` int(20) NOT NULL DEFAULT '0',
   `information` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

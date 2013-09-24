@@ -13,7 +13,7 @@ class SearchAction extends Action{
  */
     public function search(){
         $str=$this->_param('search');
- //      $str='苏宁';
+//       $str='南京 苏宁';
 //        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
 
@@ -21,9 +21,9 @@ class SearchAction extends Action{
         if ($num_arr=1) {
             $this->redisFind($this->search['0']);
         }elseif($num_arr=2){
-            $this->redisFinds($this->search['0'],$this->search['1']);
+            $this->redisFind($this->search['0'],$this->search['1']);
         }elseif ($num_arr=3) {
-            $this->redisFinds($this->search['0'],$this->search['1'],$this->search['2']);
+            $this->redisFind($this->search['0'],$this->search['1'],$this->search['2']);
         }
     }
 
@@ -178,7 +178,7 @@ class SearchAction extends Action{
 //        var_dump($zarr);
         $score=$zarr['1'];
 
-        $redis->zAdd('service'.session('id'),$score,$value);
+        $redis->zAdd('service'.'5',$score,$value);
 //        echo $redis->zSize('consumer');
     }
 
@@ -189,7 +189,7 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $start=time();
-        $zarr=$redis->zRevRange('service'.session('id'),0,15);
+        $zarr=$redis->zRevRange('service'.'5',0,15);
         $this->jsonMaker($zarr,$redis);
 
     }

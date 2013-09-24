@@ -18,7 +18,7 @@ class RedisAction extends Action{
 //      $image->uploadRegister();
 
       $array=array(         
-          'email'=>'jcq@qa.com',
+          'email'=>'jcq@adopbk.com',
           'pass'=>'sttf215',
           'shopname'=>'苏宁电器(南京市鼓楼区湖南路店)',
           'address'=>'江苏省南京市白下区淮海路68号',
@@ -27,7 +27,7 @@ class RedisAction extends Action{
           'latitude'=>$latitude,  //经度
           'longitude'=>$longitude,   //纬度
           'phone_num'=>'862584418888', 
-          'city'=>'上海',           
+          'city'=>'上海'         
         );
 //    $this->list=$array['shopname'];
       foreach ($array as $value) {
@@ -41,7 +41,7 @@ class RedisAction extends Action{
     public function popRegister(){
       $redis=new Redis();
       $redis->connect('localhost', '6379'); 
-      for($i=0;$i<11;$i++){
+      for($i=0;$i<10;$i++){
         $result=$redis->rPop('key1');
         $this->array[$i]=$result;          
       }           

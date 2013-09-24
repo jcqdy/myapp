@@ -163,7 +163,7 @@ class ServiceAction extends Action{
         foreach ($new as $value) {
             $key=$arr[$n];
             $condition[$key]=$value;
-            ++$n;
+            $n++;
         }
         var_export($condition);$this->display();
         $creat=D('Service');

@@ -115,3 +115,36 @@ NOTIC: 建议使用I方法替代_param
 [ 2013-09-17T16:34:45+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/autoLogin
 NOTIC: 建议使用I方法替代_param
 
+[ 2013-09-17T16:59:13+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:02:52+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:03:00+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:05:24+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:07:53+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:08:07+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:08:24+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:13:32+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:18:11+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:20:16+08:00 ] 192.168.1.102 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-17T17:32:53+08:00 ] 192.168.1.102 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+

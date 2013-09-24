@@ -8,8 +8,10 @@ class ConsumerAction extends Action{
  *用户登录方法
  */	
 	public function login(){
-		$email=$this->_param('Email');
+        $email=$this->_param('Email');
 		$pass =$this->_param('Password');
+//      $email='52393137@qq.com';
+//      $pass='88791140';
 		$User =M('Consumer');
 		$pass =md5($pass);
 		if($email && $pass) {
@@ -17,7 +19,7 @@ class ConsumerAction extends Action{
 			$condition['pass']=$pass;
             $newencrypt['encrypt']=md5($email.time());
             $User->where($condition)->save($newencrypt);
-			$User_login=$User->where($condition)->field('id,name,face,encrypt,city')->find();
+			$User_login=$User->where($condition)->field('id,name,face,encrypt')->find();
             if (!empty($User_login)) {
                 $search=new SearchAction();
                 $check=$search->urlcode($User_login);
@@ -28,7 +30,7 @@ class ConsumerAction extends Action{
                 echo 'false';
             }           		
 		}else {
-            echo 'false';
+            echo 'false1';
         }	          
 	}
 
@@ -113,8 +115,8 @@ class ConsumerAction extends Action{
         if (!$ck_name->create($condition)) {
         	exit($ck_name->getError());
         }else{
-        	$ck_name->add();     
-   			echo "right";    		
+        	$ck_name->add();
+   			echo "right";
         }
     }
 
@@ -125,7 +127,7 @@ class ConsumerAction extends Action{
     	$name  =$this->_param('Name');
     	$email =$this->_param('Email');
         $pass  =$this->_param('Password');
-        $city  =$this->_param('City');
+//        $city  =$this->_param('City');
         if($name && $email && $pass){
             $pass  =md5($pass);
             $encrypt=md5($email.time());
@@ -133,7 +135,7 @@ class ConsumerAction extends Action{
             $condition['email'] =$email;
             $condition['pass']  =$pass;
             $condition['encrypt']=$encrypt;
-            $condition['city']=$city;
+//            $condition['city']=$city;
             $condition['face']='http://192.168.1.100/myapp/Public/image/moren.jpg';
             $create =D('Consumer');
             $create->add($condition);
@@ -183,8 +185,9 @@ class ConsumerAction extends Action{
  */
     public function updataName(){
         $name=$this->_param('name');
+        $id=$this->_param('id');
         $save['name']=$name;
-        $condition['id']=session('id');
+        $condition['id']=$id;
         $User=M('Consumer');
         $User->where($condition)->save($save);
         echo $name;
@@ -200,6 +203,7 @@ class ConsumerAction extends Action{
         $User=M('Consumer');
         $condition['id']=$image->cookieid;
         $User->where($condition)->save($data);
+        echo $image->facemixurl;
     }
 
     public function a(){

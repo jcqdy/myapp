@@ -1,0 +1,302 @@
+[ 2013-09-22T12:42:26+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T12:42:59+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T12:46:11+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T12:48:21+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:07:28+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:07:42+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:07:45+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:14:49+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:20:59+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:47:34+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:49:02+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T13:53:19+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:22:59+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:24:21+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:25:53+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:30:30+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:30:35+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:30:59+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/updataName
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:32:07+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:32:21+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/updataName
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:50:29+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:50:50+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/updataName
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:54:52+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:55:06+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:56:43+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/updataName
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:57:14+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T14:57:17+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:01:27+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:01:34+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:03:20+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:03:41+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+ERR: Redis server went away
+
+[ 2013-09-22T15:04:21+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+ERR: Redis server went away
+
+[ 2013-09-22T15:05:16+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:06:02+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:06:12+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+ERR: Redis server went away
+
+[ 2013-09-22T15:07:42+08:00 ] 127.0.0.1 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+ERR: Redis server went away
+
+[ 2013-09-22T15:09:03+08:00 ] 127.0.0.1 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+ERR: Redis server went away
+
+[ 2013-09-22T15:09:07+08:00 ] 127.0.0.1 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+ERR: Redis server went away
+
+[ 2013-09-22T15:09:39+08:00 ] 127.0.0.1 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:09:54+08:00 ] 127.0.0.1 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:10:07+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:11:04+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:40:36+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:40:48+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T15:48:41+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:24:41+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:24:47+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:35:31+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:35:42+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:37:32+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:39:05+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:47:35+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:49:53+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:50:11+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/updataName
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:53:11+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:53:31+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:54:47+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:54:59+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:56:43+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:57:37+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T17:57:44+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:03:40+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:03:43+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:07:48+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:08:07+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:10:20+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/logout
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:10:38+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:11:02+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:11:13+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:34:20+08:00 ] 192.168.1.103 /myapp/index.php/S
+ERR: 无法加载模块:S
+
+[ 2013-09-22T18:34:22+08:00 ] 192.168.1.103 /myapp/index.php/Se
+ERR: 无法加载模块:Se
+
+[ 2013-09-22T18:34:22+08:00 ] 192.168.1.103 /myapp/index.php/Sea
+ERR: 无法加载模块:Sea
+
+[ 2013-09-22T18:34:23+08:00 ] 192.168.1.103 /myapp/index.php/Seatc
+ERR: 无法加载模块:Seatc
+
+[ 2013-09-22T18:34:25+08:00 ] 192.168.1.103 /myapp/index.php/Sear
+ERR: 无法加载模块:Sear
+
+[ 2013-09-22T18:34:26+08:00 ] 192.168.1.103 /myapp/index.php/Search
+ERR: 非法操作:index
+
+[ 2013-09-22T18:34:28+08:00 ] 192.168.1.103 /myapp/index.php/Search/
+ERR: 非法操作:index
+
+[ 2013-09-22T18:34:29+08:00 ] 192.168.1.103 /myapp/index.php/Search/s
+ERR: 非法操作:s
+
+[ 2013-09-22T18:34:32+08:00 ] 192.168.1.103 /myapp/index.php/Search/ses
+ERR: 非法操作:ses
+
+[ 2013-09-22T18:34:33+08:00 ] 192.168.1.103 /myapp/index.php/Search/sea
+ERR: 非法操作:sea
+
+[ 2013-09-22T18:34:34+08:00 ] 192.168.1.103 /myapp/index.php/Search/sear
+ERR: 非法操作:sear
+
+[ 2013-09-22T18:34:34+08:00 ] 192.168.1.103 /myapp/index.php/Search/searc
+ERR: 非法操作:searc
+
+[ 2013-09-22T18:34:35+08:00 ] 192.168.1.103 /myapp/index.php/Search/sesrc
+ERR: 非法操作:sesrc
+
+[ 2013-09-22T18:34:38+08:00 ] 192.168.1.103 /myapp/index.php/Search/search/
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:34:43+08:00 ] 192.168.1.103 /myapp/index.php/Search/t
+ERR: 非法操作:t
+
+[ 2013-09-22T18:34:43+08:00 ] 192.168.1.103 /myapp/index.php/Search/tes
+ERR: 非法操作:tes
+
+[ 2013-09-22T18:36:54+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:37:20+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:37:38+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:37:48+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:37:52+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:38:09+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:38:55+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:39:09+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:40:03+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:41:03+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:41:13+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-22T18:41:40+08:00 ] 192.168.1.100 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
