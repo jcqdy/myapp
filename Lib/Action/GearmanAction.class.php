@@ -2,12 +2,14 @@
 class GearmanAction extends Action{
 
     public function mysqlClient(){
-        $client=new GearmanClient();
-        $client->addServer();   
+/*        $client=new GearmanClient();
+        $client->addServer();   */
         $User=M('Service');       
         $result=$User->select();
+//        var_dump($result);
         foreach ($result as $key) {
-            $array=array();            
+    //        var_dump($key);
+            $array=array();              
             $array['shopname']=$key['shopname'];
             $array['address']=$key['address'];
             $array['face']=$key['face'];
@@ -15,8 +17,10 @@ class GearmanAction extends Action{
             $array['watch']=$key['watch'];
             $array['uptime']=strtotime($key['uptime']);
             $array['id']=$key['id'];
-            var_dump($array); 
-            $client->doBackground('sendmysql',serialize($array));
+            $array['latitude']=$key['latitude'];
+            $array['longitude']=$key['longitude'];
+//            var_dump($array); 
+//            $client->doBackground('sendmysql',serialize($array));
         }
     }
 
@@ -29,7 +33,7 @@ class GearmanAction extends Action{
             $array=unserialize($job->workload());
             $redis=new Redis();
             $redis->connect('localhost','6379');
-            $hkey=$array['id'].$array['shopname'].$array['address'].$array['sertype'].'$'.time();
+            $hkey=$array['id'].$array['shopname'].$array['address'].$array['sertype'].'$'.time().'$'.$array['latitude'].'$'.$array['longitude'];
             $result=$redis->keys($array['id'].'*');
             $redis->delete($result);
             foreach ($array as $key => $value) {

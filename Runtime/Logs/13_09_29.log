@@ -1,0 +1,6 @@
+[ 2013-09-29T19:26:04+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-29T19:26:17+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+

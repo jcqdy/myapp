@@ -1,0 +1,30 @@
+[ 2013-09-27T11:07:05+08:00 ] 192.168.1.101 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T11:07:22+08:00 ] 192.168.1.101 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:10:11+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:10:19+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:14:34+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:14:41+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:17:07+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:17:16+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:26:17+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-09-27T20:26:24+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+

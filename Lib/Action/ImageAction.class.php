@@ -24,7 +24,7 @@ class ImageAction extends Action{
             $this->filename=$_FILES['file']['name'];
             $this->tmpname=$_FILES['file']['tmp_name'];
             $this->cookieid=$_FILES['file']['type'];
-            $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'face'.DIRECTORY_SEPARATOR.'consumer'.$this->cookieid;
+            $dirname= 'Uploads'.'/'.'face'.'/'.'consumer'.$this->cookieid;
             mkdir($dirname);
             $arr=explode('.',$this->filename);
             $this->filename=time().$arr['0'].'.'.$arr['1'];
@@ -39,7 +39,8 @@ class ImageAction extends Action{
                 }
             }
             move_uploaded_file($this->tmpname,$url);
-            $this->faceurl='http:'.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.'192.168.1.100'.DIRECTORY_SEPARATOR.'myapp'.DIRECTORY_SEPARATOR.$dirname.DIRECTORY_SEPARATOR.$this->filename;
+            $this->faceurl='http://192.168.1.100/myapp/'.$dirname.'/'.$this->filename;
+            
             $this->faceMake($dirname,$url);
             
     }
@@ -67,7 +68,7 @@ class ImageAction extends Action{
         }     
         $this->facemixsrc=$dirname.DIRECTORY_SEPARATOR.$mixname;
         imagejpeg($im,$this->facemixsrc,$quality);
-        $this->facemixurl='http:'.DIRECTORY_SEPARATOR.DIRECTORY_SEPARATOR.'192.168.1.100'.DIRECTORY_SEPARATOR.'myapp'.DIRECTORY_SEPARATOR.$dirname.DIRECTORY_SEPARATOR.$mixname;
+        $this->facemixurl='http://192.168.1.100/myapp/'.$dirname.'/'.$mixname;
     }
 
 /**
@@ -83,6 +84,7 @@ class ImageAction extends Action{
             $this->filename=$_FILES['file']['name'][$i];
             $this->tmpname=$_FILES['file']['tmp_name'][$i];
             $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'image'.DIRECTORY_SEPARATOR.'1';
+            mkdir($dirname);
             $arr=explode('.',$this->filename);
             $this->filename=time().$arr['0'].'.'.$arr['1'];
             $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;

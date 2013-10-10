@@ -19,10 +19,10 @@ class ServiceAction extends Action{
             $newencrypt['encrypt']=md5($email.time());
             $User->where($condition)->save($newencrypt);
             $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,latitude,longitude')->find();            
-            if(!empty($service)){  
+            if(!empty($service)){
                 $id=$service['id'];
                 $info=M('Serviceinfo');
-                $condition['id']=$id;
+                $condition['serviceid']=$id;
                 $result=$info->where($condition)->field('favorable,site,info,favtime,infotime')->find();
                 $image=M('Image');
                 $img['serviceid']=$id;
@@ -40,6 +40,8 @@ class ServiceAction extends Action{
                 $array['photo']=$imgarr;
                 $array['watch']=$watch;
                 $arr['login']=$array;
+                session_start();
+                session('serviceid',$id);
                 echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
             }elseif (empty($service)) {
                 echo 'false';

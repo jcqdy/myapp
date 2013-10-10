@@ -24,6 +24,7 @@ class ConsumerAction extends Action{
                 $search=new SearchAction();
                 $check=$search->urlcode($User_login);
                 $array['login']=$check;
+                session_start();
                 session('id',$User_login['id']);
                 echo urldecode(json_encode($array));   
             }else{
@@ -151,9 +152,10 @@ class ConsumerAction extends Action{
  */    
     public function updataCity(){
         $city=$this->_param('City');
+        $id=$this->_param('id');
         $User=M('Consumer');
         $data['city']=$city;
-        $condition['id']=session('id');
+        $condition['id']=$id;
         $User->where($condition)->save($data);
         echo 'true';
     }

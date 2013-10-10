@@ -1,0 +1,123 @@
+[ 2013-10-08T11:03:39+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:03:40+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:03:51+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=1
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:04:08+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=1
+NOTIC: 建议使用I方法替代_get
+
+[ 2013-10-08T11:04:53+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=1
+NOTIC: 建议使用I方法替代_get
+
+[ 2013-10-08T11:05:03+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=1
+NOTIC: 建议使用I方法替代_get
+
+[ 2013-10-08T11:05:59+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=1
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:06:10+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:47:55+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:48:04+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T11:50:05+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T12:06:09+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T12:06:22+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T12:06:36+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T12:06:41+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=10
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:02:38+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:02:43+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:42:42+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:42:52+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:44:41+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:44:48+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:58:31+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T16:58:37+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T19:58:30+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T20:00:25+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T20:03:07+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T20:03:44+08:00 ] 192.168.1.103 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T20:05:12+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T20:07:50+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T20:22:09+08:00 ] 192.168.1.103 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T21:42:02+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T21:43:01+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:04:02+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:04:02+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:04:42+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:04:57+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:06:33+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:10:42+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:10:43+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:29:01+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-08T22:29:02+08:00 ] 127.0.0.1 /myapp/index.php/Share/sharePage?id=2
+NOTIC: 建议使用I方法替代_param
+

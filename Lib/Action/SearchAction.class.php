@@ -274,7 +274,7 @@ class SearchAction extends Action{
         $id=$this->_param('id');
 //        $id='1';
         $User=M('Serviceinfo');
-        $condition['id']=$id;
+        $condition['serviceid']=$id;
         $result=$User->where($condition)->field('favorable,site,info,favtime,infotime')->find();
         $img['serviceid']=$id;
         $image=M('Image');
