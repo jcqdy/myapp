@@ -21,10 +21,11 @@ class ImageAction extends Action{
  *用户头像上传并储存的方法
  */
     public function faceUpload(){
+            $id;
             $this->filename=$_FILES['file']['name'];
             $this->tmpname=$_FILES['file']['tmp_name'];
             $this->cookieid=$_FILES['file']['type'];
-            $dirname= 'Uploads'.'/'.'face'.'/'.'consumer'.$this->cookieid;
+            $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'face'.DIRECTORY_SEPARATOR.'consumer'.$id;
             mkdir($dirname);
             $arr=explode('.',$this->filename);
             $this->filename=time().$arr['0'].'.'.$arr['1'];
@@ -39,10 +40,8 @@ class ImageAction extends Action{
                 }
             }
             move_uploaded_file($this->tmpname,$url);
-            $this->faceurl='http://192.168.1.100/myapp/'.$dirname.'/'.$this->filename;
-            
-            $this->faceMake($dirname,$url);
-            
+            $this->faceurl='192.168.1.100/myapp/Uploads/face/'.'consumer'.$id.'/'.$this->filename;
+            $this->faceMake($dirname,$url);            
     }
 
 /**
@@ -52,7 +51,6 @@ class ImageAction extends Action{
         $quality=10;
         $arr=explode('.', $this->filename);
         $mixname=$arr['0'].'$'.'.'.$arr['1'];
-//        var_dump($mixname);
         switch ($arr['1']) {
             case 'jpg':
                 $im=imagecreatefromjpeg($url);
@@ -68,40 +66,38 @@ class ImageAction extends Action{
         }     
         $this->facemixsrc=$dirname.DIRECTORY_SEPARATOR.$mixname;
         imagejpeg($im,$this->facemixsrc,$quality);
-        $this->facemixurl='http://192.168.1.100/myapp/'.$dirname.'/'.$mixname;
+        $this->facemixurl='192.168.1.100/myapp/Uploads/face/'.'consumer'.$id.'/'.$mixname;
     }
 
 /**
- *用户头像上传并储存的方法
+ *用户图片上传并储存的方法
  */
     public function imageUpload(){
+        $serviceid;
         $json=$this->_param('Json');      
         $json=html_entity_decode($json);
         $this->state=json_decode($json,true);
-/*         echo $array['current'];
-        echo $array->current;   */
         for($i=0;$i<count($_FILES['file']['tmp_name']);$i++){
             $this->filename=$_FILES['file']['name'][$i];
             $this->tmpname=$_FILES['file']['tmp_name'][$i];
-            $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'image'.DIRECTORY_SEPARATOR.'1';
+            $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'image'.DIRECTORY_SEPARATOR.$serviceid;
             mkdir($dirname);
             $arr=explode('.',$this->filename);
             $this->filename=time().$arr['0'].'.'.$arr['1'];
             $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;
             move_uploaded_file($this->tmpname,$url);
-            $this->imgurl[$i]='http://192.168.1.100/myapp/Uploads/image/1/'.$this->filename;
-            $this->imageMake($dirname,$url,$i);
+            $this->imgurl[$i]='192.168.1.100/myapp/Uploads/image/'.$serviceid.'/'.$this->filename;
+            $this->imageMake($dirname,$url,$i,$serviceid);
         }        
     }
 
 /**
- *用户头像压缩并储存的方法
+ *用户图片压缩并储存的方法
  */
-    public function imageMake($dirname,$url,$i){
+    public function imageMake($dirname,$url,$i,$serviceid){
         $quality=30;
         $arr=explode('.', $this->filename);
         $mixname=$arr['0'].'$'.'.'.$arr['1'];
-//        var_dump($mixname);
         switch ($arr['1']) {
             case 'jpg':
                 $im=imagecreatefromjpeg($url);
@@ -115,10 +111,9 @@ class ImageAction extends Action{
                 $im=imagecreatefrompng($url);
                 break;
         }     
-//        var_dump($im);
         $this->imgmixsrc=$dirname.DIRECTORY_SEPARATOR.$mixname;
         imagejpeg($im,$this->imgmixsrc,$quality);
-        $this->imgmixurl[$i]='http://192.168.1.100/myapp/Uploads/face/1/'.$mixname;
+        $this->imgmixurl[$i]='192.168.1.100/myapp/Uploads/face/'.$serviceid.'/'.$mixname;
     }
     
 }

@@ -53,7 +53,7 @@ class RedisAction extends Action{
     public function hashSet($id,$con){
       $redis=new Redis();
       $redis->connect('localhost','6379');
-      $hkey=$id.$this->array['2'].$this->array['3'].$this->array['5'].$this->array['9'].'$'.time().'$'.$this->array['6'].'$'.$this->array['7'];
+      $hkey='('.$id.')'.$this->array['2'].$this->array['3'].$this->array['5'].$this->array['9'].'$'.time().'$'.$this->array['6'].'$'.$this->array['7'];
       var_dump($hkey);
       for ($i=2;$i<9;$i++) {       
          $redis->hSet($hkey,$con[$i],$this->array[$i]);

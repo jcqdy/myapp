@@ -73,6 +73,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `phone_num` int(100) NOT NULL DEFAULT '0',
   `watch` int(11) NOT NULL DEFAULT '0',
+  `visitors` int(11) NOT NULL DEFAULT '0',
   `shopname` varchar(100) NOT NULL DEFAULT '',
   `pass` varchar(1000) NOT NULL DEFAULT '',
   `address` varchar(100) NOT NULL DEFAULT '',
@@ -81,8 +82,8 @@ CREATE TABLE IF NOT EXISTS `service` (
   `face` varchar(1000) NOT NULL DEFAULT '',
   `intro` varchar(500) NOT NULL DEFAULT '', 
   `city` varchar(10) NOT NULL DEFAULT '',
-  `latitude` int(100) NOT NULL DEFAULT '0',
-  `longitude` int(100) NOT NULL DEFAULT '0', 
+  `latitude` double (12,8) NOT NULL DEFAULT '0',
+  `longitude` double (12,8) NOT NULL DEFAULT '0', 
   `encrypt` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -102,10 +103,10 @@ CREATE TABLE IF NOT EXISTS `serviceinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `serviceid` int(11) NOT NULL DEFAULT '0',
   `favorable` varchar(100) NOT NULL DEFAULT '',
-  `favtime` int(20) NOT NULL DEFAULT '0',
+  `favtime` varchar(20) NOT NULL DEFAULT '0',
   `site` tinyint(1) NOT NULL DEFAULT '0',
   `photoinfo` varchar(100) NOT NULL DEFAULT '',
-  `infotime` int(20) NOT NULL DEFAULT '0',
+  `infotime` varchar(20) NOT NULL DEFAULT '0',
   `information` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -169,7 +170,7 @@ CREATE TABLE IF NOT EXISTS `album` (
 --
 
 CREATE TABLE IF NOT EXISTS `image` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `photoid` int(11) NOT NULL AUTO_INCREMENT,
   `albumid` int(11) NOT NULL DEFAULT '0',
   `serviceid` int(11) NOT NULL DEFAULT '0',
   `explain` varchar(100) NOT NULL DEFAULT '0',

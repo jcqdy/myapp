@@ -9,11 +9,12 @@ class AttentionAction extends Action{
  */   
     public function consumerAttention(){
         $redis=new Redis();
-        $redis->connect('localhost','6379');
+        $redis->connect('localhost','6379'); 
         $serviceid=$this->_param('serviceid');
+        $consumerid=$this->_param('id');
         $att=M('Attention');
         $condition['serviceid']=$serviceid;
-        $condition['consumerid']=session('id');
+        $condition['consumerid']=$consumerid;
         $result=$att->where($condition)->find();
         if(empty($result)){
             $att->where($condition)->add();

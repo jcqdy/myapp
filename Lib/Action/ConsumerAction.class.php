@@ -17,7 +17,7 @@ class ConsumerAction extends Action{
 		if($email && $pass) {
 			$condition['email']=$email;
 			$condition['pass']=$pass;
-            $newencrypt['encrypt']=md5($email.time());
+            $newencrypt['encrypt']=md5($email.time()).'#'.'consumer';
             $User->where($condition)->save($newencrypt);
 			$User_login=$User->where($condition)->field('id,name,face,encrypt')->find();
             if (!empty($User_login)) {
@@ -131,7 +131,7 @@ class ConsumerAction extends Action{
 //        $city  =$this->_param('City');
         if($name && $email && $pass){
             $pass  =md5($pass);
-            $encrypt=md5($email.time());
+            $encrypt=md5($email.time()).'#'.'consumer';
             $condition['name']  =$name;
             $condition['email'] =$email;
             $condition['pass']  =$pass;
@@ -208,9 +208,7 @@ class ConsumerAction extends Action{
         echo $image->facemixurl;
     }
 
-    public function a(){
-        session(null);
-    }
+    
 }
 
 

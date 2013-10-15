@@ -8,12 +8,14 @@ class SearchAction extends Action{
     public $page_num;          //当前页数
     public $page_size=15;      //每页数据数量
     public $search=array();
+    public $consumerid;
 /**
  *搜索引擎主方法
  */
     public function search(){
+        $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-//       $str='南京 苏宁';
+       $str='南京 苏宁';
 //        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
 
@@ -177,7 +179,6 @@ class SearchAction extends Action{
         $zarr=explode('$', $value);
 //        var_dump($zarr);
         $score=$zarr['1'];
-
         $redis->zAdd('service'.'5',$score,$value);
 //        echo $redis->zSize('consumer');
     }
@@ -200,7 +201,7 @@ class SearchAction extends Action{
     public function zgetMore($redis){
         $this->page_num=$this->_param('num');     
         $page_load=($this->page_num-1)*$this->page_size;
-        $zarr=$redis->zRevRange('consumer'.session('id'),$page_load,$this->page_size);
+        $zarr=$redis->zRevRange('service'.session('id'),$page_load,$this->page_size);
         $this->jsonMaker($zarr,$redis);
     }
 
@@ -272,42 +273,36 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $id=$this->_param('id');
-//        $id='1';
+        $id='1';
         $User=M('Serviceinfo');
         $condition['serviceid']=$id;
-        $result=$User->where($condition)->field('favorable,site,info,favtime,infotime')->find();
+        $result=$User->where($condition)->field('favorable,information,favtime,infotime')->find();
         $img['serviceid']=$id;
         $image=M('Image');
         $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
-        var_dump($imgarr);
+//        $hkey=$redis->keys('('.$id.')'.'*');这句正式使用使用时要把注释符'//'删掉，把下面那句也删掉，用这句
         $hkey=$redis->keys($id.'*');
         $array=$redis->hGetAll($hkey['0']);
-//        var_dump($array);
         foreach ($result as $key => $value) {
             $up[$key]=$value;
         }
         foreach ($array as $key => $value) {
             $up[$key]=$value;                        
         }
-/*        foreach ($imgarr as $value) {
-            foreach ($value as $key => $value2) {
-                    $pho[$key]=$value2;                
-            }
-            array_push($photo,$pho);
-        }   */
-
         foreach ($alb as $key => $value) {
             $up[$key]=$value;
         }
-        unset($up['face']);
-//        $photo['photo']=$pho;
         $up=$this->urlcode($up);
+        if ($up['watch']>1000) {
+                $num=floor($up['watch']/100)/10;
+                $up['watch']=$num.'K';
+            }
         $up['photo']=$imgarr;
         $con['consumer']=$up;
         echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
     }
 
-
+    
     public function test(){
         $up['info']='招杂工3名，待遇面议';
         $up['favorable']='每日晚上6:00-8:00,打8折';
@@ -331,7 +326,6 @@ class SearchAction extends Action{
                 'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257s.jpg','photoid'=>'7');
         $photo['7']=array(
                 'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308s.jpg','photoid'=>'8');        
-        
 //        var_dump($photo);
         $up=$this->urlcode($up);
         $up['photo']=$photo;
