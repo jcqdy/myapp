@@ -13,7 +13,6 @@ class SearchloacalAction extends Action{
  //      $str='苏宁';
 //        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
-
         $num_arr=count($arr);
         if ($num_arr=1) {
             $this->redisFind($this->search['0']);
@@ -25,7 +24,6 @@ class SearchloacalAction extends Action{
     }
 
     public function redisFind($n,$m,$p){
-//        var_dump($n);
         $redis=new Redis();
         $redis->connect('localhost','6379');
 //        $key=$redis->keys('*苏宁*');
@@ -76,7 +74,6 @@ class SearchloacalAction extends Action{
         $longitude=$zarr['3'];
         $num=($mylatitude-$latitude)*($mylatitude-$latitude)+($mylongitude-$longitude)*($mylongitude-$longitude);
         $distance=sqrt($num);
-
         $score=number_format($distance,8);
         $redis->zAdd('service'.session('id'),$score,$value);
     }

@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `pass` varchar(100) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- 转存表中的数据 `admin`
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `consumer` (
   `city` varchar(10) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 --
 -- 转存表中的数据 `consumer`
 --
@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `service` (
   `encrypt` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 
 
@@ -102,15 +102,15 @@ CREATE TABLE IF NOT EXISTS `service` (
 CREATE TABLE IF NOT EXISTS `serviceinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `serviceid` int(11) NOT NULL DEFAULT '0',
-  `favorable` varchar(100) NOT NULL DEFAULT '',
-  `favtime` varchar(20) NOT NULL DEFAULT '0',
+  `favorable` varchar(1000) NOT NULL DEFAULT '',
+  `favtime` varchar(25) NOT NULL DEFAULT '0',
   `site` tinyint(1) NOT NULL DEFAULT '0',
   `photoinfo` varchar(100) NOT NULL DEFAULT '',
-  `infotime` varchar(20) NOT NULL DEFAULT '0',
+  `infotime` varchar(25) NOT NULL DEFAULT '0',
   `information` varchar(1000) NOT NULL DEFAULT '',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -161,7 +161,7 @@ CREATE TABLE IF NOT EXISTS `album` (
   `count` int(11) NOT NULL DEFAULT '0',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`albumid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -178,7 +178,7 @@ CREATE TABLE IF NOT EXISTS `image` (
   `imgurl2` varchar(1000) NOT NULL DEFAULT '0',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 --
 -- 转存表中的数据 `image`
 --

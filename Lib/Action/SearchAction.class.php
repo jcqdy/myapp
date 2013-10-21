@@ -18,7 +18,6 @@ class SearchAction extends Action{
        $str='南京 苏宁';
 //        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
-
         $num_arr=count($arr);
         if ($num_arr=1) {
             $this->redisFind($this->search['0']);
@@ -170,7 +169,7 @@ class SearchAction extends Action{
     }
 
 /**
- *将查询结果导入有序集合sort set的方法
+ *将查询结果导入有序集合sort set的方法 
  */
     public function zset($value){
         $redis=new Redis();
@@ -301,69 +300,5 @@ class SearchAction extends Action{
         $con['consumer']=$up;
         echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
     }
-
-    
-    public function test(){
-        $up['info']='招杂工3名，待遇面议';
-        $up['favorable']='每日晚上6:00-8:00,打8折';
-        $up['face']='http://192.168.1.100/myapp/Public/image/7$.jpg';
-        $up['shopname']='苏宁电器(南京市鼓楼区湖南路店)';
-        $up['address']='江苏省南京市白下区淮海路68号';
-        $up['phone']='862584418888';
-        $photo['0']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154331s.jpg','photoid'=>'1');
-        $photo['1']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156862s.jpg','photoid'=>'2');
-        $photo['2']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154973s.jpg','photoid'=>'3');
-        $photo['3']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155104s.jpg','photoid'=>'4');
-        $photo['4']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156655s.jpg','photoid'=>'5');
-        $photo['5']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156956s.jpg','photoid'=>'6');
-        $photo['6']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257s.jpg','photoid'=>'7');
-        $photo['7']=array(
-                'imgurl1'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308s.jpg','photoid'=>'8');        
-//        var_dump($photo);
-        $up=$this->urlcode($up);
-        $up['photo']=$photo;
-        $con['consumer']=$up;
-        echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
-    }
-
-    public function test2(){
-        $array=array();
-        $photo['0']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154331.jpg','photoid'=>'1','state'=>'12345');
-        $photo['1']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156862.jpg','photoid'=>'2','state'=>'12345');
-        $photo['2']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782154973.jpg','photoid'=>'3','state'=>'12345');
-        $photo['3']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155104.jpg','photoid'=>'4','state'=>'12345');
-        $photo['4']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156655.jpg','photoid'=>'5','state'=>'12345');
-        $photo['5']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782156956.jpg','photoid'=>'6','state'=>'12345');
-        $photo['6']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155257.jpg','photoid'=>'7','state'=>'12345');
-        $photo['7']=array(
-                'imgurl2'=>'http://192.168.1.100/myapp/Uploads/image/1/13782155308.jpg','photoid'=>'8','state'=>'12345');
-        foreach ($photo as $value) {
-            foreach ($value as $key => $value2) {
-                if($key!='state'){
-                    $con[$key]=$value2;
-                }else{
-                    $con[$key]=urlencode($value2);
-                }
-            }
-            array_push($array,$con);
-        }
-        $up['photo']=$array;
-        echo json_encode($up,JSON_UNESCAPED_SLASHES);
-    }
-
     
 }

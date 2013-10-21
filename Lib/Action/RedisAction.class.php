@@ -59,7 +59,7 @@ class RedisAction extends Action{
          $redis->hSet($hkey,$con[$i],$this->array[$i]);
        } 
       $redis->hSet($hkey,'id',$id);
-      $watch=$redis->sCard('id');
+      $watch=$redis->sCard($id);
       $redis->hSet($hkey,'watch',$watch);
     }
 

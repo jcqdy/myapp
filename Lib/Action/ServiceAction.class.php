@@ -9,22 +9,26 @@ class ServiceAction extends Action{
  *商家用户登录的方法
  */
     public function login(){        
-/*        $email=$this->_param('Email');
-        $pass =$this->_param('Password');   */
-        $email='jcq@qa.com';
-        $pass='sttf215';
-        $User =M('Service');       
+        $email=$this->_param('Email');
+        $pass =$this->_param('Password');
+//        $email='jcq@qa.com';
+//        $pass='sttf215';
+        $User =M('Service');
 //        $pass =md5($pass);
         if($email && $pass) {   
             $condition['email']=$email;
             $condition['pass']=$pass;
             $newencrypt['encrypt']=md5($email.time()).'#'.'service';
             $User->where($condition)->save($newencrypt);
-            $service=$User->where($condition)->field('id,phone_num,shopname,watch,address,sertype,face,encrypt,longitude,latitude')->find();
-            if ($service['watch']>1000) {
-                $num=floor($service['watch']/100)/10;
-                $service['watch']=$num.'K';
+            $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,longitude,latitude')->find();
+            $redis=new Redis();
+            $redis->connect('localhost','6379');
+            $watch=$redis->sCard($service['id']);   //从redis sort中获得关注数量
+            if ($watch>1000) {
+                $num=floor($watch/100)/10;
+                $watch=$num.'K';
             }
+            $visitors=$redis->get('visitors'.$service['id']);
 //            var_dump($service);            
             if(!empty($service)){
                 $id=$service['id'];
@@ -43,6 +47,8 @@ class ServiceAction extends Action{
                 $take=new SearchAction();
                 $array=$take->urlcode($array);
                 $array['photo']=$imgarr;
+                $array['watch']=$watch;
+                $array['visitors']=$visitors;
                 $arr['login']=$array;
                 session_start();
                 session('serviceid',$id);
@@ -62,12 +68,20 @@ class ServiceAction extends Action{
         $encrypt=$this->_param('encrypt');
         $User=M('Service');
         $condition['encrypt']=$encrypt;
-        $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,latitude,longitude')->find();
-        if(!empty($service)){     
+        $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,latitude,longitude')->find();     
+        if(!empty($service)){  
+            $redis=new Redis();
+            $redis->connect('localhost','6379');
+            $watch=$redis->sCard($service['id']);   //从redis sort中获得关注数量
+            if ($watch>1000) {
+                $num=floor($watch/100)/10;
+                $watch=$num.'K';
+            }
+            $visitors=$redis->get('visitors'.$service['id']);
             $id=$service['id'];
             $info=M('Serviceinfo');
             $condition['id']=$id;
-            $result=$info->where($condition)->field('favorable,site,info,favtime,infotime')->find();
+            $result=$info->where($condition)->field('favorable,info,favtime,infotime')->find();
             $image=M('Image');
             $img['serviceid']=$id;
             $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
@@ -77,12 +91,11 @@ class ServiceAction extends Action{
             foreach ($result as $key1 => $value1) {
                 $array[$key1]=$value1;
             }
-            $redis=new Redis();
-            $watch=$redis->sCard($id);
             $take=new SearchAction();
             $array=$take->urlcode($array);
             $array['photo']=$imgarr;
             $array['watch']=$watch;
+            $array['visitors']=$visitors;
             $arr['login']=$array;
             echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
         }elseif (empty($service)) {
@@ -140,25 +153,51 @@ class ServiceAction extends Action{
         }    
     }
 
+
 /**
- *新用户注册时检测是否存在相同用户名方法
+ *新商家注册时存入用户信息到数据表方法
  */
-    public function checkName(){
-        $name =$this->_param('name');
-        $ck_name=D('Service');
-        $condition['name'] =$name;
-        
-        if (!$ck_name->create($condition)) {
-            exit($ck_name->getError());
-        }else{
-            $ck_name->add();            
+    public function creatRegister(){
+        $email =$this->_param('Email');
+        $pass  =$this->_param('Password');
+        if($email && $pass){
+            $redis=new Redis();
+            $redis->connect('localhost','6379');
+            $pass  =md5($pass);
+            $encrypt=md5($email.time()).'#'.'consumer';
+            $condition['email'] =$email;
+            $condition['pass']  =$pass;
+            $condition['encrypt']=$encrypt;
+            $condition['face']='http://192.168.1.100/myapp/Public/image/moren.jpg';
+            $condition['phone_num']='暂无';
+            $condition['watch']='暂无';
+            $condition['shopname']='暂无';
+            $condition['address']='暂无';
+            $condition['sertype']='暂无';
+            $condition['city']='暂无';
+            $condition['latitude']='暂无';
+            $condition['longitude']='暂无';
+            $condition['visitors']='暂无';
+            $create =D('Service');
+            $create->add($condition);
+            $id=$create->where($condition)->field('id')->find();
+            $info=D('Serviceinfo');
+            $con['serviceid']=$id;
+            $con['favorable']='暂无';
+            $con['information']='暂无';
+            $con['favtime']='暂无';
+            $con['infotime']='暂无';
+            $info->add($con);
+            $redis->set('visitors'.$id,'0');
+            echo 'true'; 
         }
     }
+
 
 /**
  *新用户注册时存入用户信息到数据表方法
  */
-    public function creatRegister(){
+    public function Register(){
         $cache=new RedisAction();
         $cache->popRegister();
         $new=$cache->array;
