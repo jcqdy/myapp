@@ -95,7 +95,7 @@ class ConsumerAction extends Action{
         if(!empty($email)){
             $ck_email=D('Consumer');
             $condition['email']=$email;
-              if (!$ck_email->create($condition)) {
+            if (!$ck_email->create($condition)) {
                 exit($ck_email->getError());        
             }else{      
                 echo "true";
@@ -124,7 +124,7 @@ class ConsumerAction extends Action{
 /**
  *新用户注册时存入用户信息到数据表方法
  */
-    public function createRegister(){ 
+    public function createRegister(){
     	$name  =$this->_param('Name');
     	$email =$this->_param('Email');
         $pass  =$this->_param('Password');
@@ -137,7 +137,7 @@ class ConsumerAction extends Action{
             $condition['pass']  =$pass;
             $condition['encrypt']=$encrypt;
 //            $condition['city']=$city;
-            $condition['face']='http://192.168.1.100/myapp/Public/image/moren.jpg';
+            $condition['face']='192.168.1.100/myapp/Public/image/moren.jpg';
             $create =D('Consumer');
             $create->add($condition);
             $register=json_encode($condition);
@@ -200,10 +200,10 @@ class ConsumerAction extends Action{
  */
     public function updataFace(){
         $image=new ImageAction();
-        $image->faceUpload();
+        $image->consumerFace();
         $data['face']=$image->facemixurl;
         $User=M('Consumer');
-        $condition['id']=$image->cookieid;
+        $condition['id']=$image->id;
         $User->where($condition)->save($data);
         echo $image->facemixurl;
     }

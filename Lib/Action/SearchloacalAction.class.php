@@ -42,7 +42,7 @@ class SearchloacalAction extends Action{
             if(!empty($key)){
              foreach ($key as $value) {
                  $this->zset($value,$redis);
-             }  
+             }
              $this->zget($redis);
         }elseif (empty($key)) {
              $this->mysqlFind($n,$m,$p);

@@ -72,8 +72,6 @@ INSERT INTO `consumer` (`id`, `name`, `pass`, `uptime`) VALUES
 CREATE TABLE IF NOT EXISTS `service` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `phone_num` int(100) NOT NULL DEFAULT '0',
-  `watch` int(11) NOT NULL DEFAULT '0',
-  `visitors` int(11) NOT NULL DEFAULT '0',
   `shopname` varchar(100) NOT NULL DEFAULT '',
   `pass` varchar(1000) NOT NULL DEFAULT '',
   `address` varchar(100) NOT NULL DEFAULT '',

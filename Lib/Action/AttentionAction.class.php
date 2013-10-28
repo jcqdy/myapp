@@ -21,24 +21,25 @@ class AttentionAction extends Action{
         }  
         $redis->sAdd($serviceid,$consumerid);
         $watch=$redis->sCard($serviceid);  
-        $key=$redis->keys('('.$value.')'.'*');  
-        $redis->hSet($key,'watch',$watch);
+        $key=$redis->keys('<'.$serviceid.'>'.'*');
+        $redis->hSet($key['0'],'watch',$watch);
     }
 
 /**
  *这是统计输出消费者用户的关注列表的方法
  */
     public function myAttention(){
+        $consumerid=$this->_param('id');
+        $consumerid='1';
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $search=new SearchAction();
         $my=M('Attention');
-        $condition['consumerid']='5';//session('id');
+        $condition['consumerid']=$consumerid;
         $result=$my->where($condition)->getfield('serviceid',true);
-        var_dump($result);
         $array=array();
         foreach ($result as $value) {
-            $key=$redis->keys('('.$value.')'.'*');      
+            $key=$redis->keys('<'.$value.'>'.'*');
             foreach ($key as $value2) {
                 $hash=$redis->hGetAll($value2);
                 $hash=$search->urlcode($hash);
@@ -79,7 +80,4 @@ class AttentionAction extends Action{
     }
 
     
-
-
-
 }

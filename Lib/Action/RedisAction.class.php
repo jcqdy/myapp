@@ -16,7 +16,6 @@ class RedisAction extends Action{
       $redis->connect('localhost', '6379');
       $image=new ImageAction();
 //      $image->uploadRegister();
-
       $array=array(         
           'email'=>'jcq@adopbk.com',
           'pass'=>'sttf215',
@@ -53,7 +52,7 @@ class RedisAction extends Action{
     public function hashSet($id,$con){
       $redis=new Redis();
       $redis->connect('localhost','6379');
-      $hkey='('.$id.')'.$this->array['2'].$this->array['3'].$this->array['5'].$this->array['9'].'$'.time().'$'.$this->array['6'].'$'.$this->array['7'];
+      $hkey='<'.$id.'>'.$this->array['2'].$this->array['3'].$this->array['5'].$this->array['9'].'$'.time().'$'.$this->array['6'].'$'.$this->array['7'];
       var_dump($hkey);
       for ($i=2;$i<9;$i++) {       
          $redis->hSet($hkey,$con[$i],$this->array[$i]);
@@ -62,9 +61,4 @@ class RedisAction extends Action{
       $watch=$redis->sCard($id);
       $redis->hSet($hkey,'watch',$watch);
     }
-
-
-
-   
-
 }

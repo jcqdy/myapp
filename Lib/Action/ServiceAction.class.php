@@ -14,8 +14,8 @@ class ServiceAction extends Action{
 //        $email='jcq@qa.com';
 //        $pass='sttf215';
         $User =M('Service');
-//        $pass =md5($pass);
-        if($email && $pass) {   
+        $pass =md5($pass);
+        if($email && $pass) {
             $condition['email']=$email;
             $condition['pass']=$pass;
             $newencrypt['encrypt']=md5($email.time()).'#'.'service';
@@ -54,7 +54,7 @@ class ServiceAction extends Action{
                 session('serviceid',$id);
                 echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
             }elseif (empty($service)) {
-                echo 'wrong';
+                echo 'false';
             } 
         }else {
             echo 'false';
@@ -69,7 +69,7 @@ class ServiceAction extends Action{
         $User=M('Service');
         $condition['encrypt']=$encrypt;
         $service=$User->where($condition)->field('id,phone_num,shopname,address,sertype,face,encrypt,latitude,longitude')->find();     
-        if(!empty($service)){  
+        if(!empty($service)){
             $redis=new Redis();
             $redis->connect('localhost','6379');
             $watch=$redis->sCard($service['id']);   //从redis sort中获得关注数量
@@ -80,8 +80,9 @@ class ServiceAction extends Action{
             $visitors=$redis->get('visitors'.$service['id']);
             $id=$service['id'];
             $info=M('Serviceinfo');
-            $condition['id']=$id;
-            $result=$info->where($condition)->field('favorable,info,favtime,infotime')->find();
+            $con['serviceid']=$id;
+            $result=$info->where($con)->field('favorable,information,favtime,infotime')->find();
+//            var_dump($result);
             $image=M('Image');
             $img['serviceid']=$id;
             $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
@@ -146,7 +147,7 @@ class ServiceAction extends Action{
             if (!$ck_email->create($condition)) {
                 exit($ck_email->getError());
             }else{
-                $ck_email->add();
+                echo "true";
             }
         }else {
             echo 'false';
@@ -159,16 +160,16 @@ class ServiceAction extends Action{
  */
     public function creatRegister(){
         $email =$this->_param('Email');
-        $pass  =$this->_param('Password');
+        $pass  =$this->_param('Password');  
         if($email && $pass){
             $redis=new Redis();
             $redis->connect('localhost','6379');
             $pass  =md5($pass);
-            $encrypt=md5($email.time()).'#'.'consumer';
+            $encrypt=md5($email.time()).'#'.'service';
             $condition['email'] =$email;
             $condition['pass']  =$pass;
             $condition['encrypt']=$encrypt;
-            $condition['face']='http://192.168.1.100/myapp/Public/image/moren.jpg';
+            $condition['face']='192.168.1.100/myapp/Public/image/moren.jpg';
             $condition['phone_num']='暂无';
             $condition['watch']='暂无';
             $condition['shopname']='暂无';
@@ -182,7 +183,7 @@ class ServiceAction extends Action{
             $create->add($condition);
             $id=$create->where($condition)->field('id')->find();
             $info=D('Serviceinfo');
-            $con['serviceid']=$id;
+            $con['serviceid']=$id['id'];
             $con['favorable']='暂无';
             $con['information']='暂无';
             $con['favtime']='暂无';
@@ -195,35 +196,37 @@ class ServiceAction extends Action{
 
 
 /**
- *新用户注册时存入用户信息到数据表方法
+ *商家用户编辑商店基本信息的方法
  */
-    public function Register(){
-        $cache=new RedisAction();
-        $cache->popRegister();
-        $new=$cache->array;
-        $arr=array(
-        '0'=>'email','1'=>'pass','2'=>'shopname','3'=>'address','4'=>'face','5'=>'sertype','6'=>'latitude',
-        '7'=>'longitude','8'=>'phone_num','9'=>'city');
-        $n=0;
-        foreach ($new as $value) {
-            $key=$arr[$n];
-            $condition[$key]=$value;
-            $n++;
+    public function editBasic(){
+        $basic=$this->_param('basic');
+//        $basic='{"id":"14","shopname":"哈哈"}';
+        $basic=html_entity_decode($basic);
+        $basic=json_decode($basic,true);
+        $id['id']=$basic['id'];
+        $condition['shopname']=$basic['shopname'];
+        $condition['address']=$basic['address'];
+        $condition['sertype']=$basic['sertype'];
+        $condition['longitude']=$basic['longitude'];
+        $condition['latitude']=$basic['latitude'];
+        $condition['phone_num']=$basic['phone_num'];
+        $condition['city']=$basic['city'];
+        $create=D('Service');
+        $create->where($id)->save($condition);
+        $condition['face']=$create->where($id)->field('face')->find();
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $hkey='<'.$id['id'].'>'.$condition['shopname'].$condition['address'].$condition['sertype'].$condition['city'].'$'.time().'$'.$condition['latitude'].'$'.$condition['longitude'];
+        $okey=$redis->keys('<'.$id['id'].'>'.'*');
+        var_dump($okey);
+        if($okey){
+            $redis->rename($okey['0'],$hkey);
         }
-        var_export($condition);$this->display();
-        $creat=D('Service');
-        if (!$creat->create($condition)) {
-            exit($creat->getError());
-        }else{
-            $creat->add();
-            $id=$creat->where($condition)->getField('id');              
+        foreach ($condition as $key => $value) {
+            $redis->hSet($hkey,$key,$value);
         }
+    } 
 
-        var_dump($id);
-        $cache->hashSet($id,$arr); 
-
- //       $register=json_encode($condition);     
-    }  
 
 /**
  *用户更新商家账号信息方法（密码）
@@ -237,22 +240,21 @@ class ServiceAction extends Action{
         $condition['pass']=$pass;
         $condition['id']=session('id');
         $result=$updata->where($condition)->find();
-        if (!empty($result)) {            
+        if (!empty($result)) {
             $newpass=md5($newpass);
-            $newcondition['pass']=$newpass;    
-            $updata->where($condition)->save($newcondition);   
+            $newcondition['pass']=$newpass;
+            $updata->where($condition)->save($newcondition);
         }else if(empty($result)){
-            echo 'false';           
-        }   
-    }  
+            echo 'false';
+        }
+    }
 
 /**
  *用户更新商家信息方法
  */
     public function updataInfo(){
-        $json=$this->_param('info');
-        $json=html_entity_decode($json);
-        $info=json_decode($json,true);
+        $info=$this->_param('info');
+        $info=json_decode($info,true);
         $image=new ImageAction();
         $image->imageUpload();
         $img=M('Image');
@@ -260,22 +262,26 @@ class ServiceAction extends Action{
             
         }
     }
-
+    
 
 /**
  *用户更新商家头像方法
  */
     public function updataFace(){
         $redis=new Redis();
-        $redis->connect('localhost','6379'); 
+        $redis->connect('localhost','6379');
         $image=new ImageAction();
-        $image->faceUpload();
+        $image->serviceFace();
         $data['face']=$image->facemixurl;
         $User=M('Service');
-        $condition['id']=session('id');
+        $condition['id']=$image->id;
         $User->where($condition)->save($data);
-        $hkey=$redis->keys(session('id').'*');
-        $redis->hSet($hkey,'face',$image->facemixurl);
+        $hkey=$redis->keys('<'.$condition['id'].'>'.'*');
+        if($hkey){
+            $redis->hSet($hkey['0'],'face',$image->facemixurl);
+        }else{
+            break;
+        }      
     }
 
 /**

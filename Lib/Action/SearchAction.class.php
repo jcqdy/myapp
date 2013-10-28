@@ -40,7 +40,7 @@ class SearchAction extends Action{
             $key=$redis->keys('*'.$n.'*');
             if(!empty($key)){
              foreach ($key as $value) {
-                 $this->zset($value,$redis);
+                 $this->zset($value);
              }  
              $this->zget($redis);
         }elseif (empty($key)) {
@@ -50,7 +50,7 @@ class SearchAction extends Action{
             $key=$redis->keys('*'.$n.'*'.$m.'*');
             if(!empty($key)){
              foreach ($key as $value) {
-                 $this->zset($value,$redis);
+                 $this->zset($value);
              }  
              $this->zget($redis);
         }elseif (empty($key)) {
@@ -60,7 +60,7 @@ class SearchAction extends Action{
             $key=$redis->keys('*'.$n.'*'.$m.'*'.$p.'*');
             if(!empty($key)){
              foreach ($key as $value) {
-                 $this->zset($value,$redis);
+                 $this->zset($value);
              }  
              $this->zget($redis);
         }elseif (empty($key)) {
@@ -272,16 +272,16 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $id=$this->_param('id');
-        $id='1';
+        $id='1';                    //这句别忘了删掉
         $User=M('Serviceinfo');
         $condition['serviceid']=$id;
         $result=$User->where($condition)->field('favorable,information,favtime,infotime')->find();
         $img['serviceid']=$id;
         $image=M('Image');
-        $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
-//        $hkey=$redis->keys('('.$id.')'.'*');这句正式使用使用时要把注释符'//'删掉，把下面那句也删掉，用这句
+        $imgarr=$image->where($img)->order('uptime desc')->limit('0,0')->field('imgurl1,photoid')->select();
+//        $hkey=$redis->keys('<'.$id.'>'.'*');这句正式使用使用时要把注释符'//'删掉，把下面那句也删掉，用这句
         $hkey=$redis->keys($id.'*');
-        $array=$redis->hGetAll($hkey['0']);
+        $array=$redis->hGetAll($hkey['0']); 
         foreach ($result as $key => $value) {
             $up[$key]=$value;
         }
@@ -296,9 +296,15 @@ class SearchAction extends Action{
                 $num=floor($up['watch']/100)/10;
                 $up['watch']=$num.'K';
             }
+//        $visitors=$redis->get('visitors'.$id);    
+        $up['visitors']='20';
         $up['photo']=$imgarr;
         $con['consumer']=$up;
         echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
     }
-    
+
 }
+
+
+
+

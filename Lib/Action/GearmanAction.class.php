@@ -26,7 +26,7 @@ class GearmanAction extends Action{
             $array['id']=$key['id'];
             $array['latitude']=$key['latitude'];
             $array['longitude']=$key['longitude'];
-
+            $array['city']=$key['city'];
 //            var_dump($array); 
 //            $client->doBackground('sendmysql',serialize($array));
         }
