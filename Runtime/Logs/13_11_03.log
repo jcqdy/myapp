@@ -1,0 +1,83 @@
+[ 2013-11-03T14:38:45+08:00 ] 192.168.1.103 /myapp/index.php/Service/login
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T14:39:07+08:00 ] 192.168.1.103 /myapp/index.php/Service/login
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T14:39:35+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T14:46:14+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T14:48:53+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T14:55:30+08:00 ] 127.0.0.1 /myapp/index.php/Search/redisFind_four
+ERR: 参数错误或者未定义:n
+
+[ 2013-11-03T15:18:08+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T15:21:23+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T15:21:55+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T15:23:53+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T15:25:03+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T15:28:45+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T15:54:02+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T16:58:08+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:01:16+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:01:25+08:00 ] 192.168.1.109 /myapp/index.php/Service/editBasic
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:02:51+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:03:05+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:03:32+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:05:49+08:00 ] 192.168.1.109 /myapp/index.php/Service/editBasic
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:06:00+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:22:26+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:23:17+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:25:22+08:00 ] 192.168.1.109 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:36:40+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:45:05+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-03T17:49:32+08:00 ] 192.168.1.103 /myapp/index.php/Service/autoLogin
+NOTIC: 建议使用I方法替代_param
+

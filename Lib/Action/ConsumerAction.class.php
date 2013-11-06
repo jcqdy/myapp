@@ -3,7 +3,7 @@
  *这个类是关于消费者用户登录和新用户注册的控制器
  */
 class ConsumerAction extends Action{
-	
+public $auto=array();	
 /**
  *用户登录方法
  */	
@@ -20,9 +20,11 @@ class ConsumerAction extends Action{
             $newencrypt['encrypt']=md5($email.time()).'#'.'consumer';
             $User->where($condition)->save($newencrypt);
 			$User_login=$User->where($condition)->field('id,name,face,encrypt')->find();
+            $this->watchUpdata($User_login['id']);
             if (!empty($User_login)) {
                 $search=new SearchAction();
                 $check=$search->urlcode($User_login);
+                $check['updata']=$this->auto;
                 $array['login']=$check;
                 session_start();
                 session('id',$User_login['id']);
@@ -206,6 +208,33 @@ class ConsumerAction extends Action{
         $condition['id']=$image->id;
         $User->where($condition)->save($data);
         echo $image->facemixurl;
+    }
+
+    public function watchUpdata(){
+        $consumerid;
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $result=$redis->sMembers('fans'.$consumerid);
+        foreach ($result as $serviceid) {
+            $value=$redis->keys('<'.$serviceid.'>'.'*');
+            $zarr=explode('$', $value['0']);
+            $score=$zarr['1'];
+            $redis->zAdd('updata'.$consumerid,$score,$serviceid);
+        }
+        $re_id=$redis->zRevRange('updata'.$consumerid,0,3);
+        $info=M('Serviceinfo');
+        $service=M('Service');
+                
+        foreach ($re_id as $value2) {
+            $condition['serviceid']=$value2;    
+            $con['id']=$value2;
+            $result2=$info->where($condition)->field('title')->find();
+            $result3=$service->where($con)->field('shopname,face')->find();
+            $result4['title']=urlencode($result2['title']);
+            $result4['shopname']=urlencode($result3['shopname']);
+            $result4['face']=$result3['face'];
+            array_push($this->auto,$result4);
+        }
     }
 
     

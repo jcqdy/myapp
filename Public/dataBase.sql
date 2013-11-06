@@ -100,6 +100,7 @@ CREATE TABLE IF NOT EXISTS `service` (
 CREATE TABLE IF NOT EXISTS `serviceinfo` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `serviceid` int(11) NOT NULL DEFAULT '0',
+  `title` varchar(1000) NOT NULL DEFAULT '',
   `favorable` varchar(1000) NOT NULL DEFAULT '',
   `favtime` varchar(25) NOT NULL DEFAULT '0',
   `site` tinyint(1) NOT NULL DEFAULT '0',
@@ -170,8 +171,9 @@ CREATE TABLE IF NOT EXISTS `album` (
 CREATE TABLE IF NOT EXISTS `image` (
   `photoid` int(11) NOT NULL AUTO_INCREMENT,
   `albumid` int(11) NOT NULL DEFAULT '0',
+  `addphotoid` int(11) NOT NULL DEFAULT '0',
   `serviceid` int(11) NOT NULL DEFAULT '0',
-  `explain` varchar(100) NOT NULL DEFAULT '0',
+  `explain` varchar(500) NOT NULL DEFAULT '0',
   `imgurl1` varchar(1000) NOT NULL DEFAULT '0',
   `imgurl2` varchar(1000) NOT NULL DEFAULT '0',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

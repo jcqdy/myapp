@@ -1,0 +1,12 @@
+[ 2013-10-30T20:52:07+08:00 ] 127.0.0.1 /myapp/index.php/Sphinx/test1
+ERR: 模板不存在[./Tpl/Sphinx/test1.html]
+
+[ 2013-10-30T21:59:07+08:00 ] 127.0.0.1 /myapp/index.php/Service/watchLarge
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-30T21:59:19+08:00 ] 127.0.0.1 /myapp/index.php/Service/watchLarge
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-10-30T21:59:25+08:00 ] 127.0.0.1 /myapp/index.php/Service/watchLarge
+NOTIC: 建议使用I方法替代_param
+

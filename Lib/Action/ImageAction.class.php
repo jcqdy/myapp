@@ -16,57 +16,57 @@ class ImageAction extends Action{
     public $filesize;
     public $state;
     public $id;
-    
+    public $json;
 /**
  *消费者头像上传并储存的方法
  */
     public function consumerFace(){
-            $this->filename=$_FILES['file']['name'];
-            $this->tmpname=$_FILES['file']['tmp_name'];
-            $this->id=$_FILES['file']['type'];
-            $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'face'.DIRECTORY_SEPARATOR.'consumer'.DIRECTORY_SEPARATOR.$this->id;
-            mkdir($dirname);
-            $arr=explode('.',$this->filename);
-            $this->filename=time().$arr['0'].'.'.$arr['1'];
-            $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;
-            $dh=opendir($dirname);
-            while ($file=readdir($dh)) {
-                if($file!="." && $file!="..") {
-                    $fullpath=$dirname.DIRECTORY_SEPARATOR.$file;
-                    if(!is_dir($fullpath)) {
-                        unlink($fullpath);
-                    } 
-                }
+        $this->filename=$_FILES['file']['name'];
+        $this->tmpname=$_FILES['file']['tmp_name'];
+        $this->id=$_FILES['file']['type'];
+        $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'face'.DIRECTORY_SEPARATOR.'consumer'.DIRECTORY_SEPARATOR.$this->id;
+        mkdir($dirname);
+        $arr=explode('.',$this->filename);
+        $this->filename=time().$arr['0'].'.'.$arr['1'];
+        $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;
+        $dh=opendir($dirname);
+        while ($file=readdir($dh)) {
+            if($file!="." && $file!="..") {
+                $fullpath=$dirname.DIRECTORY_SEPARATOR.$file;
+                if(!is_dir($fullpath)) {
+                    unlink($fullpath);
+                } 
             }
-            move_uploaded_file($this->tmpname,$url);
-            $this->faceurl='192.168.1.100/myapp/Uploads/face/consumer/'.$this->id.'/'.$this->filename;
-            $this->consumer_faceMake($dirname,$url);
+        }
+        move_uploaded_file($this->tmpname,$url);
+        $this->faceurl='192.168.1.100/myapp/Uploads/face/consumer/'.$this->id.'/'.$this->filename;
+        $this->consumer_faceMake($dirname,$url);
     }
 
 /**
  *商家头像上传并储存的方法
  */
     public function serviceFace(){
-            $this->filename=$_FILES['file']['name'];
-            $this->tmpname=$_FILES['file']['tmp_name'];
-            $this->id=$_FILES['file']['type'];
-            $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'face'.DIRECTORY_SEPARATOR.'service'.DIRECTORY_SEPARATOR.$this->id;
-            mkdir($dirname);
-            $arr=explode('.',$this->filename);
-            $this->filename=time().$arr['0'].'.'.$arr['1'];
-            $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;
-            $dh=opendir($dirname);
-            while ($file=readdir($dh)) {
-                if($file!="." && $file!="..") {
-                    $fullpath=$dirname.DIRECTORY_SEPARATOR.$file;
-                    if(!is_dir($fullpath)) {
-                        unlink($fullpath);
-                    } 
-                }
+        $this->filename=$_FILES['file']['name'];
+        $this->tmpname=$_FILES['file']['tmp_name'];
+        $this->id=$_FILES['file']['type'];
+        $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'face'.DIRECTORY_SEPARATOR.'service'.DIRECTORY_SEPARATOR.$this->id;
+        mkdir($dirname);
+        $arr=explode('.',$this->filename);
+        $this->filename=time().$arr['0'].'.'.$arr['1'];
+        $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;
+        $dh=opendir($dirname);
+        while ($file=readdir($dh)) {
+            if($file!="." && $file!="..") {
+                $fullpath=$dirname.DIRECTORY_SEPARATOR.$file;
+                if(!is_dir($fullpath)) {
+                    unlink($fullpath);
+                } 
             }
-            move_uploaded_file($this->tmpname,$url);
-            $this->faceurl='192.168.1.100/myapp/Uploads/face/service/'.$this->id.'/'.$this->filename;
-            $this->service_faceMake($dirname,$url);
+        }
+        move_uploaded_file($this->tmpname,$url);
+        $this->faceurl='192.168.1.100/myapp/Uploads/face/service/'.$this->id.'/'.$this->filename;
+        $this->service_faceMake($dirname,$url);
     }
 
 /**
@@ -124,28 +124,30 @@ class ImageAction extends Action{
  *商家图片上传并储存的方法
  */
     public function imageUpload(){
-        $serviceid;
-        $json=$this->_param('Json');
-        $json=html_entity_decode($json);
-        $this->state=json_decode($json,true);
+        $this->json=$this->_param('img');
+        $this->json=html_entity_decode($this->json);
+        $this->json=json_decode($this->json,true);
+        $serviceid=$this->json['id'];
         for($i=0;$i<count($_FILES['file']['tmp_name']);$i++){
             $this->filename=$_FILES['file']['name'][$i];
             $this->tmpname=$_FILES['file']['tmp_name'][$i];
+            $addid=$_FILES['file']['type'][$i];
             $dirname= 'Uploads'.DIRECTORY_SEPARATOR.'image'.DIRECTORY_SEPARATOR.$serviceid;
             mkdir($dirname);
             $arr=explode('.',$this->filename);
             $this->filename=time().$arr['0'].'.'.$arr['1'];
             $url=$dirname.DIRECTORY_SEPARATOR.$this->filename;
             move_uploaded_file($this->tmpname,$url);
-            $this->imgurl[$i]='192.168.1.100/myapp/Uploads/image/'.$serviceid.'/'.$this->filename;
-            $this->imageMake($dirname,$url,$i,$serviceid);
-        }        
+            $this->imgurl[$addid]='192.168.1.100/myapp/Uploads/image/'.$serviceid.'/'.$this->filename;
+            $this->imageMake($dirname,$url,$serviceid,$addid);
+        } 
+        echo $this->json;
     }
 
 /**
  *用户图片压缩并储存的方法
  */
-    public function imageMake($dirname,$url,$i,$serviceid){
+    public function imageMake($dirname,$url,$serviceid,$addid){
         $quality=30;
         $arr=explode('.', $this->filename);
         $mixname=$arr['0'].'$'.'.'.$arr['1'];
@@ -164,7 +166,7 @@ class ImageAction extends Action{
         }     
         $this->imgmixsrc=$dirname.DIRECTORY_SEPARATOR.$mixname;
         imagejpeg($im,$this->imgmixsrc,$quality);
-        $this->imgmixurl[$i]='192.168.1.100/myapp/Uploads/face/'.$serviceid.'/'.$mixname;
+        $this->imgmixurl[$addid]='192.168.1.100/myapp/Uploads/image/'.$serviceid.'/'.$mixname;
     }
     
 }

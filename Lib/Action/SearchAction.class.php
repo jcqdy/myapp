@@ -8,73 +8,334 @@ class SearchAction extends Action{
     public $page_num;          //当前页数
     public $page_size=15;      //每页数据数量
     public $search=array();
-    public $consumerid;
+    public $consumerid='5';
+    public $array=array();
+
 /**
  *搜索引擎主方法
  */
     public function search(){
         $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-       $str='南京 苏宁';
-//        if(!$str){echo '11';}
-        $this->search=explode(' ', $str);
-        $num_arr=count($arr);
-        if ($num_arr=1) {
-            $this->redisFind($this->search['0']);
-        }elseif($num_arr=2){
-            $this->redisFind($this->search['0'],$this->search['1']);
-        }elseif ($num_arr=3) {
-            $this->redisFind($this->search['0'],$this->search['1'],$this->search['2']);
-        }
+        $str='南京 苏宁电器 白下区淮海路';
+        $this->cutWords($str);
+        $this->display();
     }
 
+    public function cutWords($str){
+        $so = scws_new();
+        $so->set_charset('utf8');
+//        $str='成都 老麻抄手清江中路';
+        $this->search=explode(' ', $str);
+        $num_arr=count($this->search);
+        switch ($num_arr) {
+            case 1:
+                $so->send_text($str);
+                $tmp=$so->get_result();
+                $num_arr2=count($tmp);
+                foreach ($tmp as $value) {
+                    array_push($this->array,$value['word']);
+                }
+                switch ($num_arr2) {
+                    case 1:
+                        $this->redisFind($this->array['0']);
+                        break;
+                    case 2:
+                        $this->redisFind_two($this->array['0'],$this->array['1']);
+                        break;
+                    case 3:
+                        $this->redisFind($this->array['0'],$this->array['1'],$this->array['2']);
+                        break;    
+                    default:
+                        
+                        break;
+                }
+                break;
+            case 2:
+                $so->send_text($this->search['1']);
+                $tmp=$so->get_result();
+                var_dump($tmp);
+                $num_arr3=count($tmp);
+                foreach ($tmp as $value) {
+                    array_push($this->array,$value['word']);
+                }
+//                var_dump($this->array);
+                switch ($num_arr3) {
+                    case 1:
+                        $this->redisFind_two($this->search['0'],$this->array['0']);
+                        break;
+                    case 2:
+                        $this->redisFind_three($this->search['0'],$this->array['0'],$this->array['1']);
+                        break;
+                    case 3:
+                        $this->redisFind_four($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2']);
+                        break;   
+                    case 3:
+                        $this->redisFind_four($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2']);
+                        break; 
+                    case 4:
+                        $this->redisFind_five($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3']);
+                        break;
+                    case 5:
+                        $this->redisFind_six($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3'],$this->array['4']);
+                        break;   
+                    default:
+                        # code...
+                        break;
+                }  
+                break;
+            case 3:
+                $so->send_text($this->search['1']);
+                $tmp=$so->get_result();
+                foreach ($tmp as $value) {
+                    array_push($this->array,$value['word']);
+                }
+                $so->send_text($this->search['2']);
+                $tmp2=$so->get_result();
+                foreach ($tmp2 as $value) {
+                    array_push($this->array,$value['word']);
+                }
+                var_dump($this->array);
+                $num_arr4=count($this->array);
+                switch ($num_arr4) {
+                    case 1:
+                        $this->redisFind_two($this->search['0'],$this->search['1']);
+                        break;
+                    case 2:
+                        $this->redisFind_three($this->search['0'],$this->array['0'],$this->array['1']);
+                        break;
+                    case 3:
+                        $this->redisFind_four($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2']);
+                        break;   
+                    case 4:
+                        $this->redisFind_five($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3']);
+                        break;
+                    case 5:
+                        $this->redisFind_six($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3'],$this->array['4']);
+                        break;    
+                    default:
+                        # code...
+                        break;
+                }  
+                break;
+
+
+            default:
+                # code...
+                break;
+        }
+        
+    }
+
+    public function redisFind($n){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $redis->delete('service'.'5');       
+        $key=$redis->keys('*'.$n.'*');
+        if(!empty($key)){
+            foreach ($key as $value) {
+                $this->zset($value);
+            }  
+            $this->zget($redis);
+        }elseif (empty($key)) {
+            $this->mysqlFind($n,$m,$p);
+        }       
+    }
+
+    
+
+    public function redisFind_two($n,$m){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('inter+'.$this->consumerid);
+        $redis->delete('service'.$this->consumerid);
+//        $n='南京';$m='苏宁';
+        $keynm=$redis->keys('*'.$n.'*'.$m.'*');
+        var_dump($keynm);
+        if ($keynm) {
+            foreach ($keynm as $value) {
+                $this->zset($value);
+            }
+            $this->zget();
+        }else {
+//            $this->mysqlFind($n,$m,$p);
+        }
+        $redis->close();
+        
+    }
 /**
  *从redis缓存中搜索数据的方法
  */  
-    public function redisFind($n,$m,$p){
-//        var_dump($n);
+    public function redisFind_three($n,$m,$p){
         $redis=new Redis();
         $redis->connect('localhost','6379');
-//        $key=$redis->keys('*苏宁*');
-        if($n && !$m && !$p){
-            $key=$redis->keys('*'.$n.'*');
-            if(!empty($key)){
-             foreach ($key as $value) {
-                 $this->zset($value);
-             }  
-             $this->zget($redis);
-        }elseif (empty($key)) {
-             $this->mysqlFind($n,$m,$p);
-        }  
-        }elseif ($n && $m && !$p) {
-            $key=$redis->keys('*'.$n.'*'.$m.'*');
-            if(!empty($key)){
-             foreach ($key as $value) {
-                 $this->zset($value);
-             }  
-             $this->zget($redis);
-        }elseif (empty($key)) {
-             $this->mysqlFind($n,$m,$p);
-        }                 
-        }elseif ($n && $m && $p) {
-            $key=$redis->keys('*'.$n.'*'.$m.'*'.$p.'*');
-            if(!empty($key)){
-             foreach ($key as $value) {
-                 $this->zset($value);
-             }  
-             $this->zget($redis);
-        }elseif (empty($key)) {
-             $this->mysqlFind($n,$m,$p);
-        }  
-        }elseif (!$n && !$m && !$p) {
-            echo '请输入搜索条件';
-        }        
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('inter+'.$this->consumerid);
+        $redis->delete('service'.$this->consumerid);
+        $keynm=$redis->keys('*'.$n.'*'.$m.'*');
+        $keyp=$redis->keys('*'.$p.'*');
+        if ($keynm && $keyp) {
+            foreach ($keynm as $n_value) {
+                $redis->sAdd('nm+'.$this->consumerid,$n_value);
+            }
+            foreach ($keyp as $p_value) {
+                $redis->sAdd('p+'.$this->consumerid,$p_value);
+            }
+            $member=$redis->sInter('nm+'.$this->consumerid,'p+'.$this->consumerid);  
+            foreach ($member as $value) {
+                $this->zset($value);
+            }
+            $this->zget();
+        }else {
+            $this->mysqlFind($n,$m,$p);
+        }
+        $redis->close();
+        
     }
 
+    public function redisFind_four($n,$m,$p,$r){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('r+'.$this->consumerid);
+        $redis->delete('inter+'.$this->consumerid);
+        $redis->delete('service'.$this->consumerid);
+//        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
+        $keynm=$redis->keys('*'.$n.'*'.$m.'*');
+        $keyp=$redis->keys('*'.$p.'*');
+        $keyr=$redis->keys('*'.$r.'*');
+        echo "string";
+        if ($keynm && $keyp && $keyr) {
+            foreach ($keynm as $n_value) {
+                $redis->sAdd('nm+'.$this->consumerid,$n_value);
+            }
+            foreach ($keyp as $p_value) {
+                $redis->sAdd('p+'.$this->consumerid,$p_value);
+            }
+            foreach ($keyr as $r_value) {
+                $redis->sAdd('r+'.$this->consumerid,$r_value);
+            }
+            $member=$redis->sInter('nm+'.$this->consumerid,'p+'.$this->consumerid,'r+'.$this->consumerid);  
+            foreach ($member as $value) {
+                $this->zset($value);
+            }
+            $this->zget();
+        }else {
+            $this->mysqlFind($n,$m,$p);
+//            echo 'mfoifiop';
+        }
+        $redis->close();
+        
+    }
+
+    public function redisFind_five($n,$m,$p,$r,$l){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('r+'.$this->consumerid);
+        $redis->delete('l+'.$this->consumerid);
+        $redis->delete('inter+'.$this->consumerid);
+        $redis->delete('service'.$this->consumerid);
+//        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
+        $keynm=$redis->keys('*'.$n.'*'.$m.'*');
+        $keyp=$redis->keys('*'.$p.'*');
+        $keyr=$redis->keys('*'.$r.'*'); 
+        $keyl=$redis->keys('*'.$l.'*');
+        if ($keynm && $keyp && $keyr && $keyl) {
+            foreach ($keynm as $n_value) {
+                $redis->sAdd('nm+'.$this->consumerid,$n_value);
+            }
+            foreach ($keyp as $p_value) {
+                $redis->sAdd('p+'.$this->consumerid,$p_value);
+            }
+            foreach ($keyr as $r_value) {
+                $redis->sAdd('r+'.$this->consumerid,$r_value);
+            }
+            foreach ($keyl as $l_value) {
+                $redis->sAdd('l+'.$this->consumerid,$l_value);
+            }   
+            $member=$redis->sInter('nm+'.$this->consumerid,'p+'.$this->consumerid,'r+'.$this->consumerid,'l+'.$this->consumerid); 
+            foreach ($member as $value) {
+                $this->zset($value);
+            }
+            $this->zget();  
+        }else {
+            $this->mysqlFind($n,$m,$p);
+        }
+        $redis->close();
+        
+    }
+
+    public function redisFind_six($n,$m,$p,$r,$l,$t){
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('r+'.$this->consumerid);
+        $redis->delete('l+'.$this->consumerid);
+        $redis->delete('t+'.$this->consumerid);
+        $redis->delete('inter+'.$this->consumerid);
+        $redis->delete('service'.$this->consumerid);
+//        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
+        $keynm=$redis->keys('*'.$n.'*'.$m.'*');
+        $keyp=$redis->keys('*'.$p.'*');
+        $keyr=$redis->keys('*'.$r.'*'); 
+        $keyl=$redis->keys('*'.$l.'*');
+        $keyt=$redis->keys('*'.$t.'*');
+        if ($keynm && $keyp && $keyr && $keyl && $keyt) {
+            foreach ($keynm as $n_value) {
+                $redis->sAdd('nm+'.$this->consumerid,$n_value);
+            }
+            foreach ($keyp as $p_value) {
+                $redis->sAdd('p+'.$this->consumerid,$p_value);
+            }
+            foreach ($keyr as $r_value) {
+                $redis->sAdd('r+'.$this->consumerid,$r_value);
+            }
+            foreach ($keyl as $l_value) {
+                $redis->sAdd('l+'.$this->consumerid,$l_value);
+            } 
+            foreach ($keyt as $t_value) {
+                $redis->sAdd('t+'.$this->consumerid,$t_value);
+            }  
+            $member=$redis->sInter('nm+'.$this->consumerid,'p+'.$this->consumerid,'r+'.$this->consumerid,'l+'.$this->consumerid,'t+'.$this->consumerid); 
+            foreach ($member as $value) {
+                $this->zset($value);
+            }
+            $this->zget();  
+        }elseif ($keynm && $keyp && $keyr && $keyl && !$keyt) {
+            foreach ($keynm as $n_value) {
+                $redis->sAdd('nm+'.$this->consumerid,$n_value);
+            }
+            foreach ($keyp as $p_value) {
+                $redis->sAdd('p+'.$this->consumerid,$p_value);
+            }
+            foreach ($keyr as $r_value) {
+                $redis->sAdd('r+'.$this->consumerid,$r_value);
+            }
+            foreach ($keyl as $l_value) {
+                $redis->sAdd('l+'.$this->consumerid,$l_value);
+            } 
+            
+            $member=$redis->sInter('nm+'.$this->consumerid,'p+'.$this->consumerid,'r+'.$this->consumerid,'l+'.$this->consumerid); 
+            foreach ($member as $value) {
+                $this->zset($value);
+            }
+            $this->zget();  
+        } else {
+            $this->mysqlFind($n,$m,$p);
+        }
+        $redis->close();
+        
+    }
 /**
  *第一次从数据库mysql获取数据的方法
- */ 
-    public function mysqlFind($n,$m,$p){
+ */
+    public function mysqlFind($n,$m,$p,$r,$l,$t){
 //        $n='苏宁';
         $time=date('Y-m-d H:i:s');
         $oldtime=date('Y-m-d H:i:s',strtotime("-1 month"));
@@ -174,12 +435,10 @@ class SearchAction extends Action{
     public function zset($value){
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $redis->delete('service'.session('id'));
         $zarr=explode('$', $value);
 //        var_dump($zarr);
         $score=$zarr['1'];
-        $redis->zAdd('service'.'5',$score,$value);
-//        echo $redis->zSize('consumer');
+        $redis->zAdd('service'.$this->consumerid,$score,$value);
     }
 
 /**
@@ -189,9 +448,8 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $start=time();
-        $zarr=$redis->zRevRange('service'.'5',0,15);
+        $zarr=$redis->zRevRange('service'.$this->consumerid,0,15);
         $this->jsonMaker($zarr,$redis);
-
     }
 
 /**
@@ -200,7 +458,7 @@ class SearchAction extends Action{
     public function zgetMore($redis){
         $this->page_num=$this->_param('num');     
         $page_load=($this->page_num-1)*$this->page_size;
-        $zarr=$redis->zRevRange('service'.session('id'),$page_load,$this->page_size);
+        $zarr=$redis->zRevRange('service'.$this->consumerid,$page_load,$this->page_size);
         $this->jsonMaker($zarr,$redis);
     }
 
@@ -257,9 +515,9 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $pag=$redis->exists('service'.session('id'));
-        if($pag=true){
+        if($pag==true){
             $this->zgetMore($redis);
-        }elseif ($pag=false) {
+        }elseif ($pag==false) {
             $this->mysqlFinds();
         }
     }
@@ -271,16 +529,15 @@ class SearchAction extends Action{
         $photo=array();
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $id=$this->_param('id');
-        $id='1';                    //这句别忘了删掉
+        $id=$this->_param('id'); 
+        $consumerid=$this->_param('consumerid');        
         $User=M('Serviceinfo');
         $condition['serviceid']=$id;
         $result=$User->where($condition)->field('favorable,information,favtime,infotime')->find();
         $img['serviceid']=$id;
         $image=M('Image');
-        $imgarr=$image->where($img)->order('uptime desc')->limit('0,0')->field('imgurl1,photoid')->select();
-//        $hkey=$redis->keys('<'.$id.'>'.'*');这句正式使用使用时要把注释符'//'删掉，把下面那句也删掉，用这句
-        $hkey=$redis->keys($id.'*');
+        $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
+        $hkey=$redis->keys('<'.$id.'>'.'*');
         $array=$redis->hGetAll($hkey['0']); 
         foreach ($result as $key => $value) {
             $up[$key]=$value;
@@ -288,17 +545,20 @@ class SearchAction extends Action{
         foreach ($array as $key => $value) {
             $up[$key]=$value;                        
         }
-        foreach ($alb as $key => $value) {
+/*        foreach ($alb as $key => $value) {
             $up[$key]=$value;
-        }
+        }   */
+
         $up=$this->urlcode($up);
         if ($up['watch']>1000) {
                 $num=floor($up['watch']/100)/10;
                 $up['watch']=$num.'K';
             }
-//        $visitors=$redis->get('visitors'.$id);    
-        $up['visitors']='20';
+        $visitors=$redis->get('visitors'.$id);
+        $fans=$redis->sIsMember('watch'.$id,$consumerid);    
+        $up['visitors']=$visitors;
         $up['photo']=$imgarr;
+        $up['fans']=$fans;
         $con['consumer']=$up;
         echo urldecode(json_encode($con,JSON_UNESCAPED_SLASHES));
     }

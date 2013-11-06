@@ -14,11 +14,11 @@ class SearchloacalAction extends Action{
 //        if(!$str){echo '11';}
         $this->search=explode(' ', $str);
         $num_arr=count($arr);
-        if ($num_arr=1) {
+        if ($num_arr==1) {
             $this->redisFind($this->search['0']);
-        }elseif($num_arr=2){
+        }elseif($num_arr==2){
             $this->redisFinds($this->search['0'],$this->search['1']);
-        }elseif ($num_arr=3) {
+        }elseif ($num_arr==3) {
             $this->redisFinds($this->search['0'],$this->search['1'],$this->search['2']);
         }
     }
@@ -31,7 +31,7 @@ class SearchloacalAction extends Action{
             $key=$redis->keys('*'.$n.'*');
             if(!empty($key)){
              foreach ($key as $value) {
-                 $this->zset($value,$redis);
+                 $this->zset($value);
              }  
              $this->zget($redis);
         }elseif (empty($key)) {
@@ -41,7 +41,7 @@ class SearchloacalAction extends Action{
             $key=$redis->keys('*'.$n.'*'.$m.'*');
             if(!empty($key)){
              foreach ($key as $value) {
-                 $this->zset($value,$redis);
+                 $this->zset($value);
              }
              $this->zget($redis);
         }elseif (empty($key)) {
@@ -51,7 +51,7 @@ class SearchloacalAction extends Action{
             $key=$redis->keys('*'.$n.'*'.$m.'*'.$p.'*');
             if(!empty($key)){
              foreach ($key as $value) {
-                 $this->zset($value,$redis);
+                 $this->zset($value);
              }  
              $this->zget($redis);
         }elseif (empty($key)) {
@@ -220,9 +220,9 @@ class SearchloacalAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $pag=$redis->exists('service'.session('id'));
-        if($pag=true){
+        if($pag==true){
             $this->zgetMore($redis);
-        }elseif ($pag=false) {
+        }elseif ($pag==false) {
             $this->mysqlFinds();
         }
     }

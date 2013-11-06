@@ -9,7 +9,7 @@ class AttentionAction extends Action{
  */   
     public function consumerAttention(){
         $redis=new Redis();
-        $redis->connect('localhost','6379'); 
+        $redis->connect('localhost','6379');
         $serviceid=$this->_param('serviceid');
         $consumerid=$this->_param('id');
         $att=M('Attention');
@@ -19,10 +19,12 @@ class AttentionAction extends Action{
         if(empty($result)){
             $att->where($condition)->add();
         }  
-        $redis->sAdd($serviceid,$consumerid);
+        $redis->sAdd('watch'.$serviceid,$consumerid);
+        $redis->sAdd('fans'.$consumerid,$serviceid);
         $watch=$redis->sCard($serviceid);  
         $key=$redis->keys('<'.$serviceid.'>'.'*');
         $redis->hSet($key['0'],'watch',$watch);
+        $redis->close();
     }
 
 /**
@@ -30,13 +32,10 @@ class AttentionAction extends Action{
  */
     public function myAttention(){
         $consumerid=$this->_param('id');
-        $consumerid='1';
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $search=new SearchAction();
-        $my=M('Attention');
-        $condition['consumerid']=$consumerid;
-        $result=$my->where($condition)->getfield('serviceid',true);
+        $result=$redis->sMembers('fans'.$consumerid);
         $array=array();
         foreach ($result as $value) {
             $key=$redis->keys('<'.$value.'>'.'*');
@@ -48,28 +47,31 @@ class AttentionAction extends Action{
         }
         $array2['attention']=$array;
         echo urldecode(json_encode($array2));
+        $redis->close();
     }
 
 /**
  *这是取消关注的方法
- */ 
+ */
     public function cancelAttention(){
         $serviceid=$this->_param('serviceid');
+        $consumerid=$this->_param('id');
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $consumerid=$this->_param('id');
         $condition['serviceid']=$serviceid;
         $condition['consumerid']=$consumerid;
-        if ($serviceid) {
+        if ($serviceid && $consumerid) {
             $cacel=M('Attention');
             $cacel->where($condition)->delete();
-            $redis->sRem($serviceid,$consumerid);
+            $redis->sRem('watch'.$serviceid,$consumerid);
+            $redis->sRem('fans'.$consumerid,$serviceid);
         }
+        $redis->close();
     }
 
 /**
  *这是记录商家被浏览次数的方法
- */ 
+ */
     public function visitors(){
         $serviceid=$this->_param('serviceid');
         $redis=new Redis();
@@ -77,6 +79,7 @@ class AttentionAction extends Action{
         $num=$redis->get('visitors'.$serviceid);
         $num=$num++;
         $redis->set('visitors'.$serviceid,$num);
+        $redis->close();
     }
 
     
