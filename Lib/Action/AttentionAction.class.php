@@ -6,7 +6,7 @@ class AttentionAction extends Action{
 
 /**
  *这是处理消费者用户关注商家的方法
- */   
+ */
     public function consumerAttention(){
         $redis=new Redis();
         $redis->connect('localhost','6379');

@@ -19,7 +19,7 @@ public $auto=array();
 			$condition['pass']=$pass;
             $newencrypt['encrypt']=md5($email.time()).'#'.'consumer';
             $User->where($condition)->save($newencrypt);
-			$User_login=$User->where($condition)->field('id,name,face,encrypt')->find();
+			$User_login=$User->where($condition)->field('id,name,face,encrypt,city')->find();
             $this->watchUpdata($User_login['id']);
             if (!empty($User_login)) {
                 $search=new SearchAction();
@@ -138,7 +138,7 @@ public $auto=array();
             $condition['email'] =$email;
             $condition['pass']  =$pass;
             $condition['encrypt']=$encrypt;
-//            $condition['city']=$city;
+            $condition['city']='北京';
             $condition['face']='192.168.1.100/myapp/Public/image/moren.jpg';
             $create =D('Consumer');
             $create->add($condition);
@@ -210,6 +210,9 @@ public $auto=array();
         echo $image->facemixurl;
     }
 
+/**
+ *消费者界面关注商家信息更新
+ */
     public function watchUpdata(){
         $consumerid;
         $redis=new Redis();
@@ -224,7 +227,6 @@ public $auto=array();
         $re_id=$redis->zRevRange('updata'.$consumerid,0,3);
         $info=M('Serviceinfo');
         $service=M('Service');
-                
         foreach ($re_id as $value2) {
             $condition['serviceid']=$value2;    
             $con['id']=$value2;
@@ -235,6 +237,7 @@ public $auto=array();
             $result4['face']=$result3['face'];
             array_push($this->auto,$result4);
         }
+        $redis->close();
     }
 
     

@@ -1,16 +1,12 @@
 <?php
-import('ORG.Util.Date');
-/**
- *搜索商家信息的类
- */ 
-class SearchAction extends Action{
-
+class SearchlocalAction extends Action{
     public $page_num;          //当前页数
-    public $page_size=15;      //每页数据数量
+    public $page_size=15;      //每页数量
+    public $mylatitude;        //消费者目前纬度
+    public $mylongitude;    //消费者目前经度
+    public $consumerid='5';      
     public $search=array();
-    public $consumerid='5';
     public $array=array();
-
 /**
  *搜索引擎主方法
  */
@@ -133,7 +129,7 @@ class SearchAction extends Action{
     public function redisFind($n){
         $redis=new Redis();
         $redis->connect('localhost','6379');
-        $redis->delete('service'.'5');
+        $redis->delete('service'.'5');       
         $key=$redis->keys('*'.$n.'*');
         if(!empty($key)){
             foreach ($key as $value) {
@@ -344,125 +340,34 @@ class SearchAction extends Action{
         
     }
 /**
- *第一次从数据库mysql获取数据的方法
+ *将查询结果导入有序集合sort set的方法
  */
-    public function mysqlFind($n,$m,$p,$r,$l,$t){
-//        $n='苏宁';
-        $time=date('Y-m-d H:i:s');
-        $oldtime=date('Y-m-d H:i:s',strtotime("-1 month"));
-        $oldertime=date('Y-m-d H:i:s',strtotime("-6 month"));
-        
-        if($n && !$m && !$p && !$r && !$l && !$t){
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$n.'%'),'OR');
-            $condition['address']=array('like',array('%'.$n.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$n.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->field('id,shopname,address,face,sertype')->limit($this->page_size)->select();
-            var_dump($result);
-            if(empty($result)){
-                echo '搜索不到';
-            }elseif (!empty($result)) {
-                $lastarr=$this->sqlurlcode($result);
-            }
-            echo urldecode(json_encode($lastarr));  
-        }elseif ($n && $m && !$p && !$r && !$l && !$t) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like','%'.$m.'%');
-            $condition['address']=array('like','%'.$m.'%');
-            $condition['sertype']=array('like','%'.$m.'%');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $map['city']=array('EQ',$n);
-            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
-            if(empty($result)){
-                echo '搜索不到';
-            }elseif (!empty($result)) {
-                $lastarr=$this->sqlurlcode($result);
-            }
-            echo urldecode(json_encode($lastarr));  
-        }elseif ($n && $m && $p && !$r && !$l && !$t) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$m.'%','%'.$p.'%'),'OR');
-            $condition['address']=array('like',array('%'.$m.'%','%'.$p.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$m.'%','%'.$p.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $map['city']=array('EQ',$n);
-            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
-            if(empty($result)){
-                echo '搜索不到';
-            }elseif (!empty($result)) {
-                $lastarr=$this->sqlurlcode($result);
-            } 
-            echo urldecode(json_encode($lastarr));
-        }elseif ($n && $m && $p && $r && !$l && !$t) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['address']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $map['city']=array('EQ',$n);
-            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
-            if(empty($result)){
-                echo '搜索不到';
-            }elseif (!empty($result)) {
-                $lastarr=$this->sqlurlcode($result);
-            } 
-            echo urldecode(json_encode($lastarr));            
-        }elseif ($n && $m && $p && $r && $l && !$t) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['address']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $map['city']=array('EQ',$n);
-            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
-            if(empty($result)){
-                echo '搜索不到';
-            }elseif (!empty($result)) {
-                $lastarr=$this->sqlurlcode($result);
-            } 
-            echo urldecode(json_encode($lastarr));            
-        }elseif ($n && $m && $p && $r && $l && $t) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['address']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$m.'%','%'.$p.'%','%'.$r.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $map['city']=array('EQ',$n);
-            $result=$consumer->where($map)->order('uptime desc')->limit($this->page_size)->select();
-            if(empty($result)){
-                echo '搜索不到';
-            }elseif (!empty($result)) {
-                $lastarr=$this->sqlurlcode($result);
-            } 
-            echo urldecode(json_encode($lastarr));            
-        }                                   
+    public function zset($redis,$value){        
+        $zarr=explode('$', $value);
+        $latitude=$zarr['2'];
+        $longitude=$zarr['3'];
+        $num=($mylatitude-$latitude)*($mylatitude-$latitude)+($mylongitude-$longitude)*($mylongitude-$longitude);
+        $distance=sqrt($num);
+        $score=number_format($distance,8);
+        $redis->zAdd('service'.$this->consumerid,$score,$value);
     }
 
 /**
- *从数据库mysql中获取的数组中字符串转码的方法(json)
+ *在有序集合sort set中按照时间戳导出最新的数据的方法
  */
-    public function sqlurlcode($variable){
-        $sqlarr=array();
-        $lastarr=array();
-        foreach ($variable as $value) {
-            $arrcode=$this->urlcode($value);
-            array_push($sqlarr,$arrcode);               
-        }
-        $lastarr['consumer']=$sqlarr;
-        return $lastarr;
+    public function zget($redis){        
+        $zarr=$redis->zRange('service'.$this->consumerid,0,15);
+        $this->jsonMaker($zarr,$redis);
+    }
+
+/**
+ *分页，再次请求redis搜索数据的方法
+ */
+    public function zgetMore($redis){
+        $this->page_num=$this->_param('num');     
+        $page_load=($this->page_num-1)*$this->page_size;
+        $zarr=$redis->zRange('service'.$this->consumerid,$page_load,$this->page_size);
+        $this->jsonMaker($zarr,$redis);
     }
 
 /**
@@ -485,82 +390,98 @@ class SearchAction extends Action{
                 $array=$redis->hGetAll($zvalue);
                 $arrcode=$this->urlcode($array);
                 array_push($array4,$arrcode);
-            }
+            } 
         $array5['consumer']=$array4;
         echo urldecode(json_encode($array5));
     }
 
 /**
- *将查询结果导入有序集合sort set的方法
- */
-    public function zset($redis,$value){
-        $zarr=explode('$', $value);
-        $score=$zarr['1'];
-        $redis->zAdd('service'.$this->consumerid,$score,$value);
+ *第一次从数据库mysql获取数据的方法
+ */ 
+    public function mysqlFind(){
+        $n='苏宁';
+        if($n && !$m && !$p){ 
+            $service=new Model();
+            $result=$service->query("select *,sqrt(power('$mylatitude'-latitude,2)+power('$mylongitude'-longitude,2)) as d from service where (shopname like '%$n%') or (address like'%$n%') or (sertype like '%$n%') order by d asc limit 0,15");   
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            }
+            echo urldecode(json_encode($lastarr));
+        }elseif ($n && $m && !$p) {
+            $service=new Model();
+            $result=$service->query("select *,sqrt(power('$mylatitude'-latitude,2)+power('$mylongitude'-longitude,2)) as d from service where (shopname like '%$n%' or shopname like '%$m%') or (address like '%$n%' or address like '%$m%') or (sertype like '%$n%' or sertype like '%$m%') order by d asc limit 0,15");   
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            }
+            echo urldecode(json_encode($lastarr));
+        }elseif ($n && $m && $p) {
+           $service=new Model();
+            $result=$service->query("select *,sqrt(power('$mylatitude'-latitude,2)+power('$mylongitude'-longitude,2)) as d from service where (shopname like '%$n%' or shopname like '%$m%' shopname like '%$p%') or (address like '%$n%' or address like '%$m%' address like '%$p%') or (sertype like '%$n%' or sertype like '%$m%' sertype like '%$p%') order by d asc limit 0,15");
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            } 
+            echo urldecode(json_encode($lastarr));            
+        }                 
     }
 
 /**
- *在有序集合sort set中按照时间戳导出最新的数据的方法
+ *从数据库mysql中获取的数组中字符串转码的方法(json)
  */
-    public function zget($redis){
-        $zarr=$redis->zRevRange('service'.$this->consumerid,0,15);
-        $this->jsonMaker($zarr,$redis);
-    }
-
-/**
- *分页，再次请求redis搜索数据的方法
- */
-    public function zgetMore($redis){
-        $this->page_num=$this->_param('num');     
-        $page_load=($this->page_num-1)*$this->page_size;
-        $zarr=$redis->zRevRange('service'.$this->consumerid,$page_load,$this->page_size);
-        $this->jsonMaker($zarr,$redis);
+    public function sqlurlcode($variable){
+        $sqlarr=array();
+        $lastarr=array();
+        foreach ($variable as $value) {
+            $arrcode=$this->urlcode($value);
+            array_push($sqlarr,$arrcode);               
+        }
+        $lastarr['consumer']=$sqlarr;
+        return $lastarr;
     }
 
 /**
  *分页时从数据库mysql获取数据的方法
- */
-     public function mysqlFinds(){
+ */ 
+    public function mysqlFinds(){
         $this->page_num=$this->_param('num');
         $page_load=($this->page_num-1)*$this->page_size;
         $n=$this->search['0'];
         $m=$this->search['1'];
         $p=$this->search['2'];
-        $time=date('Y-m-d H:i:s');
-        $oldtime=date('Y-m-d H:i:s',strtotime("-1 month"));
-        $oldertime=date('Y-m-d H:i:s',strtotime("-6 month"));        
-        if($n && !$m && !$p){
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$n.'%'),'OR');
-            $condition['address']=array('like',array('%'.$n.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$n.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->limit($page_load,$this->page_size)->select();
-            $lastarr=$this->sqlurlcode($result);
+//        $n='苏宁';
+        if($n && !$m && !$p){ 
+            $service=new Model();
+            $result=$service->query("select *,sqrt(power('$mylatitude'-latitude,2)+power('$mylongitude'-longitude,2)) as d from service where (shopname like '%$n%') or (address like'%$n%') or (sertype like '%$n%') order by d asc limit '$page_load','$this->page_size'");   
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            }
+            echo urldecode(json_encode($lastarr));
         }elseif ($n && $m && !$p) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$n.'%','%'.$m.'%'),'OR');
-            $condition['address']=array('like',array('%'.$n.'%','%'.$m.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$n.'%','%'.$m.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->limit($page_load,$this->page_size)->select();
-            $lastarr=$this->sqlurlcode($result);
+            $service=new Model();
+            $result=$service->query("select *,sqrt(power('$mylatitude'-latitude,2)+power('$mylongitude'-longitude,2)) as d from service where (shopname like '%$n%' or shopname like '%$m%') or (address like '%$n%' or address like '%$m%') or (sertype like '%$n%' or sertype like '%$m%') order by d asc limit '$page_load','$this->page_size'");   
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            }
+            echo urldecode(json_encode($lastarr));
         }elseif ($n && $m && $p) {
-            $consumer=M('Service');
-            $condition['shopname']=array('like',array('%'.$n.'%','%'.$m.'%','%'.$p.'%'),'OR');
-            $condition['address']=array('like',array('%'.$n.'%','%'.$m.'%','%'.$p.'%'),'OR');
-            $condition['sertype']=array('like',array('%'.$n.'%','%'.$m.'%','%'.$p.'%'),'OR');
-            $condition['_logic']='or';
-            $map['_complex'] = $condition;
-            $map['uptime']=array('between',array($oldtime,$time));
-            $result=$consumer->where($map)->order('uptime desc')->limit($page_load,$this->page_size)->select();
-            $lastarr=$this->sqlurlcode($result);
-        }               
-        echo urldecode(json_encode($lastarr));     
+           $service=new Model();
+            $result=$service->query("select *,sqrt(power('$mylatitude'-latitude,2)+power('$mylongitude'-longitude,2)) as d from service where (shopname like '%$n%' or shopname like '%$m%' shopname like '%$p%') or (address like '%$n%' or address like '%$m%' address like '%$p%') or (sertype like '%$n%' or sertype like '%$m%' sertype like '%$p%') order by d asc limit '$page_load','$this->page_size'");
+            if(empty($result)){
+                echo '搜索不到';
+            }elseif (!empty($result)) {
+                $lastarr=$this->sqlurlcode($result);
+            } 
+            echo urldecode(json_encode($lastarr));            
+        }                 
     }
 
 /**
@@ -576,75 +497,5 @@ class SearchAction extends Action{
             $this->mysqlFinds();
         }
     }
-
-/**
- *点击查看商家主页方法
- */
-    public function watch(){
-        $all_sphoto=array();
-        $all_bphoto=array();
-        $redis=new Redis();
-        $redis->connect('localhost','6379');
-        $id=$this->_param('id');
-        $id='14'; 
-        $consumerid=$this->_param('consumerid');        
-        $User=M('Serviceinfo');
-        $condition['serviceid']=$id;
-        $result=$User->where($condition)->field('favorable,information,favtime,infotime')->find();
-        $img['serviceid']=$id;
-        $image=M('Image');
-        $imgarr=$image->where($img)->order('uptime desc')->limit('0,10')->field('imgurl1,photoid,imgurl2,explain')->select();
-        $hkey=$redis->keys('<'.$id.'>'.'*');
-        $array=$redis->hGetAll($hkey['0']); 
-        foreach ($result as $key => $value) {
-            $up[$key]=$value;
-        }
-        foreach ($array as $key => $value) {
-            $up[$key]=$value;                        
-        }
-        $up=$this->urlcode($up);
-        if ($up['watch']>1000) {
-                $num=floor($up['watch']/100)/10;
-                $up['watch']=$num.'K';
-            }
-        foreach ($imgarr as $photo) {
-            foreach ($photo as $key2 => $value2) {
-                switch ($key2) {
-                    case 'imgurl1':
-                        $small_photo['imgurl1']=$value2;
-                        break;
-                    case 'photoid':
-                        $small_photo['photoid']=$value2;
-                        break;
-                    case 'imgurl2':
-                        $big_photo['imgurl2']=$value2;
-                        break;
-                    case 'explain':
-                        $big_photo['explain']=urlencode($value2);
-                        break;                    
-                    default:
-                        
-                        break;
-                }                
-            }
-            array_push($all_sphoto,$small_photo);
-            array_push($all_bphoto,$big_photo);
-        }
-        $visitors=$redis->get('visitors'.$id);
-        $fans=$redis->sIsMember('watch'.$id,$consumerid);    
-        $up['visitors']=$visitors;
-        $up['photo']=$all_sphoto;
-        $wait['photo']=$all_bphoto;
-        $up['bigphoto']=json_encode($wait,JSON_UNESCAPED_SLASHES);
-        $up['fans']=$fans;
-        $con['consumer']=$up;
-        echo stripslashes(urldecode(json_encode($con,JSON_UNESCAPED_SLASHES)));
-        $redis->close();
-        $this->display();
-    }
-
+    
 }
-
-
-
-

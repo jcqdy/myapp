@@ -58,7 +58,8 @@ class ServiceAction extends Action{
             } 
         }else {
             echo 'false';
-        }             
+        }     
+        $redis->close();        
     }
 
 /**
@@ -102,6 +103,7 @@ class ServiceAction extends Action{
         }elseif (empty($service)) {
             echo "timeout";
         }
+        $redis->close();
     }
 
 /**
@@ -229,6 +231,7 @@ class ServiceAction extends Action{
         if ($i==0) {
             $redis->hSet($hkey,'watch','0');
         }
+        $redis->close();
     } 
 
     public function updataLocal(){
@@ -238,7 +241,7 @@ class ServiceAction extends Action{
         $id['id']=$local['id'];
         $condition['latitude']=$local['latitude'];
         $condition['longitude']=$local['longitude'];
-        $condition['city']=$local['city'];  
+        $condition['city']=$local['city'];
         $updata=M('Service');
         $updata->where($id)->save($condition);
         $info=$updata->where($id)->field('shopname,address,sertype')->find();
@@ -252,7 +255,7 @@ class ServiceAction extends Action{
                 $redis->hSet($hkey,$key,$value);
             }
         }
-        
+        $redis->close();
     }
 
 /**
@@ -345,7 +348,8 @@ class ServiceAction extends Action{
             echo $image->facemixurl;
         }else{
             break;
-        }      
+        } 
+        $redis->close();     
     }
 
 /**
