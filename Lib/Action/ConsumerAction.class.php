@@ -26,8 +26,6 @@ public $auto=array();
                 $check=$search->urlcode($User_login);
                 $check['updata']=$this->auto;
                 $array['login']=$check;
-                session_start();
-                session('id',$User_login['id']);
                 echo urldecode(json_encode($array));   
             }else{
                 echo 'false';
@@ -213,8 +211,7 @@ public $auto=array();
 /**
  *消费者界面关注商家信息更新
  */
-    public function watchUpdata(){
-        $consumerid;
+    public function watchUpdata($consumerid){
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $result=$redis->sMembers('fans'.$consumerid);
@@ -237,6 +234,7 @@ public $auto=array();
             $result4['face']=$result3['face'];
             array_push($this->auto,$result4);
         }
+        $redis->delete('updata'.$consumerid);
         $redis->close();
     }
 

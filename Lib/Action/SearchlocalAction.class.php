@@ -13,9 +13,9 @@ class SearchlocalAction extends Action{
     public function search(){
         $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-        $str='南京 苏宁淮海路';
+//s        $str='南京 苏宁淮海路';
         $this->cutWords($str);
-        $this->display();
+//        $this->display();
     }
 
 /**
@@ -117,32 +117,53 @@ class SearchlocalAction extends Action{
                         break;
                 }  
                 break;
-
+            case 4:
+                $so->send_text($this->search['1']);
+                $tmp=$so->get_result();
+                foreach ($tmp as $value) {
+                    array_push($this->array,$value['word']);
+                }
+                $so->send_text($this->search['2']);
+                $tmp2=$so->get_result();
+                foreach ($tmp2 as $value) {
+                    array_push($this->array,$value['word']);
+                }
+                $so->send_text($this->search['3']);
+                $tmp2=$so->get_result();
+                foreach ($tmp2 as $value) {
+                    array_push($this->array,$value['word']);
+                }
+                var_dump($this->array);
+                $num_arr4=count($this->array);
+                switch ($num_arr4) {
+                    case 1:
+                        $this->redisFind_two($this->search['0'],$this->search['1']);
+                        break;
+                    case 2:
+                        $this->redisFind_three($this->search['0'],$this->array['0'],$this->array['1']);
+                        break;
+                    case 3:
+                        $this->redisFind_four($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2']);
+                        break;   
+                    case 4:
+                        $this->redisFind_five($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3']);
+                        break;
+                    case 5:
+                        $this->redisFind_six($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3'],$this->array['4']);
+                        break;    
+                    default:
+                        # code...
+                        break;
+                }  
+                break;
 
             default:
                 # code...
                 break;
-        }
-        
+        }        
     }
 
-    public function redisFind($n){
-        $redis=new Redis();
-        $redis->connect('localhost','6379');
-        $redis->delete('service'.'5');       
-        $key=$redis->keys('*'.$n.'*');
-        if(!empty($key)){
-            foreach ($key as $value) {
-                $this->zset($value);
-            }  
-            $this->zget($redis);
-        }elseif (empty($key)) {
-            $this->mysqlFind($n,$m,$p);
-        }       
-    }
-
-    
-
+   
     public function redisFind_two($n,$m){
         $redis=new Redis();
         $redis->pconnect('localhost','6379');
@@ -155,7 +176,6 @@ class SearchlocalAction extends Action{
         $redis->delete('service'.$this->consumerid);
 //        $n='南京';$m='苏宁';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
-        var_dump($keynm);
         if ($keynm) {
             foreach ($keynm as $value) {
                 $this->zset($redis,$value);
@@ -214,7 +234,6 @@ class SearchlocalAction extends Action{
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
         $keyr=$redis->keys('*'.$r.'*');
-        echo "string";
         if ($keynm && $keyp && $keyr) {
             foreach ($keynm as $n_value) {
                 $redis->sAdd('nm+'.$this->consumerid,$n_value);

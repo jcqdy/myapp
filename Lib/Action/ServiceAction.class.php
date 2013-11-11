@@ -50,16 +50,15 @@ class ServiceAction extends Action{
                 $array['watch']=$watch;
                 $array['visitors']=$visitors;
                 $arr['login']=$array;
-                session_start();
-                session('serviceid',$id);
                 echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
+                $redis->close();
             }elseif (empty($service)) {
                 echo 'false';
             } 
         }else {
             echo 'false';
         }     
-        $redis->close();        
+                
     }
 
 /**
@@ -100,10 +99,11 @@ class ServiceAction extends Action{
             $array['visitors']=$visitors;
             $arr['login']=$array;
             echo urldecode(json_encode($arr,JSON_UNESCAPED_SLASHES));
+            $redis->close();
         }elseif (empty($service)) {
             echo "timeout";
         }
-        $redis->close();
+        
     }
 
 /**
@@ -224,9 +224,12 @@ class ServiceAction extends Action{
         if($okey){
             $redis->rename($okey['0'],$hkey);
         }
-        foreach ($condition as $key => $value) {
-            $redis->hSet($hkey,$key,$value);
-        }
+        $add['id']=$id['id'];
+        $add['shopname']=$condition['shopname'];
+        $add['address']=$condition['address'];
+        $add['sertype']=$condition['sertype'];
+        $add['phone_num']=$condition['phone_num'];
+        $redis->hMset($hkey,$add);
         $i=$redis->hExists($hkey,'watch');
         if ($i==0) {
             $redis->hSet($hkey,'watch','0');
@@ -251,9 +254,6 @@ class ServiceAction extends Action{
         $okey=$redis->keys('<'.$id['id'].'>'.'*');
         if($okey){
             $redis->rename($okey['0'],$hkey);
-            foreach ($condition as $key => $value) {
-                $redis->hSet($hkey,$key,$value);
-            }
         }
         $redis->close();
     }
@@ -344,7 +344,7 @@ class ServiceAction extends Action{
         $User->where($condition)->save($data);
         $hkey=$redis->keys('<'.$condition['id'].'>'.'*');
         if($hkey){
-            $redis->hSet($hkey['0'],'face',$image->facemixurl);            
+            $redis->hSet($hkey['0'],'face',$image->facemixurl);
             echo $image->facemixurl;
         }else{
             break;

@@ -18,10 +18,10 @@ class AttentionAction extends Action{
         $result=$att->where($condition)->find();
         if(empty($result)){
             $att->where($condition)->add();
-        }  
+        }
         $redis->sAdd('watch'.$serviceid,$consumerid);
         $redis->sAdd('fans'.$consumerid,$serviceid);
-        $watch=$redis->sCard($serviceid);  
+        $watch=$redis->sCard($serviceid);
         $key=$redis->keys('<'.$serviceid.'>'.'*');
         $redis->hSet($key['0'],'watch',$watch);
         $redis->close();
