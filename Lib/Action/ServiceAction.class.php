@@ -1,5 +1,4 @@
 <?php
-require './Lib/Action/RedisAction.class.php';
 /**
  *这个类是关于商家用户登录和新用户注册的控制器
  */
@@ -37,7 +36,7 @@ class ServiceAction extends Action{
                 $result=$info->where($condition)->field('favorable,information,favtime,infotime')->find();
                 $image=M('Image');
                 $img['serviceid']=$id;
-                $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
+                $imgarr=$image->where($img)->order('uptime desc')->limit('0,10')->field('imgurl1,photoid')->select();
                 foreach ($service as $key => $value) {
                     $array[$key]=$value;
                 }
@@ -85,7 +84,7 @@ class ServiceAction extends Action{
 //            var_dump($result);
             $image=M('Image');
             $img['serviceid']=$id;
-            $imgarr=$image->where($img)->order('uptime desc')->limit('0,8')->field('imgurl1,photoid')->select();
+            $imgarr=$image->where($img)->order('uptime desc')->limit('0,10')->field('imgurl1,photoid')->select();
             foreach ($service as $key => $value) {
                 $array[$key]=$value;
             }       
@@ -220,7 +219,6 @@ class ServiceAction extends Action{
         $redis->connect('localhost','6379');
         $hkey='<'.$id['id'].'>'.$condition['city'].$condition['shopname'].$condition['address'].$condition['sertype'].'$'.time().'$'.$condition['latitude'].'$'.$condition['longitude'];
         $okey=$redis->keys('<'.$id['id'].'>'.'*');
-        var_dump($okey);
         if($okey){
             $redis->rename($okey['0'],$hkey);
         }
@@ -229,11 +227,8 @@ class ServiceAction extends Action{
         $add['address']=$condition['address'];
         $add['sertype']=$condition['sertype'];
         $add['phone_num']=$condition['phone_num'];
-        $redis->hMset($hkey,$add);
-        $i=$redis->hExists($hkey,'watch');
-        if ($i==0) {
-            $redis->hSet($hkey,'watch','0');
-        }
+        $redis->hMset($hkey,$add);        
+        $redis->hIncrBy($hkey,'watch',0);       
         $redis->close();
     } 
 
@@ -296,7 +291,7 @@ class ServiceAction extends Action{
             $condition['infotime']=date('Y-m-d H').'时';
             $condition['information']=$image->json['information'];
         }
-        $condition['serviceid']=$image->json['id'];
+        $con['serviceid']=$image->json['id'];
         $explain=array();
         $explain2=array();
         if (array_key_exists('delphotoArray',$image->json)) {
@@ -307,15 +302,22 @@ class ServiceAction extends Action{
         }
         if (array_key_exists('addphotoArray',$image->json)) {
             foreach ($image->json['addphotoArray'] as $value) {
-                $explain['serviceid']=$condition['serviceid'];
+                $explain['serviceid']=$con['serviceid'];
                 $explain['imgurl1']=$image->imgmixurl[$value['addphotoid']];
                 $explain['imgurl2']=$image->imgurl[$value['addphotoid']];
                 $explain['explain']=$value['explain'];
                 array_push($explain2,$explain);
             }
             $photo->addAll($explain2);
-        }        
-        $addinfo->save($condition);
+        }
+        $addinfo->where($con)->save($condition);
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $result=$redis->keys('<'.$con['serviceid'].'>'.'*');
+        $string=explode('$',$result['0']);
+        $hkey=str_replace($string['1'],time(),$result['0']);
+        $redis->rename($result['0'],$hkey);
+        $redis->close();
     }
 
 /**
@@ -401,7 +403,7 @@ class ServiceAction extends Action{
         $imgarr['explain']=urlencode($imgarr['explain']);
         $photo['photo']=$imgarr;
         echo urldecode(json_encode($photo,JSON_UNESCAPED_SLASHES)); */
-         $serviceid=$this->_param('serviceid');
+        $serviceid=$this->_param('serviceid');
         $serviceid='1';
         $img['serviceid']=$serviceid;
         $image=M('Image');

@@ -17,7 +17,7 @@ class SearchAction extends Action{
     public function search(){
         $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-//        $str='南京市 苏宁 商场';
+//        $str='南京市 苏宁';
         $this->cutWords($str);
 //        $this->display();
     }
@@ -40,9 +40,6 @@ class SearchAction extends Action{
                     array_push($this->array,$value['word']);
                 }
                 switch ($num_arr2) {
-                    case 1:
-                        $this->redisFind($this->array['0']);
-                        break;
                     case 2:
                         $this->redisFind_two($this->array['0'],$this->array['1']);
                         break;
@@ -217,13 +214,12 @@ class SearchAction extends Action{
         $redis->delete('r+'.$this->consumerid);
         $redis->delete('l+'.$this->consumerid);
         $redis->delete('t+'.$this->consumerid);
-        $redis->close();
-        
+        $redis->close();       
     }
 
     public function redisFind_four($n,$m,$p,$r){
         $redis=new Redis();
-        $redis->pconnect('localhost','6379');                
+        $redis->pconnect('localhost','6379');
         $redis->delete('service'.$this->consumerid);
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
@@ -251,8 +247,7 @@ class SearchAction extends Action{
         $redis->delete('r+'.$this->consumerid);
         $redis->delete('l+'.$this->consumerid);
         $redis->delete('t+'.$this->consumerid);
-        $redis->close();
-        
+        $redis->close();        
     }
 
     public function redisFind_five($n,$m,$p,$r,$l){
@@ -510,6 +505,7 @@ class SearchAction extends Action{
                 $array['phone_num']=$array0['phone_num'];
                 $array['face']=$array0['face'];
                 $array['id']=$array0['id'];
+                $array['watch']=$array0['watch'];
                 $arrcode=$this->urlcode($array);
                 array_push($array4,$arrcode);
             }
@@ -521,12 +517,13 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $result=$redis->keys('*');
-/*        $add['shopname']='苏宁电器(南京市鼓楼区湖南路店)';
+        $add['shopname']='苏宁电器(南京市鼓楼区湖南路店)';
         $add['address']='江苏省南京市白下区淮海路68号';
         $add['phone_num']='2147483647';
         $add['face']='192.168.1.100/myapp/Public/image/13$.jpg';
-        $add['sertype']='商场';
-        for ($i=1; $i <14 ; $i++) { 
+        $add['sertype']='商场';   
+        $add['watch']='0';
+/*        for ($i=1; $i <14 ; $i++) { 
             $add['id']=$i;
             $hkey='<'.$i.'>南京市苏宁电器(南京市鼓楼区湖南路店)江苏省南京市白下区淮海路68号商场$1383545397$$';
             $redis->hMset($hkey,$add);
@@ -660,10 +657,10 @@ class SearchAction extends Action{
             $up[$key]=$value;                        
         }
         $up=$this->urlcode($up);
-/*        if ($up['watch']>1000) {
+        if ($up['watch']>1000) {
                 $num=floor($up['watch']/100)/10;
                 $up['watch']=$num.'K';
-            }   */
+            }   
         foreach ($imgarr as $photo) {
             foreach ($photo as $key2 => $value2) {
                 switch ($key2) {
@@ -687,6 +684,7 @@ class SearchAction extends Action{
             array_push($all_sphoto,$small_photo);
             array_push($all_bphoto,$big_photo);
         }
+        $redis->incr('visitors'.$id);
 //        $visitors=$redis->get('visitors'.$id);
         $fans=$redis->sIsMember('watch'.$id,$consumerid);
 //        $up['visitors']='暂无';
@@ -694,10 +692,9 @@ class SearchAction extends Action{
 //        $wait['photo']=json_encode($all_bphoto,JSON_UNESCAPED_SLASHES);
         $up['bigphoto']=$all_bphoto;//json_encode($wait,JSON_UNESCAPED_SLASHES);
         $up['fans']='暂无';
-        $con['consumer']=$up;
+        $con['consumer']=$up;       
         echo stripslashes(urldecode(json_encode($con,JSON_UNESCAPED_SLASHES)));
         $redis->close();
-//        $this->display();
     }
 
 }

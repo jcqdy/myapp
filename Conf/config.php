@@ -19,7 +19,7 @@ return array(
     'DB_NAME'   => 'myapp', // 数据库名
     'DB_USER'   => 'root', // 用户名
     'DB_PWD'    => '',
-    'DB_PORT'   => '3306', 
+    'DB_PORT'   => '3306',
     'DB_PREFIX' => '',
  //   'DB_DSN'    => 'mysql://root:@localhost/myapp',
     'USER_AUTH_KEY'=>'authId',

@@ -4,7 +4,7 @@ class SearchlocalAction extends Action{
     public $page_size=15;      //每页数量
     public $mylatitude;        //消费者目前纬度
     public $mylongitude;    //消费者目前经度
-    public $consumerid='5';      
+    public $consumerid;      
     public $search=array();
     public $array=array();
 /**
@@ -13,7 +13,7 @@ class SearchlocalAction extends Action{
     public function search(){
         $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-//s        $str='南京 苏宁淮海路';
+//        $str='南京 苏宁淮海路';
         $this->cutWords($str);
 //        $this->display();
     }
@@ -167,13 +167,9 @@ class SearchlocalAction extends Action{
     public function redisFind_two($n,$m){
         $redis=new Redis();
         $redis->pconnect('localhost','6379');
-        $redis->delete('nm+'.$this->consumerid);
-        $redis->delete('p+'.$this->consumerid);
-        $redis->delete('r+'.$this->consumerid);
-        $redis->delete('l+'.$this->consumerid);
-        $redis->delete('t+'.$this->consumerid);
-        $redis->delete('inter+'.$this->consumerid);
         $redis->delete('service'.$this->consumerid);
+        $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
+        $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
 //        $n='南京';$m='苏宁';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         if ($keynm) {
@@ -184,6 +180,11 @@ class SearchlocalAction extends Action{
         }else {
 //            $this->mysqlFind($n,$m,$p);
         }
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('r+'.$this->consumerid);
+        $redis->delete('l+'.$this->consumerid);
+        $redis->delete('t+'.$this->consumerid);
         $redis->close();        
     }
 /**
@@ -192,13 +193,9 @@ class SearchlocalAction extends Action{
     public function redisFind_three($n,$m,$p){
         $redis=new Redis();
         $redis->pconnect('localhost','6379');
-        $redis->delete('nm+'.$this->consumerid);
-        $redis->delete('p+'.$this->consumerid);
-        $redis->delete('r+'.$this->consumerid);
-        $redis->delete('l+'.$this->consumerid);
-        $redis->delete('t+'.$this->consumerid);
-        $redis->delete('inter+'.$this->consumerid);
         $redis->delete('service'.$this->consumerid);
+        $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
+        $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
         if ($keynm && $keyp) {
@@ -216,20 +213,20 @@ class SearchlocalAction extends Action{
         }else {
 //            $this->mysqlFind($n,$m,$p);
         }
-        $redis->close();
-        
-    }
-
-    public function redisFind_four($n,$m,$p,$r){
-        $redis=new Redis();
-        $redis->pconnect('localhost','6379');
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
         $redis->delete('r+'.$this->consumerid);
         $redis->delete('l+'.$this->consumerid);
         $redis->delete('t+'.$this->consumerid);
-        $redis->delete('inter+'.$this->consumerid);
+        $redis->close();
+    }
+
+    public function redisFind_four($n,$m,$p,$r){
+        $redis=new Redis();
+        $redis->pconnect('localhost','6379');        
         $redis->delete('service'.$this->consumerid);
+        $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
+        $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
 //        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
@@ -252,20 +249,20 @@ class SearchlocalAction extends Action{
         }else {
 //            $this->mysqlFind($n,$m,$p);
         }
-        $redis->close();
-        
-    }
-
-    public function redisFind_five($n,$m,$p,$r,$l){
-        $redis=new Redis();
-        $redis->pconnect('localhost','6379');
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
         $redis->delete('r+'.$this->consumerid);
         $redis->delete('l+'.$this->consumerid);
         $redis->delete('t+'.$this->consumerid);
-        $redis->delete('inter+'.$this->consumerid);
+        $redis->close();       
+    }
+
+    public function redisFind_five($n,$m,$p,$r,$l){
+        $redis=new Redis();
+        $redis->pconnect('localhost','6379');
         $redis->delete('service'.$this->consumerid);
+        $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
+        $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
 //        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
@@ -292,6 +289,11 @@ class SearchlocalAction extends Action{
         }else {
 //            $this->mysqlFind($n,$m,$p);
         }
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('r+'.$this->consumerid);
+        $redis->delete('l+'.$this->consumerid);
+        $redis->delete('t+'.$this->consumerid);
         $redis->close();
         
     }
@@ -299,13 +301,9 @@ class SearchlocalAction extends Action{
     public function redisFind_six($n,$m,$p,$r,$l,$t){
         $redis=new Redis();
         $redis->pconnect('localhost','6379');
-        $redis->delete('nm+'.$this->consumerid);
-        $redis->delete('p+'.$this->consumerid);
-        $redis->delete('r+'.$this->consumerid);
-        $redis->delete('l+'.$this->consumerid);
-        $redis->delete('t+'.$this->consumerid);
-        $redis->delete('inter+'.$this->consumerid);
         $redis->delete('service'.$this->consumerid);
+        $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
+        $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
 //        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
@@ -355,6 +353,11 @@ class SearchlocalAction extends Action{
         } else {
 //            $this->mysqlFind($n,$m,$p);
         }
+        $redis->delete('nm+'.$this->consumerid);
+        $redis->delete('p+'.$this->consumerid);
+        $redis->delete('r+'.$this->consumerid);
+        $redis->delete('l+'.$this->consumerid);
+        $redis->delete('t+'.$this->consumerid);
         $redis->close();
         
     }
@@ -365,7 +368,7 @@ class SearchlocalAction extends Action{
         $zarr=explode('$', $value);
         $latitude=$zarr['2'];
         $longitude=$zarr['3'];
-        $num=($mylatitude-$latitude)*($mylatitude-$latitude)+($mylongitude-$longitude)*($mylongitude-$longitude);
+        $num=($this->mylatitude-$latitude)*($this->mylatitude-$latitude)+($this->mylongitude-$longitude)*($this->mylongitude-$longitude);
         $distance=sqrt($num);
         $score=number_format($distance,8);
         $redis->zAdd('service'.$this->consumerid,$score,$value);
@@ -508,12 +511,14 @@ class SearchlocalAction extends Action{
  */   
     public function paging(){
         $redis=new Redis();
-        $redis->connect('localhost','6379');
+        $redis->pconnect('localhost','6379');
         $pag=$redis->exists('service'.$this->consumerid);
         if($pag==true){
-            $this->zgetMore($redis);
+            $this->zgetMore($redis)
+            $redis->close();
         }elseif ($pag==false) {
             $this->mysqlFinds();
+            $redis->close();
         }
     }
     

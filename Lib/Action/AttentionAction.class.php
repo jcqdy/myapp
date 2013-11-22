@@ -21,9 +21,8 @@ class AttentionAction extends Action{
         }
         $redis->sAdd('watch'.$serviceid,$consumerid);
         $redis->sAdd('fans'.$consumerid,$serviceid);
-        $watch=$redis->sCard($serviceid);
         $key=$redis->keys('<'.$serviceid.'>'.'*');
-        $redis->hSet($key['0'],'watch',$watch);
+        $redis->hIncrBy($key['0'],'watch',1);
         $redis->close();
     }
 
@@ -65,22 +64,10 @@ class AttentionAction extends Action{
             $cacel->where($condition)->delete();
             $redis->sRem('watch'.$serviceid,$consumerid);
             $redis->sRem('fans'.$consumerid,$serviceid);
+            $key=$redis->keys('<'.$serviceid.'>'.'*');
+            $redis->hIncrBy($key['0'],'watch',-1);
         }
         $redis->close();
     }
-
-/**
- *这是记录商家被浏览次数的方法
- */
-    public function visitors(){
-        $serviceid=$this->_param('serviceid');
-        $redis=new Redis();
-        $redis->connect('localhost','6379');
-        $num=$redis->get('visitors'.$serviceid);
-        $num=$num++;
-        $redis->set('visitors'.$serviceid,$num);
-        $redis->close();
-    }
-
     
 }

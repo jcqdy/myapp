@@ -141,7 +141,6 @@ class ImageAction extends Action{
             $this->imgurl[$addid]='192.168.1.100/myapp/Uploads/image/'.$serviceid.'/'.$this->filename;
             $this->imageMake($dirname,$url,$serviceid,$addid);
         } 
-        echo $this->json;
     }
 
 /**

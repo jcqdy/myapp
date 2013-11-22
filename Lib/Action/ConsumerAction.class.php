@@ -47,7 +47,6 @@ public $auto=array();
             $search=new SearchAction();
             $check=$search->urlcode($result);
             $array['login']=$check;
-            session('id',$result['id']);
             echo urldecode(json_encode($array));  
 		}elseif (empty($result)) {
 			echo 'false';
@@ -111,8 +110,7 @@ public $auto=array();
 	public function checkName(){
     	$name =$this->_param('name');
         $ck_name=D('Consumer');
-        $condition['name'] =$name;
-        
+        $condition['name'] =$name;        
         if (!$ck_name->create($condition)) {
         	exit($ck_name->getError());
         }else{
@@ -125,10 +123,9 @@ public $auto=array();
  *新用户注册时存入用户信息到数据表方法
  */
     public function createRegister(){
-    	$name  =$this->_param('Name');
+    	$name  =date('dHms');
     	$email =$this->_param('Email');
         $pass  =$this->_param('Password');
-//        $city  =$this->_param('City');
         if($name && $email && $pass){
             $pass  =md5($pass);
             $encrypt=md5($email.time()).'#'.'consumer';
@@ -151,12 +148,19 @@ public $auto=array();
  *用户更新个人信息方法（城市）
  */    
     public function updataCity(){
-        $city=$this->_param('City');
-        $id=$this->_param('id');
+        $info=$this->_param('local');
+        $info=html_entity_decode($info);
+        $info=json_decode($info,true);
+        $id=$info['id'];
+        $local['latitude']=$info['latitude'];
+        $local['longitude']=$info['longitude'];
+        $redis=new Redis();
+        $redis->connect('localhost','6379');
+        $redis->hMset('local:'.$id,$local);        
         $User=M('Consumer');
-        $data['city']=$city;
+        $data['city']=$info['city'];
         $condition['id']=$id;
-        $User->where($condition)->save($data);
+        $User->where($condition)->save($data);       
         echo 'true';
     }
 
