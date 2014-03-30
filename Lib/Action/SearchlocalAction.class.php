@@ -13,9 +13,7 @@ class SearchlocalAction extends Action{
     public function search(){
         $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-//        $str='南京 苏宁淮海路';
         $this->cutWords($str);
-//        $this->display();
     }
 
 /**
@@ -24,7 +22,6 @@ class SearchlocalAction extends Action{
     public function cutWords($str){
         $so = scws_new();
         $so->set_charset('utf8');
-//        $str='成都 老麻抄手清江中路';
         $this->search=explode(' ', $str);
         $num_arr=count($this->search);
         switch ($num_arr) {
@@ -53,12 +50,10 @@ class SearchlocalAction extends Action{
             case 2:
                 $so->send_text($this->search['1']);
                 $tmp=$so->get_result();
-                var_dump($tmp);
                 $num_arr3=count($tmp);
                 foreach ($tmp as $value) {
                     array_push($this->array,$value['word']);
                 }
-//                var_dump($this->array);
                 switch ($num_arr3) {
                     case 1:
                         $this->redisFind_two($this->search['0'],$this->array['0']);
@@ -79,7 +74,6 @@ class SearchlocalAction extends Action{
                         $this->redisFind_six($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3'],$this->array['4']);
                         break;   
                     default:
-                        # code...
                         break;
                 }  
                 break;
@@ -94,7 +88,6 @@ class SearchlocalAction extends Action{
                 foreach ($tmp2 as $value) {
                     array_push($this->array,$value['word']);
                 }
-                var_dump($this->array);
                 $num_arr4=count($this->array);
                 switch ($num_arr4) {
                     case 1:
@@ -133,7 +126,6 @@ class SearchlocalAction extends Action{
                 foreach ($tmp2 as $value) {
                     array_push($this->array,$value['word']);
                 }
-                var_dump($this->array);
                 $num_arr4=count($this->array);
                 switch ($num_arr4) {
                     case 1:
@@ -152,13 +144,11 @@ class SearchlocalAction extends Action{
                         $this->redisFind_six($this->search['0'],$this->array['0'],$this->array['1'],$this->array['2'],$this->array['3'],$this->array['4']);
                         break;    
                     default:
-                        # code...
                         break;
                 }  
                 break;
 
             default:
-                # code...
                 break;
         }        
     }
@@ -170,15 +160,12 @@ class SearchlocalAction extends Action{
         $redis->delete('service'.$this->consumerid);
         $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
         $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
-//        $n='南京';$m='苏宁';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         if ($keynm) {
             foreach ($keynm as $value) {
                 $this->zset($redis,$value);
             }
             $this->zget($redis);
-        }else {
-//            $this->mysqlFind($n,$m,$p);
         }
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
@@ -210,8 +197,6 @@ class SearchlocalAction extends Action{
                 $this->zset($redis,$value);
             }
             $this->zget($redis);
-        }else {
-//            $this->mysqlFind($n,$m,$p);
         }
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
@@ -227,7 +212,6 @@ class SearchlocalAction extends Action{
         $redis->delete('service'.$this->consumerid);
         $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
         $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
-//        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
         $keyr=$redis->keys('*'.$r.'*');
@@ -246,8 +230,6 @@ class SearchlocalAction extends Action{
                 $this->zset($redis,$value);
             }
             $this->zget($redis);
-        }else {
-//            $this->mysqlFind($n,$m,$p);
         }
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
@@ -263,7 +245,6 @@ class SearchlocalAction extends Action{
         $redis->delete('service'.$this->consumerid);
         $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
         $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
-//        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
         $keyr=$redis->keys('*'.$r.'*'); 
@@ -286,8 +267,6 @@ class SearchlocalAction extends Action{
                 $this->zset($redis,$value);
             }
             $this->zget($redis);  
-        }else {
-//            $this->mysqlFind($n,$m,$p);
         }
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
@@ -304,7 +283,6 @@ class SearchlocalAction extends Action{
         $redis->delete('service'.$this->consumerid);
         $this->mylatitude=$redis->hGet('local:'.$this->consumerid,'latitude');
         $this->mylongitude=$redis->hGet('local:'.$this->consumerid,'longitude');
-//        $n='南京';$m='苏宁';$p='湖南路';$r='商场';
         $keynm=$redis->keys('*'.$n.'*'.$m.'*');
         $keyp=$redis->keys('*'.$p.'*');
         $keyr=$redis->keys('*'.$r.'*');
@@ -350,9 +328,7 @@ class SearchlocalAction extends Action{
                 $this->zset($redis,$value);
             }
             $this->zget($redis);  
-        } else {
-//            $this->mysqlFind($n,$m,$p);
-        }
+        } 
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
         $redis->delete('r+'.$this->consumerid);

@@ -28,3 +28,41 @@ NOTIC: 建议使用I方法替代_param
 NOTIC: 建议使用I方法替代_param
 NOTIC: 建议使用I方法替代_param
 
+[ 2013-11-22T16:14:12+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:14:13+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/updataCity
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:18:17+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:18:18+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/updataCity
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:25:12+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:25:12+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/updataCity
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:26:44+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T16:26:45+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/updataCity
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T18:07:13+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/autoLogin
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T18:07:14+08:00 ] 192.168.1.105 /myapp/index.php/Consumer/updataCity
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T18:07:26+08:00 ] 192.168.1.105 /myapp/index.php/Search/search
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+
+[ 2013-11-22T18:07:28+08:00 ] 192.168.1.105 /myapp/index.php/Search/watch
+NOTIC: 建议使用I方法替代_param
+NOTIC: 建议使用I方法替代_param
+

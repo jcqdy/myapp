@@ -10,8 +10,6 @@ class ServiceAction extends Action{
     public function login(){        
         $email=$this->_param('Email');
         $pass =$this->_param('Password');
-//        $email='123456789@qq.com';
-//        $pass='123456789';
         $User =M('Service');
         $pass =md5($pass);
         if($email && $pass) {
@@ -28,7 +26,6 @@ class ServiceAction extends Action{
                 $watch=$num.'K';
             }
             $visitors=$redis->get('visitors'.$service['id']);
-//            var_dump($service);            
             if(!empty($service)){
                 $id=$service['id'];
                 $info=M('Serviceinfo');
@@ -81,7 +78,6 @@ class ServiceAction extends Action{
             $info=M('Serviceinfo');
             $con['serviceid']=$id;
             $result=$info->where($con)->field('favorable,information,favtime,infotime')->find();
-//            var_dump($result);
             $image=M('Image');
             $img['serviceid']=$id;
             $imgarr=$image->where($img)->order('uptime desc')->limit('0,10')->field('imgurl1,photoid')->select();
@@ -373,7 +369,6 @@ class ServiceAction extends Action{
  */
     public function listLarge(){
         $serviceid=$this->_param('serviceid');
-//        $serviceid='1';
         $img['serviceid']=$serviceid;
         $image=M('Image');
         $imgarr=$image->where($img)->order('uptime desc')->field('imgurl2,photoid,explain')->select();
@@ -396,13 +391,6 @@ class ServiceAction extends Action{
  *商家主页中横向滑动查看大图片方法
  */
     public function watchLarge(){
-/*        $photoid=$this->_param('photoid');
-        $img['photoid']=$photoid;
-        $image=M('Image');
-        $imgarr=$image->where($img)->field('imgurl2,explain')->find();
-        $imgarr['explain']=urlencode($imgarr['explain']);
-        $photo['photo']=$imgarr;
-        echo urldecode(json_encode($photo,JSON_UNESCAPED_SLASHES)); */
         $serviceid=$this->_param('serviceid');
         $serviceid='1';
         $img['serviceid']=$serviceid;

@@ -10,8 +10,6 @@ public $auto=array();
 	public function login(){
         $email=$this->_param('Email');
 		$pass =$this->_param('Password');
-//      $email='52393137@qq.com';
-//      $pass='88791140';
 		$User =M('Consumer');
 		$pass =md5($pass);
 		if($email && $pass) {

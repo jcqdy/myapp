@@ -2,13 +2,11 @@
 class GearmanAction extends Action{
 
     public function mysqlClient(){
-/*        $client=new GearmanClient();
-        $client->addServer();   */
+        $client=new GearmanClient();
+        $client->addServer();   
         $User=M('Service');       
         $result=$User->select();
-//        var_dump($result);
         foreach ($result as $key) {
-    //        var_dump($key);
             $redis=new Redis();
             $redis->connect('localhost','6379');
             $watch=$redis->sCard($key['id']);   //从redis sort中获得关注数量
@@ -27,8 +25,7 @@ class GearmanAction extends Action{
             $array['latitude']=$key['latitude'];
             $array['longitude']=$key['longitude'];
             $array['city']=$key['city'];
-//            var_dump($array); 
-//            $client->doBackground('sendmysql',serialize($array));
+            $client->doBackground('sendmysql',serialize($array));
         }
     }
 

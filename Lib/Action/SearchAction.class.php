@@ -8,7 +8,7 @@ class SearchAction extends Action{
     public $page_num;          //当前页数
     public $page_size=15;      //每页数据数量
     public $search=array();
-    public $consumerid='5';
+    public $consumerid;
     public $array=array();
 
 /**
@@ -17,9 +17,7 @@ class SearchAction extends Action{
     public function search(){
         $this->consumerid=$this->_param('id');
         $str=$this->_param('search');
-//        $str='南京市 苏宁';
         $this->cutWords($str);
-//        $this->display();
     }
 
 /**
@@ -28,7 +26,6 @@ class SearchAction extends Action{
     public function cutWords($str){
         $so = scws_new();
         $so->set_charset('utf8');
-//        $str='成都 老麻抄手清江中路';
         $this->search=explode(' ', $str);
         $num_arr=count($this->search);
         switch ($num_arr) {
@@ -54,12 +51,10 @@ class SearchAction extends Action{
             case 2:
                 $so->send_text($this->search['1']);
                 $tmp=$so->get_result();
-//                var_dump($tmp);
                 $num_arr3=count($tmp);
                 foreach ($tmp as $value) {
                     array_push($this->array,$value['word']);
                 }
-//                var_dump($this->array);
                 switch ($num_arr3) {
                     case 1:
                         $this->redisFind_two($this->search['0'],$this->array['0']);
@@ -95,7 +90,6 @@ class SearchAction extends Action{
                 foreach ($tmp2 as $value) {
                     array_push($this->array,$value['word']);
                 }
-//                var_dump($this->array);
                 $num_arr4=count($this->array);
                 switch ($num_arr4) {
                     case 1:
@@ -175,8 +169,6 @@ class SearchAction extends Action{
                 $this->zset($redis,$value);
             }
             $this->zget($redis);
-        }else {
-//            $this->mysqlFind($n,$m,$p);
         }
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
@@ -206,8 +198,6 @@ class SearchAction extends Action{
                 $this->zset($redis,$value);
             }
             $this->zget($redis);
-        }else {
-//            $this->mysqlFind($n,$m,$p);
         }
         $redis->delete('nm+'.$this->consumerid);
         $redis->delete('p+'.$this->consumerid);
@@ -481,20 +471,6 @@ class SearchAction extends Action{
         return $arrcode;
     }
 
-/**
- *将商家信息转为json格式的方法
- */
-/*    public function jsonMaker($arr,$redis){
-        $array4=array();
-        foreach ($arr as $zvalue) {
-                $array=$redis->hGetAll($zvalue);
-
-                $arrcode=$this->urlcode($array);
-                array_push($array4,$arrcode);
-            }
-        $array5['consumer']=$array4;
-        echo urldecode(json_encode($array5));
-    }   */
 
     public function jsonMaker($arr,$redis){
         $array4=array();
@@ -511,28 +487,6 @@ class SearchAction extends Action{
             }
         $array5['consumer']=$array4;
         echo urldecode(json_encode($array5));
-    }
-
-    public function change(){
-        $redis=new Redis();
-        $redis->connect('localhost','6379');
-        $result=$redis->keys('*');
-        $add['shopname']='苏宁电器(南京市鼓楼区湖南路店)';
-        $add['address']='江苏省南京市白下区淮海路68号';
-        $add['phone_num']='2147483647';
-        $add['face']='192.168.1.100/myapp/Public/image/13$.jpg';
-        $add['sertype']='商场';   
-        $add['watch']='0';
-/*        for ($i=1; $i <14 ; $i++) { 
-            $add['id']=$i;
-            $hkey='<'.$i.'>南京市苏宁电器(南京市鼓楼区湖南路店)江苏省南京市白下区淮海路68号商场$1383545397$$';
-            $redis->hMset($hkey,$add);
-        }
-        foreach ($result as $value) {
-            $redis->rename($value,'南京市苏宁电器(南京市鼓楼区湖南路店)江苏省南京市白下区淮海路68号商场$1383545397$$');
-        }   */
-//        $redis->delete($result['0']);
-        var_dump($result);
     }
 
 
@@ -634,7 +588,6 @@ class SearchAction extends Action{
         $redis=new Redis();
         $redis->connect('localhost','6379');
         $id=$this->_param('id');
-//        $id='14'; 
         $consumerid=$this->_param('consumerid');        
         $User=M('Serviceinfo');
         $User2=M('Service');
@@ -685,11 +638,8 @@ class SearchAction extends Action{
             array_push($all_bphoto,$big_photo);
         }
         $redis->incr('visitors'.$id);
-//        $visitors=$redis->get('visitors'.$id);
         $fans=$redis->sIsMember('watch'.$id,$consumerid);
-//        $up['visitors']='暂无';
         $up['photo']=$all_sphoto;
-//        $wait['photo']=json_encode($all_bphoto,JSON_UNESCAPED_SLASHES);
         $up['bigphoto']=$all_bphoto;//json_encode($wait,JSON_UNESCAPED_SLASHES);
         $up['fans']='暂无';
         $con['consumer']=$up;       

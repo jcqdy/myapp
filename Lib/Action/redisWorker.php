@@ -1,5 +1,5 @@
 <?php
-/*    $worker = new GearmanWorker();
+    $worker = new GearmanWorker();
     $worker->addServer(); 
     $worker->addFunction('sendmysql', 'doSendmysql');       
     while($worker->work());

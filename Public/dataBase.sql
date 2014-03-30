@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `image` (
   `imgurl1` varchar(1000) NOT NULL DEFAULT '0',
   `imgurl2` varchar(1000) NOT NULL DEFAULT '0',
   `uptime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`photoid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 --
 -- 转存表中的数据 `image`
